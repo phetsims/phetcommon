@@ -1,3 +1,4 @@
+Test commit from submodule III
 Test commit from submodule II
 Test commit from submodule
 Updated paths to work from git submodules
