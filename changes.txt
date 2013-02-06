@@ -1,1 +1,2 @@
+Test commit from submodule
 Updated paths to work from git submodules
