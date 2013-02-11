@@ -5,13 +5,13 @@
  *
  * @author Sam Reid
  */
-define( ['phetcommon/model/property/Property', 'util/Inheritance'], function ( Property, Inheritance ) {
-
-    Inheritance.inheritPrototype( BooleanProperty, Property );
+define( ['PHETCOMMON/model/property/Property', 'PHETCOMMON/util/Inheritance'], function ( Property, Inheritance ) {
 
     function BooleanProperty( value ) {Property.call( this, value );}
 
     BooleanProperty.prototype.toggle = function () {this.set( !this.get() );};
+
+    Inheritance.inheritPrototype( BooleanProperty, Property );
 
     return BooleanProperty;
 } );

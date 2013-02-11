@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [
-            'phetcommon/math/Point2D'
+            'PHETCOMMON/math/Point2D'
         ],
         function ( Point2D ) {
 

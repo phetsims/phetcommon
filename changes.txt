@@ -1,3 +1,4 @@
+2/11/13 use uppercase for symbolic names in requirejs imports, eg 'PHETCOMMON' instead of 'phetcommon'
 2/11/13 add Inheritance
 2/11/13 add CanvasQuirks
 2/11/13 SVN and git repos of phetcommon diverged, copied SVN files over top of git files
