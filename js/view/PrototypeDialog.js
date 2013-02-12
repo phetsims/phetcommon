@@ -6,11 +6,13 @@
  *
  * @author Sam Reid
  */
-define( ['tpl!PHETCOMMON_HTML/prototype-dialog.html'], function ( template ) {
+define(
+  ['tpl!PHETCOMMON_HTML/prototype-dialog.html'],
+  function ( template ) {
     return {init: function ( simName ) {
-        $( template( {simName: simName} ) ).appendTo( $( "body" ) );
-        $( '.dialog-overlay' ).click( function () {
-            $( this ).fadeOut( 200 );
-        } );
+      $( template( {simName: simName} ) ).appendTo( $( "body" ) );
+      $( '.dialog-overlay' ).click( function () {
+        $( this ).fadeOut( 200 );
+      } );
     }};
-} );
+  } );

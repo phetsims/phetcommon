@@ -5,18 +5,19 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [],
-        function () {
+define(
+  [],
+  function () {
 
-            function Range( min, max ) {
-                this.min = min;
-                this.max = max;
-            }
+    function Range( min, max ) {
+      this.min = min;
+      this.max = max;
+    }
 
-            // @return {String}
-            Range.prototype.toString = function () {
-                return "[Range (min=" + this.min + " max=" + this.max + ")]";
-            };
+    // @return {String}
+    Range.prototype.toString = function () {
+      return "[Range (min=" + this.min + " max=" + this.max + ")]";
+    };
 
-            return Range;
-        } );
+    return Range;
+  } );
