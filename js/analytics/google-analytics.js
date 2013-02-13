@@ -2,8 +2,9 @@
 
 /**
  * Google analytics collection for HTML5 sims.
- * Include this script as the last thing in your DOM's head.
  * Code provided by Google, possibly doctored by PhET.
+ * Include this script as the last thing in your DOM's head, like this:
+ * <script src='common/phetcommon/js/analytics/google-analytics.js'></script>
  *
  * @author Sam Reid
  */
