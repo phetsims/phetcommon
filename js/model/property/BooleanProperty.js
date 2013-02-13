@@ -13,11 +13,11 @@ define(
       Property.call( this, value );
     }
 
+    Inheritance.inheritPrototype( BooleanProperty, Property );
+
     BooleanProperty.prototype.toggle = function () {
       this.set( !this.get() );
     };
-
-    Inheritance.inheritPrototype( BooleanProperty, Property );
 
     return BooleanProperty;
   } );
