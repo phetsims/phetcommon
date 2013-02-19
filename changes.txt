@@ -1,3 +1,4 @@
+2/19/13 add optional defaultValue arg to Range constructor
 2/14/13 test change log entry
 2/12/13 fix bug introduced in BooleanProperty, prototype chaining must be done before prototype assignment
 2/12/13 added .gitignore for images/Thumbs.db
