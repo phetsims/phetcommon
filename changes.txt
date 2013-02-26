@@ -1,3 +1,4 @@
+2/26/13 migrate PerformanceMonitor and its dependency (stats.js) to phetcommon from example-sim
 2/19/13 add Inheritance.callSuper for calling overridden super-type methods
 2/19/13 add optional defaultValue arg to Range constructor
 2/14/13 test change log entry
