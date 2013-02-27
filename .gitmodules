@@ -1,6 +1,3 @@
-[submodule "stats"]
-	path = stats
-	url = git://github.com/phetsims/stats.js.git
 [submodule "contrib/stats"]
 	path = contrib/stats
 	url = git://github.com/phetsims/stats.js.git
