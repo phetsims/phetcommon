@@ -1,3 +1,0 @@
-[submodule "contrib/stats"]
-	path = contrib/stats
-	url = https://github.com/phetsims/stats.js.git
