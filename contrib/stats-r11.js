@@ -2,7 +2,10 @@
  * @author mrdoob / http://mrdoob.com/
  */
 
-var Stats = function () {
+// TODO: This has been hacked to put stats in the global scope, but should at
+// some point be modified to work as an AMD module.
+//var Stats = function () {
+window.Stats = function () {
 
     var startTime = Date.now(), prevTime = startTime;
     var ms = 0, msMin = Infinity, msMax = 0;
