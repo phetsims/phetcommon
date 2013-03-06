@@ -1,4 +1,4 @@
-3/6/13 testing commit
+3/6/13 delete Dimension2D, Vector2D, Point2D; use dot Dimension2 and Vector2
 3/6/13 moved ImagesLoader from view/ to util/
 3/4/13 moved Inheritance.js from model to util directory
 2/26/13 migrate DOM images loader to phetcommon
