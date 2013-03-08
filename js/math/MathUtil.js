@@ -20,5 +20,9 @@ define(
       return radians * 180 / Math.PI;
     };
 
+    MathUtil.clamp = function( value, min, max ) {
+      return Math.min( max, Math.max( min, value ) );
+    };
+
     return MathUtil;
   } );
