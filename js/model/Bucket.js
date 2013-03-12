@@ -1,237 +1,80 @@
 // Copyright 2002-2012, University of Colorado
 
-/*
- * A bucket
- *
- * TODO: Use Vector2? (JO)
+/**
+ * Class that defines the shape and common functionality for a "bucket", which
+ * is container into which some sort of model objects may be placed.  This is
+ * a model object in the Model-View-Controller paradigm, and requires a
+ * counterpart in the view in order to be presented to the user.
+ * <p/>
+ * In general, this is intended to be a base class, and subclasses should be
+ * used to add specific functionality, such as how other model objects are
+ * added to and removed from the bucket.
+ * <p/>
+ * One other important note: The position of the bucket in model space is
+ * based on the center of the bucket's opening.
  *
  * @author John Blanco
+ * @author Jonathan Olson <olsonsjc@gmail.com>
  */
-define( [
-          'underscore'
-        ], function ( _ ) {
+
+define( function( require ) {
+  'use strict';
   
-  var distanceBetweenPoints = function ( x1, y1, x2, y2 ) {
-    return Math.sqrt( ( x1 - x2 ) * ( x1 - x2 ) + ( y1 - y2 ) * ( y1 - y2 ) );
+  var _ = require( 'underscore' );
+  var Vector2 = require( 'DOT/Vector2' );
+  var Dimension2 = require( 'DOT/Dimension2' );
+  var Shape = require( 'KITE/Shape' );
+  
+  // Proportion of the total height which the ellipse that represents
+  // the hole occupies.  It is assumed that the width of the hole
+  // is the same as the width specified at construction.
+  var HOLE_ELLIPSE_HEIGHT_PROPORTION = 0.25;
+  
+  var Bucket = function( options ) {
+    options = _.extend( {
+      // defaults
+      position: new Vector2( options.x === undefined ? 0 : options.x, options.y === undefined ? 0 : options.y ),
+      size: new Dimension2( options.width || 200, options.height || 50 ),
+      baseColor: '#ff0000',
+      caption: 'Set a caption!'
+    }, options );
+    
+    // The position is defined to be where the center of the hole is.
+    this.position = options.position;
+
+    // Base color of the bucket.
+    this.baseColor = options.baseColor;
+
+    // Caption to be shown on the bucket.
+    this.captionText = options.caption;
+    
+    var size = options.size;
+    
+    var holeRadiusX = size.width / 2;
+    var holeRadiusY = size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2;
+    
+    // Create the shape of the bucket's hole.
+    this.holeShape = Shape.ellipse( 0, 0, holeRadiusX, holeRadiusY );
+
+    // Create the shape of the container.  This code is a bit "tweaky",
+    // meaning that there are a lot of fractional multipliers in here
+    // to try to achieve the desired pseudo-3D look.  The intent is
+    // that the "tilt" of the bucket can be changed without needing to
+    // rework this code.
+    var containerHeight = size.height * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
+    this.containerShape = new Shape().moveTo( -size.width * 0.5, 0 )
+                                     .lineTo( -size.width * 0.4, -containerHeight * 0.8 )
+                                     .cubicCurveTo(
+                                       -size.width * 0.3,
+                                       -containerHeight * 0.8 - size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
+                                       size.width * 0.3,
+                                       -containerHeight * 0.8 - size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
+                                       size.width * 0.4,
+                                       -containerHeight * 0.8 )
+                                     .lineTo( size.width * 0.5, 0 )
+                                     .ellipticalArc( 0, 0, holeRadiusX, holeRadiusY, 0, 0, Math.PI, false )
+                                     .close();
   };
   
-  // TODO: parameter object instead? many arguments
-  function Bucket( xPos, yPos, width, particleRadius, color, labelText ) {
-    this.x = xPos;
-    this.y = yPos;
-    this.width = width;
-    this.particleRadius = particleRadius;
-    this.labelText = labelText;
-    this.particles = [];
-    this.yOffset = this.particleRadius; // Empirically determined, for positioning particles inside the bucket.
-    this.color = color;
-  }
-
-  Bucket.prototype.addParticleFirstOpen = function ( particle ) {
-    particle.setLocation( this.getFirstOpenLocation() );
-    this.particles.push( particle );
-    var self = this;
-    particle.events.one( 'userGrabbed', function () {
-      self.removeParticle( particle );
-    } )
-  }
-
-  Bucket.prototype.addParticleNearestOpen = function ( particle ) {
-    particle.setLocation( this.getNearestOpenLocation( particle.x, particle.y ) );
-    this.particles.push( particle );
-    var self = this;
-    particle.events.one( 'userGrabbed', function () {
-      self.removeParticle( particle );
-    } )
-  }
-
-  Bucket.prototype.removeParticle = function ( particle ) {
-    if ( this.particles.indexOf( particle ) == -1 ) {
-      console.log( "Error: Attempt to remove particle not contained in bucket, ignoring." );
-      return;
-    }
-    this.particles = _.without( this.particles, particle );
-    this.relayoutBucketParticles();
-  }
-
-  Bucket.prototype.isPositionOpen = function ( x, y ) {
-    var positionOpen = true;
-    for ( var i = 0; i < this.particles.length; i++ ) {
-      var particle = this.particles[ i ];
-      if ( particle.x == x && particle.y == y ) {
-        positionOpen = false;
-        break;
-      }
-    }
-    return positionOpen;
-  }
-
-  Bucket.prototype.getFirstOpenLocation = function () {
-    var openLocation = {x: 0, y: 0};
-    var usableWidth = this.width - 2 * this.particleRadius;
-    var offsetFromBucketEdge = this.particleRadius * 2;
-    var numParticlesInLayer = Math.floor( usableWidth / ( this.particleRadius * 2 ) );
-    var row = 0;
-    var positionInLayer = 0;
-    var found = false;
-    while ( !found ) {
-      var yPos = this.getYPositionForLayer( row );
-      var xPos = this.x - this.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.particleRadius;
-      if ( this.isPositionOpen( xPos, yPos ) ) {
-        // We found a location that is open.
-        openLocation.x = xPos;
-        openLocation.y = yPos;
-        found = true;
-        continue;
-      }
-      else {
-        positionInLayer++;
-        if ( positionInLayer >= numParticlesInLayer ) {
-          // Move to the next layer.
-          row++;
-          positionInLayer = 0;
-          numParticlesInLayer--;
-          offsetFromBucketEdge += this.particleRadius;
-          if ( numParticlesInLayer == 0 ) {
-            // This algorithm doesn't handle the situation where
-            // more particles are added than can be stacked into
-            // a pyramid of the needed size, but so far it hasn't
-            // needed to.  If this requirement changes, the
-            // algorithm will need to change too.
-            numParticlesInLayer = 1;
-            offsetFromBucketEdge -= this.particleRadius;
-          }
-        }
-      }
-    }
-    return openLocation;
-  }
-
-  Bucket.prototype.isPositionOpen = function ( x, y ) {
-    var positionOpen = true;
-    _.each( this.particles, function ( particle ) {
-      if ( x === particle.x && y === particle.y ) {
-        positionOpen = false;
-      }
-    } );
-    return positionOpen;
-  }
-
-  Bucket.prototype.getLayerForYPosition = function ( yPosition ) {
-    return Math.abs( Math.round( ( yPosition - ( this.y + this.yOffset ) ) / ( this.particleRadius * 2 * 0.866 ) ) );
-  }
-
-  /*
-   * Get the nearest open location to the provided current location.  This
-   * is used for particle stacking.
-   *
-   * @param location
-   * @return
-   */
-  Bucket.prototype.getNearestOpenLocation = function ( xPos, yPos ) {
-    // Determine the highest occupied layer.  The bottom layer is 0.
-    var highestOccupiedLayer = 0;
-    var self = this;
-    _.each( this.particles, function ( particle ) {
-      var layer = self.getLayerForYPosition( particle.y );
-      if ( layer > highestOccupiedLayer ) {
-        highestOccupiedLayer = layer;
-      }
-    } );
-
-    // Make a list of all open locations in the occupied layers.
-    var openLocations = [];
-    var placeableWidth = this.width - 2 * this.particleRadius;
-    var offsetFromBucketEdge = ( this.width - placeableWidth ) / 2 + this.particleRadius;
-    var numParticlesInLayer = Math.floor( placeableWidth / ( this.particleRadius * 2 ) );
-
-    // Loop, searching for open positions in the particle stack.
-    for ( var layer = 0; layer <= highestOccupiedLayer + 1; layer++ ) {
-
-      // Add all open locations in the current layer.
-      for ( var positionInLayer = 0; positionInLayer < numParticlesInLayer; positionInLayer++ ) {
-        var testYPos = this.getYPositionForLayer( layer );
-        var testXPos = this.x - this.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.particleRadius;
-        if ( this.isPositionOpen( testXPos, testYPos ) ) {
-
-          // We found a location that is unoccupied.
-          if ( layer == 0 || this.countSupportingParticles( testXPos, testYPos ) == 2 ) {
-            // This is a valid open location.
-            openLocations.push( { x: testXPos, y: testYPos } );
-          }
-        }
-      }
-
-      // Adjust variables for the next layer.
-      numParticlesInLayer--;
-      offsetFromBucketEdge += this.particleRadius;
-      if ( numParticlesInLayer == 0 ) {
-        // If the stacking pyramid is full, meaning that there are
-        // no locations that are open within it, this algorithm
-        // classifies the locations directly above the top of the
-        // pyramid as being open.  This would result in a stack
-        // of particles with a pyramid base.  So far, this hasn't
-        // been a problem, but this limitation may limit
-        // reusability of this algorithm.
-        numParticlesInLayer = 1;
-        offsetFromBucketEdge -= this.particleRadius;
-      }
-    }
-
-    // Find the closest open location to the provided current location.
-    // Only the X-component is used for this determination, because if
-    // the Y-component is used the particles often appear to fall sideways
-    // when released above the bucket, which just looks weird.
-    var closestOpenLocation = openLocations[0] || {x: 0, y: 0};
-
-    _.each( openLocations, function ( location ) {
-      if ( distanceBetweenPoints( location.x, location.y, xPos, yPos ) < distanceBetweenPoints( closestOpenLocation.x, closestOpenLocation.y, xPos, yPos ) ) {
-        // This location is closer.
-        closestOpenLocation = location;
-      }
-    } )
-    return closestOpenLocation;
-  }
-
-  Bucket.prototype.getYPositionForLayer = function ( layer ) {
-    return this.y + this.yOffset - layer * this.particleRadius * 2 * 0.866;
-  }
-
-  /*
-   * Determine whether a particle is 'dangling', i.e. hanging above an open
-   * space in the stack of particles.  Dangling particles should fall.
-   */
-  Bucket.prototype.isDangling = function ( particle ) {
-    var onBottomRow = particle.y === this.y + this.yOffset;
-    return !onBottomRow && this.countSupportingParticles( particle.x, particle.y ) < 2;
-  }
-
-  Bucket.prototype.countSupportingParticles = function ( xPos, yPos ) {
-    var count = 0;
-    for ( var i = 0; i < this.particles.length; i++ ) {
-      p = this.particles[i];
-      if ( p.y > yPos && //must be in a lower layer (and larger y is further down on the page).
-           distanceBetweenPoints( p.x, p.y, xPos, yPos ) < this.particleRadius * 3 ) {
-        // Must be a supporting particle.
-        count++;
-      }
-    }
-    return count;
-  }
-
-  Bucket.prototype.relayoutBucketParticles = function () {
-    do {
-      for ( var i = 0; i < this.particles.length; i++ ) {
-        var particleMoved = false;
-        var particle = this.particles[i];
-        if ( this.isDangling( particle ) ) {
-          particle.setLocation( this.getNearestOpenLocation( particle.x, particle.y ) );
-          particleMoved = true;
-          break;
-        }
-      }
-    } while ( particleMoved );
-  }
-
   return Bucket;
 } );
