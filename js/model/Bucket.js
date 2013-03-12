@@ -48,7 +48,7 @@ define( function( require ) {
     // Caption to be shown on the bucket.
     this.captionText = options.caption;
     
-    var size = options.size;
+    this.size = options.size;
     
     var holeRadiusX = size.width / 2;
     var holeRadiusY = size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2;
