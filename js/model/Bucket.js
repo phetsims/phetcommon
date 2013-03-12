@@ -49,6 +49,7 @@ define( function( require ) {
     this.captionText = options.caption;
     
     this.size = options.size;
+    var size = this.size;
     
     var holeRadiusX = size.width / 2;
     var holeRadiusY = size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2;
