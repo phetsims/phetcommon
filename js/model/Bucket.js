@@ -14,7 +14,8 @@ define( [
   var distanceBetweenPoints = function ( x1, y1, x2, y2 ) {
     return Math.sqrt( ( x1 - x2 ) * ( x1 - x2 ) + ( y1 - y2 ) * ( y1 - y2 ) );
   };
-
+  
+  // TODO: parameter object instead? many arguments
   function Bucket( xPos, yPos, width, particleRadius, color, labelText ) {
     this.x = xPos;
     this.y = yPos;
