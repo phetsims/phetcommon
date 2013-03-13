@@ -9,6 +9,7 @@
 define(
   ['tpl!PHETCOMMON_HTML/prototype-dialog.html'],
   function ( template ) {
+    "use strict";
     return {init: function ( simName ) {
       $( template( {simName: simName} ) ).appendTo( $( "body" ) );
       $( '.dialog-overlay' ).click( function () {

@@ -8,6 +8,7 @@
 define(
   [ 'DOT/Vector2' ],
   function ( Vector2 ) {
+    "use strict";
 
     /**
      * @constructor

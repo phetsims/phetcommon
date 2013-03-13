@@ -1,3 +1,4 @@
+3/13/13 add "use strict" to all existing source files
 3/8/13 add MathUtil.clamp
 3/6/13 add functionality to Range
 3/6/13 delete Dimension2D, Vector2D, Point2D; use dot Dimension2 and Vector2

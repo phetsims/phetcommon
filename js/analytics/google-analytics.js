@@ -19,6 +19,7 @@ _gaq.push( ["b._setDomainName", "phet.colorado.edu"] );
 _gaq.push( ["b._trackPageview"] );
 
 (function () {
+  "use strict";
   var ga = document.createElement( 'script' );
   ga.type = 'text/javascript';
   ga.async = true;

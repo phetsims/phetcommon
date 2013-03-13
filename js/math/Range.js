@@ -8,6 +8,7 @@
 define(
   [],
   function () {
+    "use strict";
 
     function Range( min, max, defaultValue ) {
       this.min = min;

@@ -8,6 +8,7 @@
 define(
   ['PHETCOMMON/model/property/Property', 'PHETCOMMON/util/Inheritance'],
   function ( Property, Inheritance ) {
+    "use strict";
 
     function BooleanProperty( value ) {
       Property.call( this, value );

@@ -14,6 +14,7 @@
 define(
   [],
   function () {
+    "use strict";
 
     /**
      * @class Property

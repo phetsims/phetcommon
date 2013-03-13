@@ -12,6 +12,7 @@ define(
     'imagesloaded'
   ],
   function ( imagesloaded ) {
+    "use strict";
 
     /**
      * @param callback called after the images have been loaded, has one {ImageLoader} arg
