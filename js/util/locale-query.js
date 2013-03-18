@@ -20,10 +20,8 @@
  * HISTORY:
  * Moved from forces-and-motion-basics on 3-17-2013
  */
-if ( !window.phet ) {
-  window.phet = {};
-}
-window.phet.getLocaleQuery = (function() {
+(function() {
+  "use strict";
   var locale = "en_US";
   if ( typeof window != 'undefined' && window.location.search ) {
     // look for first occurrence of "locale" query parameter
@@ -36,5 +34,8 @@ window.phet.getLocaleQuery = (function() {
       }
     }
   }
-  return locale;
-});
+  if ( !window.phetcommon ) {
+    window.phetcommon = {};
+  }
+  window.phetcommon.locale = locale;
+}());
