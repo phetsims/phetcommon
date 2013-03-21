@@ -19,14 +19,14 @@ define(
 
       /*
        * Transformation a value from model to view coordinates.
-       * @param {Number|Vector2} value
-       * @return {Number|Vector2}
+       * @param {Number|Vector2|object} value
+       * @return {Number|Vector2|object}
        */
       this.modelToView = function ( value ) {
         if ( typeof( value ) === 'number' ) {
           return value * scale;
         }
-        else if ( value instanceof Vector2 ) {
+        else if ( value instanceof Vector2  || typeof(value) ==='object') {
           return new Vector2( ( value.x + offset.x ) * scale, ( value.y + offset.y ) * scale );
         }
         else {
@@ -36,14 +36,14 @@ define(
 
       /*
        * Transformation a value from view to model coordinates.
-       * @param {Number|Vector2} value
-       * @return {Number|Vector2}
+       * @param {Number|Vector2|object} value
+       * @return {Number|Vector2|object}
        */
       this.viewToModel = function ( value ) {
         if ( typeof( value ) === 'number' ) {
           return value / scale;
         }
-        else if ( value instanceof Vector2 ) {
+        else if ( value instanceof Vector2 || typeof(value) ==='object') {
           return new Vector2( ( value.x / scale ) - offset.x, ( value.y / scale ) - offset.y );
         }
         else {
