@@ -24,9 +24,9 @@ define(
      * function Supertype(...) {...}
      *
      * function Subtype(...) {
-             *     Supertype.call(this, ...); // constructor stealing, called second
-             *     ...
-             * }
+     *     Supertype.call(this, ...); // constructor stealing, called second
+     *     ...
+     * }
      *
      * inheritPrototype( Subtype, Supertype ); // prototype chaining, called first
      * </code>
