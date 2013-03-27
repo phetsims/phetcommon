@@ -4,6 +4,7 @@
  * Utility functions for implementing inheritance.
  *
  * @author Chris Malley (PixelZoom, Inc.)
+ * @deprecated use phet-core.inherit and phet-core.callSuper
  */
 define(
   [],
