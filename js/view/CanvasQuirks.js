@@ -5,9 +5,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define(
-  [],
-  function () {
+define( function () {
     "use strict";
 
     function CanvasQuirks() {
@@ -25,7 +23,7 @@ define(
       canvas.onmousedown = function () {
         return false;
       }; // Mozilla
-    }
+    };
 
     return CanvasQuirks;
   } );

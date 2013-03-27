@@ -5,10 +5,10 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define(
-  [ 'DOT/Vector2' ],
-  function ( Vector2 ) {
+define( function ( require ) {
     "use strict";
+
+    var Vector2 = require( "DOT/Vector2" );
 
     /**
      * @constructor

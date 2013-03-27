@@ -1,3 +1,4 @@
+3/26/13 convert phetcommon.view.* to use CommonJS-style imports
 3/26/13 deprecated phetcommon.util.Inheritance, use phet-core.inherit and phet-core.callSuper
 3/26/13 delete MathUtil, Range and phetcommon.math - everything migrated to dot
 3/26/13 migrated Range from phetcommon to dot

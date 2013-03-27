@@ -7,10 +7,10 @@
  * <p>
  * Dependencies: stats.js
  */
-define(
-  [ "stats" ],
-  function ( Stats ) {
+define( function ( require ) {
     "use strict";
+
+    var Stats = require( "stats" );
 
     function PerformanceMonitor() {
 
@@ -46,5 +46,4 @@ define(
     }
 
     return PerformanceMonitor;
-  }
-);
+  } );
