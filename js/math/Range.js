@@ -1,7 +1,7 @@
-// Copyright 2002-2012, University of Colorado
+// Copyright 2002-2013, University of Colorado
 
 /**
- * Range.
+ * A numeric range.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -16,21 +16,25 @@ define(
       this.defaultValue = defaultValue || min;
     }
 
-    Range.prototype.getLength = function() {
-      return this.max - this.min;
-    };
+    Range.prototype = {
 
-    Range.prototype.contains = function( value ) {
-      return ( value >= this.min ) && ( value <= this.max );
-    };
+      constructor: Range,
 
-    Range.prototype.intersects = function ( range ) {
-      return ( this.max >= range.min ) &&  ( range.max >= this.min );
-    };
+      getLength: function () {
+        return this.max - this.min;
+      },
 
-    // @return {String}
-    Range.prototype.toString = function () {
-      return "[Range (min=" + this.min + " max=" + this.max + " defaultValue=" + this.defaultValue + ")]";
+      contains: function ( value ) {
+        return ( value >= this.min ) && ( value <= this.max );
+      },
+
+      intersects: function ( range ) {
+        return ( this.max >= range.min ) && ( range.max >= this.min );
+      },
+
+      toString: function () {
+        return "[Range (min:" + this.min + " max:" + this.max + " defaultValue:" + this.defaultValue + ")]";
+      }
     };
 
     return Range;
