@@ -4,6 +4,7 @@
  * Math utilities.
  *
  * @author Chris Malley (PixelZoom, Inc.)
+ * @deprecated use dot.Util
  */
 define(
   [],
