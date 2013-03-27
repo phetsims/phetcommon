@@ -1,3 +1,4 @@
+3/26/13 delete MathUtil, Range and phetcommon.math - everything migrated to dot
 3/26/13 migrated Range from phetcommon to dot
 3/26/13 mark MathUtil as deprecated, use dot.Util
 3/18/13 phetcommon#1: query-parameters.js
