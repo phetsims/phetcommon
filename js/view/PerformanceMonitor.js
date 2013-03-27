@@ -8,42 +8,42 @@
  * Dependencies: stats.js
  */
 define( function ( require ) {
-    "use strict";
+  "use strict";
 
-    var Stats = require( "stats" );
+  var Stats = require( "stats" );
 
-    function PerformanceMonitor() {
+  function PerformanceMonitor() {
 
-      var stats = new Stats();
+    var stats = new Stats();
 
-      stats.setMode( 0 ); // 0: fps, 1: ms
+    stats.setMode( 0 ); // 0: fps, 1: ms
 
-      // align at top-left
-      stats.domElement.style.position = 'absolute';
-      stats.domElement.style.left = '0px';
-      stats.domElement.style.top = '0px';
+    // align at top-left
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.top = '0px';
 
-      // add to DOM
-      document.body.appendChild( stats.domElement );
+    // add to DOM
+    document.body.appendChild( stats.domElement );
 
-      // @param {Boolean} visible
-      this.setVisible = function ( visible ) {
-        if ( visible ) {
-          stats.domElement.style.visibility = "visible";
-        }
-        else {
-          stats.domElement.style.visibility = "hidden";
-        }
-      };
+    // @param {Boolean} visible
+    this.setVisible = function ( visible ) {
+      if ( visible ) {
+        stats.domElement.style.visibility = "visible";
+      }
+      else {
+        stats.domElement.style.visibility = "hidden";
+      }
+    };
 
-      this.begin = function() {
-        stats.begin();
-      };
+    this.begin = function () {
+      stats.begin();
+    };
 
-      this.end = function() {
-        stats.end();
-      };
-    }
+    this.end = function () {
+      stats.end();
+    };
+  }
 
-    return PerformanceMonitor;
-  } );
+  return PerformanceMonitor;
+} );
