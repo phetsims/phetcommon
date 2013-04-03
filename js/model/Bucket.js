@@ -36,7 +36,8 @@ define( function( require ) {
       position: new Vector2( options.x === undefined ? 0 : options.x, options.y === undefined ? 0 : options.y ),
       size: new Dimension2( options.width || 200, options.height || 50 ),
       baseColor: '#ff0000',
-      caption: 'Set a caption!'
+      caption: 'Set a caption!',
+      captionColor: 'white'
     }, options );
     
     // The position is defined to be where the center of the hole is.
@@ -47,6 +48,9 @@ define( function( require ) {
 
     // Caption to be shown on the bucket.
     this.captionText = options.caption;
+
+    // Color for the caption.
+    this.captionColor = options.captionColor;
     
     this.size = options.size;
     var size = this.size;
