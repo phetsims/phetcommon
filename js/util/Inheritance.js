@@ -4,6 +4,7 @@
  * Utility functions for implementing inheritance.
  *
  * @author Chris Malley (PixelZoom, Inc.)
+ * @deprecated use phet-core.inherit and phet-core.callSuper
  */
 define(
   [],
@@ -24,9 +25,9 @@ define(
      * function Supertype(...) {...}
      *
      * function Subtype(...) {
-             *     Supertype.call(this, ...); // constructor stealing, called second
-             *     ...
-             * }
+     *     Supertype.call(this, ...); // constructor stealing, called second
+     *     ...
+     * }
      *
      * inheritPrototype( Subtype, Supertype ); // prototype chaining, called first
      * </code>

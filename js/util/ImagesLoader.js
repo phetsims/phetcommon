@@ -15,7 +15,7 @@ define(
     "use strict";
 
     /**
-     * @param callback called after the images have been loaded, has one {ImageLoader} arg
+     * @param callback called after the images have been loaded, has one {ImagesLoader} arg
      * @constructor
      */
     function ImagesLoader( callback ) {

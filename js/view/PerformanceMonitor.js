@@ -7,44 +7,43 @@
  * <p>
  * Dependencies: stats.js
  */
-define(
-  [ "stats" ],
-  function ( Stats ) {
-    "use strict";
+define( function ( require ) {
+  "use strict";
 
-    function PerformanceMonitor() {
+  var Stats = require( "stats" );
 
-      var stats = new Stats();
+  function PerformanceMonitor() {
 
-      stats.setMode( 0 ); // 0: fps, 1: ms
+    var stats = new Stats();
 
-      // align at top-left
-      stats.domElement.style.position = 'absolute';
-      stats.domElement.style.left = '0px';
-      stats.domElement.style.top = '0px';
+    stats.setMode( 0 ); // 0: fps, 1: ms
 
-      // add to DOM
-      document.body.appendChild( stats.domElement );
+    // align at top-left
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.top = '0px';
 
-      // @param {Boolean} visible
-      this.setVisible = function ( visible ) {
-        if ( visible ) {
-          stats.domElement.style.visibility = "visible";
-        }
-        else {
-          stats.domElement.style.visibility = "hidden";
-        }
-      };
+    // add to DOM
+    document.body.appendChild( stats.domElement );
 
-      this.begin = function() {
-        stats.begin();
-      };
+    // @param {Boolean} visible
+    this.setVisible = function ( visible ) {
+      if ( visible ) {
+        stats.domElement.style.visibility = "visible";
+      }
+      else {
+        stats.domElement.style.visibility = "hidden";
+      }
+    };
 
-      this.end = function() {
-        stats.end();
-      };
-    }
+    this.begin = function () {
+      stats.begin();
+    };
 
-    return PerformanceMonitor;
+    this.end = function () {
+      stats.end();
+    };
   }
-);
+
+  return PerformanceMonitor;
+} );
