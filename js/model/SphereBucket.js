@@ -1,48 +1,52 @@
-// Copyright 2002-2012, University of Colorado
+// Copyright 2002-2013, University of Colorado
 
 /*
- * A bucket
+ * A bucket that can be used to store spherical objects.  Manages the addition
+ * and removal of the spheres, and stacks them as the are added, and manages
+ * the stack as spheres are removed.
  *
- * TODO: Use Vector2? (JO)
+ * This expects the spheres to have certain properties, please inspect the
+ * code to understand the "contract" between the bucket and the spheres.
  *
  * @author John Blanco
  */
-define( [
-          'underscore'
-        ], function ( _ ) {
-  
+define( function ( require ) {
+
+  var Vector2 = require( 'DOT/Vector2' );
+
   var distanceBetweenPoints = function ( x1, y1, x2, y2 ) {
     return Math.sqrt( ( x1 - x2 ) * ( x1 - x2 ) + ( y1 - y2 ) * ( y1 - y2 ) );
   };
-  
-  // TODO: parameter object instead? many arguments
-  // TODO: extend Bucket, a la the Java code
-  function Bucket( xPos, yPos, size, particleRadius, color, labelText ) {
-    this.x = xPos;
-    this.y = yPos;
-    this.width = width;
-    this.particleRadius = particleRadius;
-    this.labelText = labelText;
-    this.particles = [];
+
+  function Bucket( options ) {
+    this.position = options.position || Vector2.ZERO;
+    this.color = options.color || 'orange';
+    this.width = options.width || 100;
+    this.particleRadius = options.particleRadius || 10;
     this.yOffset = this.particleRadius; // Empirically determined, for positioning particles inside the bucket.
-    this.color = color;
+    this.labelText = options.labelText;
+    this.particles = [];
   }
 
   Bucket.prototype.addParticleFirstOpen = function ( particle ) {
-    particle.setLocation( this.getFirstOpenLocation() );
+    particle.position = this.getFirstOpenLocation();
     this.particles.push( particle );
-    var self = this;
-    particle.events.one( 'userGrabbed', function () {
-      self.removeParticle( particle );
+    var thisBucket = this;
+    particle.link( 'userControlled', function ( m, userControlled ) {
+      if ( userControlled ) {
+        thisBucket.removeParticle( particle );
+      }
     } )
   }
 
   Bucket.prototype.addParticleNearestOpen = function ( particle ) {
-    particle.setLocation( this.getNearestOpenLocation( particle.x, particle.y ) );
+    particle.position = this.getNearestOpenLocation( particle.position );
     this.particles.push( particle );
-    var self = this;
-    particle.events.one( 'userGrabbed', function () {
-      self.removeParticle( particle );
+    var thisBucket = this;
+    particle.link( 'userControlled', function ( m, userControlled ) {
+      if ( userControlled ) {
+        thisBucket.removeParticle( particle );
+      }
     } )
   }
 
@@ -55,11 +59,11 @@ define( [
     this.relayoutBucketParticles();
   }
 
-  Bucket.prototype.isPositionOpen = function ( x, y ) {
+  Bucket.prototype.isPositionOpen = function ( position ) {
     var positionOpen = true;
     for ( var i = 0; i < this.particles.length; i++ ) {
       var particle = this.particles[ i ];
-      if ( particle.x == x && particle.y == y ) {
+      if ( particle.position.equals( position ) ) {
         positionOpen = false;
         break;
       }
@@ -68,7 +72,7 @@ define( [
   }
 
   Bucket.prototype.getFirstOpenLocation = function () {
-    var openLocation = {x: 0, y: 0};
+    var openLocation = Vector2.ZERO;
     var usableWidth = this.width - 2 * this.particleRadius;
     var offsetFromBucketEdge = this.particleRadius * 2;
     var numParticlesInLayer = Math.floor( usableWidth / ( this.particleRadius * 2 ) );
@@ -76,12 +80,11 @@ define( [
     var positionInLayer = 0;
     var found = false;
     while ( !found ) {
-      var yPos = this.getYPositionForLayer( row );
-      var xPos = this.x - this.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.particleRadius;
-      if ( this.isPositionOpen( xPos, yPos ) ) {
+      var testLocation = new Vector2( this.position.x - this.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.particleRadius,
+                                      this.getYPositionForLayer( row ) );
+      if ( this.isPositionOpen( testLocation ) ) {
         // We found a location that is open.
-        openLocation.x = xPos;
-        openLocation.y = yPos;
+        openLocation = testLocation;
         found = true;
         continue;
       }
@@ -108,10 +111,10 @@ define( [
     return openLocation;
   }
 
-  Bucket.prototype.isPositionOpen = function ( x, y ) {
+  Bucket.prototype.isPositionOpen = function ( position ) {
     var positionOpen = true;
     _.each( this.particles, function ( particle ) {
-      if ( x === particle.x && y === particle.y ) {
+      if ( particle.position.equals( position ) ) {
         positionOpen = false;
       }
     } );
@@ -129,12 +132,12 @@ define( [
    * @param location
    * @return
    */
-  Bucket.prototype.getNearestOpenLocation = function ( xPos, yPos ) {
+  Bucket.prototype.getNearestOpenLocation = function ( position ) {
     // Determine the highest occupied layer.  The bottom layer is 0.
     var highestOccupiedLayer = 0;
     var self = this;
     _.each( this.particles, function ( particle ) {
-      var layer = self.getLayerForYPosition( particle.y );
+      var layer = self.getLayerForYPosition( particle.position.y );
       if ( layer > highestOccupiedLayer ) {
         highestOccupiedLayer = layer;
       }
@@ -151,14 +154,14 @@ define( [
 
       // Add all open locations in the current layer.
       for ( var positionInLayer = 0; positionInLayer < numParticlesInLayer; positionInLayer++ ) {
-        var testYPos = this.getYPositionForLayer( layer );
-        var testXPos = this.x - this.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.particleRadius;
-        if ( this.isPositionOpen( testXPos, testYPos ) ) {
+        var testPosition = new Vector2( this.x - this.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.particleRadius,
+                                        this.getYPositionForLayer( layer ) );
+        if ( this.isPositionOpen( testPosition ) ) {
 
           // We found a location that is unoccupied.
-          if ( layer == 0 || this.countSupportingParticles( testXPos, testYPos ) == 2 ) {
+          if ( layer == 0 || this.countSupportingParticles( testPosition ) == 2 ) {
             // This is a valid open location.
-            openLocations.push( { x: testXPos, y: testYPos } );
+            openLocations.push( testPosition );
           }
         }
       }
@@ -183,10 +186,10 @@ define( [
     // Only the X-component is used for this determination, because if
     // the Y-component is used the particles often appear to fall sideways
     // when released above the bucket, which just looks weird.
-    var closestOpenLocation = openLocations[0] || {x: 0, y: 0};
+    var closestOpenLocation = openLocations[0] || Vector2.ZERO;
 
     _.each( openLocations, function ( location ) {
-      if ( distanceBetweenPoints( location.x, location.y, xPos, yPos ) < distanceBetweenPoints( closestOpenLocation.x, closestOpenLocation.y, xPos, yPos ) ) {
+      if ( location.distance( position ) < closestOpenLocation.distance( position )){
         // This location is closer.
         closestOpenLocation = location;
       }
@@ -203,16 +206,16 @@ define( [
    * space in the stack of particles.  Dangling particles should fall.
    */
   Bucket.prototype.isDangling = function ( particle ) {
-    var onBottomRow = particle.y === this.y + this.yOffset;
-    return !onBottomRow && this.countSupportingParticles( particle.x, particle.y ) < 2;
+    var onBottomRow = particle.position.y === this.position.y + this.yOffset;
+    return !onBottomRow && this.countSupportingParticles( particle.position.x, particle.position.y ) < 2;
   }
 
-  Bucket.prototype.countSupportingParticles = function ( xPos, yPos ) {
+  Bucket.prototype.countSupportingParticles = function ( position ) {
     var count = 0;
     for ( var i = 0; i < this.particles.length; i++ ) {
       p = this.particles[i];
-      if ( p.y > yPos && //must be in a lower layer (and larger y is further down on the page).
-           distanceBetweenPoints( p.x, p.y, xPos, yPos ) < this.particleRadius * 3 ) {
+      if ( p.position.y > position.y && //must be in a lower layer (and larger y is further down on the page).
+           p.position.distance( position ) < this.particleRadius * 3 ) {
         // Must be a supporting particle.
         count++;
       }
@@ -226,7 +229,7 @@ define( [
         var particleMoved = false;
         var particle = this.particles[i];
         if ( this.isDangling( particle ) ) {
-          particle.setLocation( this.getNearestOpenLocation( particle.x, particle.y ) );
+          particle.position = this.getNearestOpenLocation( particle.position );
           particleMoved = true;
           break;
         }
