@@ -35,7 +35,7 @@ define(
        * @return HTMLImageElement
        */
       imagesLoader.getImage = function( basename ) {
-        var selector = 'img[src^="images/' + basename + '"]';
+        var selector = 'img[src$="images/' + basename + '"]';
         return imagesLoader.images.parent().find( selector )[0];
       };
     }
