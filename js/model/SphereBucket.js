@@ -13,16 +13,18 @@
 define( function ( require ) {
 
   var Vector2 = require( 'DOT/Vector2' );
+  var Inheritance = require( 'PHETCOMMON/util/Inheritance' );
+  var Bucket = require( 'PHETCOMMON/model/Bucket' );
 
   function SphereBucket( options ) {
-    this.position = options.position || Vector2.ZERO;
-    this.color = options.color || 'orange';
-    this.width = options.width || 100;
+    Bucket.call( this, options );
     this.particleRadius = options.particleRadius || 10;
     this.yOffset = this.particleRadius; // Empirically determined, for positioning particles inside the bucket.
-    this.labelText = options.labelText;
     this.particles = [];
   }
+
+  // Inherit from base type.
+  Inheritance.inheritPrototype( SphereBucket, Bucket );
 
   SphereBucket.prototype.addParticleFirstOpen = function ( particle ) {
     particle.position = this.getFirstOpenLocation();
@@ -69,14 +71,15 @@ define( function ( require ) {
 
   SphereBucket.prototype.getFirstOpenLocation = function () {
     var openLocation = Vector2.ZERO;
-    var usableWidth = this.width - 2 * this.particleRadius;
+    var usableWidth = this.size.width - 2 * this.particleRadius;
     var offsetFromBucketEdge = this.particleRadius * 2;
     var numParticlesInLayer = Math.floor( usableWidth / ( this.particleRadius * 2 ) );
     var row = 0;
     var positionInLayer = 0;
     var found = false;
+    debugger;
     while ( !found ) {
-      var testLocation = new Vector2( this.position.x - this.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.particleRadius,
+      var testLocation = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.particleRadius,
                                       this.getYPositionForLayer( row ) );
       if ( this.isPositionOpen( testLocation ) ) {
         // We found a location that is open.
@@ -141,8 +144,8 @@ define( function ( require ) {
 
     // Make a list of all open locations in the occupied layers.
     var openLocations = [];
-    var placeableWidth = this.width - 2 * this.particleRadius;
-    var offsetFromBucketEdge = ( this.width - placeableWidth ) / 2 + this.particleRadius;
+    var placeableWidth = this.size.width - 2 * this.particleRadius;
+    var offsetFromBucketEdge = ( this.size.width - placeableWidth ) / 2 + this.particleRadius;
     var numParticlesInLayer = Math.floor( placeableWidth / ( this.particleRadius * 2 ) );
 
     // Loop, searching for open positions in the particle stack.
@@ -150,7 +153,7 @@ define( function ( require ) {
 
       // Add all open locations in the current layer.
       for ( var positionInLayer = 0; positionInLayer < numParticlesInLayer; positionInLayer++ ) {
-        var testPosition = new Vector2( this.x - this.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.particleRadius,
+        var testPosition = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.particleRadius,
                                         this.getYPositionForLayer( layer ) );
         if ( this.isPositionOpen( testPosition ) ) {
 
@@ -185,7 +188,7 @@ define( function ( require ) {
     var closestOpenLocation = openLocations[0] || Vector2.ZERO;
 
     _.each( openLocations, function ( location ) {
-      if ( location.distance( position ) < closestOpenLocation.distance( position )){
+      if ( location.distance( position ) < closestOpenLocation.distance( position ) ) {
         // This location is closer.
         closestOpenLocation = location;
       }
@@ -194,7 +197,7 @@ define( function ( require ) {
   }
 
   SphereBucket.prototype.getYPositionForLayer = function ( layer ) {
-    return this.y + this.yOffset - layer * this.particleRadius * 2 * 0.866;
+    return this.position.y + this.yOffset - layer * this.particleRadius * 2 * 0.866;
   }
 
   /*
