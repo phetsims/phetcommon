@@ -77,7 +77,6 @@ define( function ( require ) {
     var row = 0;
     var positionInLayer = 0;
     var found = false;
-    debugger;
     while ( !found ) {
       var testLocation = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.particleRadius,
                                       this.getYPositionForLayer( row ) );
