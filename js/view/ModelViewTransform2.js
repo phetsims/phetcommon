@@ -161,5 +161,5 @@ define( function ( require ) {
     return new ModelViewTransform2( Matrix3.affine( m00, 0, 0, m11, m02, m12 ) );
   };
 
-  return ModelViewTransform2D;
+  return ModelViewTransform2;
 } );
