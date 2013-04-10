@@ -78,7 +78,7 @@ define( function ( require ) {
    * @param yScale {Number} the scale to map model to view in the y-dimension
    * @return the resultant ModelViewTransform2
    */
-  ModelViewTransform2.createOffsetScaleMapping = function( offset, xScale, yScale ) {
+  ModelViewTransform2.createOffsetXYScaleMapping = function( offset, xScale, yScale ) {
     return new ModelViewTransform2( Matrix3.affine( xScale, 0, 0, yScale, offset.x, offset.y ) );
   };
 
@@ -91,12 +91,12 @@ define( function ( require ) {
    * @param yScale     {Number} the amount to scale in the y direction
    * @return the resultant ModelViewTransform2
    */
-  ModelViewTransform2.createSinglePointScaleMapping = function( modelPoint, viewPoint, xScale, yScale ) {
+  ModelViewTransform2.createSinglePointXYScaleMapping = function( modelPoint, viewPoint, xScale, yScale ) {
     // mx * scale + ox = vx
     // my * scale + oy = vy
     var offsetX = viewPoint.x - modelPoint.x * xScale;
     var offsetY = viewPoint.y - modelPoint.y * yScale;
-    return createOffsetScaleMapping( new Vector2( offsetX, offsetY ), xScale, yScale );
+    return this.createOffsetScaleMapping( new Vector2( offsetX, offsetY ), xScale, yScale );
   };
 
   /**
@@ -108,7 +108,7 @@ define( function ( require ) {
    * @return the resultant ModelViewTransform2
    */
   ModelViewTransform2.createSinglePointScaleMapping = function( modelPoint, viewPoint, scale ) {
-    return createSinglePointScaleMapping( modelPoint, viewPoint, scale, scale );
+    return this.createSinglePointXYScaleMapping( modelPoint, viewPoint, scale, scale );
   };
 
   /**
@@ -122,7 +122,7 @@ define( function ( require ) {
    * @return the resultant ModelViewTransform2
    */
   ModelViewTransform2.createSinglePointScaleInvertedYMapping = function( modelPoint, viewPoint, scale ) {
-    return createSinglePointScaleMapping( modelPoint, viewPoint, scale, -scale );
+    return this.createSinglePointScaleMapping( modelPoint, viewPoint, scale, -scale );
   };
 
   /**
