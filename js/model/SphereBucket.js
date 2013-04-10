@@ -19,7 +19,7 @@ define( function ( require ) {
   function SphereBucket( options ) {
     Bucket.call( this, options );
     this.particleRadius = options.particleRadius || 10;
-    this.yOffset = this.particleRadius; // Empirically determined, for positioning particles inside the bucket.
+    this.yOffset = -this.particleRadius / 2; // Empirically determined, for positioning particles inside the bucket.
     this.particles = [];
   }
 
@@ -28,9 +28,10 @@ define( function ( require ) {
 
   SphereBucket.prototype.addParticleFirstOpen = function ( particle ) {
     particle.position = this.getFirstOpenLocation();
+    console.log( "particle.position = " + particle.position );
     this.particles.push( particle );
     var thisBucket = this;
-    particle.link( 'userControlled', function ( m, userControlled ) {
+    particle.on( 'change:userControlled', function ( m, userControlled ) {
       if ( userControlled ) {
         thisBucket.removeParticle( particle );
       }
@@ -107,16 +108,6 @@ define( function ( require ) {
       }
     }
     return openLocation;
-  }
-
-  SphereBucket.prototype.isPositionOpen = function ( position ) {
-    var positionOpen = true;
-    _.each( this.particles, function ( particle ) {
-      if ( particle.position.equals( position ) ) {
-        positionOpen = false;
-      }
-    } );
-    return positionOpen;
   }
 
   SphereBucket.prototype.getLayerForYPosition = function ( yPosition ) {
@@ -196,7 +187,7 @@ define( function ( require ) {
   }
 
   SphereBucket.prototype.getYPositionForLayer = function ( layer ) {
-    return this.position.y + this.yOffset - layer * this.particleRadius * 2 * 0.866;
+    return this.position.y + this.yOffset + layer * this.particleRadius * 2 * 0.866;
   }
 
   /*
