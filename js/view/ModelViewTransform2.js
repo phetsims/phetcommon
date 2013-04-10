@@ -94,7 +94,6 @@ define( function ( require ) {
   ModelViewTransform2.createSinglePointXYScaleMapping = function( modelPoint, viewPoint, xScale, yScale ) {
     // mx * scale + ox = vx
     // my * scale + oy = vy
-    debugger;
     var offsetX = viewPoint.x - modelPoint.x * xScale;
     var offsetY = viewPoint.y - modelPoint.y * yScale;
     return this.createOffsetXYScaleMapping( new Vector2( offsetX, offsetY ), xScale, yScale );
