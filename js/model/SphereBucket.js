@@ -196,14 +196,14 @@ define( function ( require ) {
    */
   SphereBucket.prototype.isDangling = function ( particle ) {
     var onBottomRow = particle.position.y === this.position.y + this.yOffset;
-    return !onBottomRow && this.countSupportingParticles( particle.position.x, particle.position.y ) < 2;
+    return !onBottomRow && this.countSupportingParticles( particle.position ) < 2;
   }
 
   SphereBucket.prototype.countSupportingParticles = function ( position ) {
     var count = 0;
     for ( var i = 0; i < this.particles.length; i++ ) {
       p = this.particles[i];
-      if ( p.position.y > position.y && //must be in a lower layer (and larger y is further down on the page).
+      if ( p.position.y < position.y && // Must be in a lower layer
            p.position.distance( position ) < this.particleRadius * 3 ) {
         // Must be a supporting particle.
         count++;
