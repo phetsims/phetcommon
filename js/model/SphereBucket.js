@@ -30,7 +30,7 @@ define( function ( require ) {
     particle.position = this.getFirstOpenLocation();
     this.particles.push( particle );
     var thisBucket = this;
-    particle.on( 'change:userControlled', function ( m, userControlled ) {
+    particle.once( 'change:userControlled', function ( m, userControlled ) {
       if ( userControlled ) {
         thisBucket.removeParticle( particle );
       }
