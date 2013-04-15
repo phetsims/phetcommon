@@ -28,7 +28,6 @@ define( function ( require ) {
 
   SphereBucket.prototype.addParticleFirstOpen = function ( particle ) {
     particle.position = this.getFirstOpenLocation();
-    console.log( "particle.position = " + particle.position );
     this.particles.push( particle );
     var thisBucket = this;
     particle.on( 'change:userControlled', function ( m, userControlled ) {
