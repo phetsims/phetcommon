@@ -41,7 +41,7 @@ define( function ( require ) {
     particle.position = this.getNearestOpenLocation( particle.position );
     this.particles.push( particle );
     var thisBucket = this;
-    particle.link( 'userControlled', function ( m, userControlled ) {
+    particle.once( 'change:userControlled', function ( m, userControlled ) {
       if ( userControlled ) {
         thisBucket.removeParticle( particle );
       }
