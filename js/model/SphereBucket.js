@@ -225,5 +225,9 @@ define( function ( require ) {
     } while ( particleMoved );
   }
 
+  SphereBucket.prototype.containsParticle = function ( particle ) {
+    return this.particles.indexOf( particle ) != -1;
+  }
+
   return SphereBucket;
 } );
