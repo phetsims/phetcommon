@@ -110,7 +110,7 @@ define( function ( require ) {
   }
 
   SphereBucket.prototype.getLayerForYPosition = function ( yPosition ) {
-    return Math.abs( Math.round( ( yPosition - ( this.y + this.yOffset ) ) / ( this.particleRadius * 2 * 0.866 ) ) );
+    return Math.abs( Math.round( ( yPosition - ( this.position.y + this.yOffset ) ) / ( this.particleRadius * 2 * 0.866 ) ) );
   }
 
   /*
