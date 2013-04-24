@@ -33,7 +33,7 @@ define( function( require ) {
   var Bucket = function( options ) {
     options = _.extend( {
       // defaults
-      position: new Vector2( options.x === undefined ? 0 : options.x, options.y === undefined ? 0 : options.y ),
+      position: options.position || Vector2.ZERO,
       size: new Dimension2( options.width || 200, options.height || 50 ),
       baseColor: '#ff0000',
       caption: 'Set a caption!',
