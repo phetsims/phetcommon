@@ -1,9 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 
 /**
- * Transform between model and view coordinate frames, and provides convenience methods over an actual dot.Transform3
- *
- * Not to be confused with ModelViewTransform2D, as this is a port of our Java ModelViewTransform to use Dot's Transform3
+ * Transform between model and view coordinate frames,
+ * and provides convenience methods over an actual dot.Transform3
  *
  * @author Jonathan Olson <olsonsjc@gmail.com>
  * @author Sam Reid
