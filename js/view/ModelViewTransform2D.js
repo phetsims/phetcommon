@@ -2,6 +2,7 @@
 
 /**
  * Transform between model and view coordinate frames.
+ * @deprectate use ModelViewTransform2
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

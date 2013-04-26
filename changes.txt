@@ -1,3 +1,4 @@
+4/25/13 mark ModelViewTransform2D as deprecated
 4/15/13 Added assertions in ImagesLoader to make sure there is exactly one match for the specified image, see #5
 3/27/13 delete Logger, use console or find a real logging lib
 3/26/13 convert phetcommon.view.* to use CommonJS-style imports
