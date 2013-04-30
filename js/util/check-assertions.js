@@ -10,7 +10,7 @@
 (function() {
   'use strict';
   
-  var assertionsEnabled = window.phetcommon.dev;
+  var assertionsEnabled = !!window.phetcommon.dev;
   
   // always return whether assertions are enabled
   function callback( global, document, anElement ) {
@@ -30,5 +30,7 @@
       'assert.scenery',
       'assert.scenery.extra'
     ], function( name ) { window.has.add( name, callback ); } );
+  } else {
+    console.log( 'has.js not found, using default assertion levels')
   }
 }());
