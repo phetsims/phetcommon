@@ -51,4 +51,9 @@
 
   // Is the sim running in developer mode?
   window.phetcommon.dev = window.phetcommon.getQueryParameter( "dev" );
+
+  //If running under require.js, apply the locale there as well.
+  if ( require && require.config ) {
+    require.config( {config: { i18n: { locale: window.phetcommon.locale } }} );
+  }
 }());
