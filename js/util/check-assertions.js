@@ -2,8 +2,7 @@
 
 /**
  * Enables or disables assertions in common libraries based on the 'dev' query parameter flag.
- *
- * Assumes query-parameters.js has been loaded, and uses the window.phetcommon.dev flag
+ * Must be run before RequireJS, and assumes that query-parameters.js has been run.
  *
  * @author Jonathan Olson <olsonsjc@gmail.com>
  */
