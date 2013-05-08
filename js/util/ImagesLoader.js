@@ -37,7 +37,7 @@ define( function( require ) {
         
         //Make sure there is exactly one match by name
         var selected = imagesLoader.images.parent().find( selector );
-        assert && assert( selected.length == 1, "Should have found one match for " + basename + ", but instead found " + selected.length + " matches." );
+        assert && assert( selected.length === 1, "Should have found one match for " + basename + ", but instead found " + selected.length + " matches." );
         
         //Return the match
         return selected[0];

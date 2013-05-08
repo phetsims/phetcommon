@@ -26,7 +26,7 @@ define(
       // Variables declared in the constructor are private.
       var _value = value;
       var _initialValue = value;
-      var _observers = new Array();
+      var _observers = [];
 
       /**
        * Gets the value.

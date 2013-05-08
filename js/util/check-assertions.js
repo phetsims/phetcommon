@@ -30,6 +30,6 @@
       'assert.scenery.extra'
     ], function( name ) { window.has.add( name, callback ); } );
   } else {
-    console.log( 'has.js not found, using default assertion levels')
+    console.log( 'has.js not found, using default assertion levels');
   }
 }());

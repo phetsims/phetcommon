@@ -25,7 +25,7 @@ define(
 
       //Log it to the DOM
       var analyticsElement = document.getElementById( "analyticsLog" );
-      if ( analyticsElement != null && typeof analyticsElement != 'undefined' ) {
+      if ( analyticsElement !== null && typeof analyticsElement !== 'undefined' ) {
         analyticsElement.innerHTML += line + "<br>";
       }
 

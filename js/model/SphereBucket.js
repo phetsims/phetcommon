@@ -34,8 +34,8 @@ define( function ( require ) {
       if ( userControlled ) {
         thisBucket.removeParticle( particle );
       }
-    } )
-  }
+    } );
+  };
 
   SphereBucket.prototype.addParticleNearestOpen = function ( particle ) {
     particle.position = this.getNearestOpenLocation( particle.position );
@@ -45,8 +45,8 @@ define( function ( require ) {
       if ( userControlled ) {
         thisBucket.removeParticle( particle );
       }
-    } )
-  }
+    } );
+  };
 
   SphereBucket.prototype.removeParticle = function ( particle ) {
     if ( this.particles.indexOf( particle ) == -1 ) {
@@ -55,7 +55,7 @@ define( function ( require ) {
     }
     this.particles = _.without( this.particles, particle );
     this.relayoutBucketParticles();
-  }
+  };
 
   SphereBucket.prototype.isPositionOpen = function ( position ) {
     var positionOpen = true;
@@ -67,7 +67,7 @@ define( function ( require ) {
       }
     }
     return positionOpen;
-  }
+  };
 
   SphereBucket.prototype.getFirstOpenLocation = function () {
     var openLocation = Vector2.ZERO;
@@ -94,7 +94,7 @@ define( function ( require ) {
           positionInLayer = 0;
           numParticlesInLayer--;
           offsetFromBucketEdge += this.particleRadius;
-          if ( numParticlesInLayer == 0 ) {
+          if ( numParticlesInLayer === 0 ) {
             // This algorithm doesn't handle the situation where
             // more particles are added than can be stacked into
             // a pyramid of the needed size, but so far it hasn't
@@ -107,11 +107,11 @@ define( function ( require ) {
       }
     }
     return openLocation;
-  }
+  };
 
   SphereBucket.prototype.getLayerForYPosition = function ( yPosition ) {
     return Math.abs( Math.round( ( yPosition - ( this.position.y + this.yOffset ) ) / ( this.particleRadius * 2 * 0.866 ) ) );
-  }
+  };
 
   /*
    * Get the nearest open location to the provided current location.  This
@@ -147,7 +147,7 @@ define( function ( require ) {
         if ( this.isPositionOpen( testPosition ) ) {
 
           // We found a location that is unoccupied.
-          if ( layer == 0 || this.countSupportingParticles( testPosition ) == 2 ) {
+          if ( layer === 0 || this.countSupportingParticles( testPosition ) === 2 ) {
             // This is a valid open location.
             openLocations.push( testPosition );
           }
@@ -157,7 +157,7 @@ define( function ( require ) {
       // Adjust variables for the next layer.
       numParticlesInLayer--;
       offsetFromBucketEdge += this.particleRadius;
-      if ( numParticlesInLayer == 0 ) {
+      if ( numParticlesInLayer === 0 ) {
         // If the stacking pyramid is full, meaning that there are
         // no locations that are open within it, this algorithm
         // classifies the locations directly above the top of the
@@ -181,13 +181,13 @@ define( function ( require ) {
         // This location is closer.
         closestOpenLocation = location;
       }
-    } )
+    } );
     return closestOpenLocation;
-  }
+  };
 
   SphereBucket.prototype.getYPositionForLayer = function ( layer ) {
     return this.position.y + this.yOffset + layer * this.particleRadius * 2 * 0.866;
-  }
+  };
 
   /*
    * Determine whether a particle is 'dangling', i.e. hanging above an open
@@ -196,7 +196,7 @@ define( function ( require ) {
   SphereBucket.prototype.isDangling = function ( particle ) {
     var onBottomRow = particle.position.y === this.position.y + this.yOffset;
     return !onBottomRow && this.countSupportingParticles( particle.position ) < 2;
-  }
+  };
 
   SphereBucket.prototype.countSupportingParticles = function ( position ) {
     var count = 0;
@@ -209,7 +209,7 @@ define( function ( require ) {
       }
     }
     return count;
-  }
+  };
 
   SphereBucket.prototype.relayoutBucketParticles = function () {
     do {
@@ -223,11 +223,11 @@ define( function ( require ) {
         }
       }
     } while ( particleMoved );
-  }
+  };
 
   SphereBucket.prototype.containsParticle = function ( particle ) {
-    return this.particles.indexOf( particle ) != -1;
-  }
+    return this.particles.indexOf( particle ) !== -1;
+  };
 
   return SphereBucket;
 } );
