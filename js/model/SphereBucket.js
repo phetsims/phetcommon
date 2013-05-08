@@ -49,7 +49,7 @@ define( function ( require ) {
   };
 
   SphereBucket.prototype.removeParticle = function ( particle ) {
-    if ( this.particles.indexOf( particle ) == -1 ) {
+    if ( this.particles.indexOf( particle ) === -1 ) {
       console.log( "Error: Attempt to remove particle not contained in bucket, ignoring." );
       return;
     }
@@ -201,7 +201,7 @@ define( function ( require ) {
   SphereBucket.prototype.countSupportingParticles = function ( position ) {
     var count = 0;
     for ( var i = 0; i < this.particles.length; i++ ) {
-      p = this.particles[i];
+      var p = this.particles[i];
       if ( p.position.y < position.y && // Must be in a lower layer
            p.position.distance( position ) < this.particleRadius * 3 ) {
         // Must be a supporting particle.
@@ -212,9 +212,10 @@ define( function ( require ) {
   };
 
   SphereBucket.prototype.relayoutBucketParticles = function () {
+    var particleMoved;
     do {
       for ( var i = 0; i < this.particles.length; i++ ) {
-        var particleMoved = false;
+        particleMoved = false;
         var particle = this.particles[i];
         if ( this.isDangling( particle ) ) {
           particle.position = this.getNearestOpenLocation( particle.position );
