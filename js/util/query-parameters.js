@@ -23,7 +23,7 @@
    */
   window.phetcommon.getQueryParameter = function ( key ) {
     var value;
-    if ( typeof window != 'undefined' && window.location.search ) {
+    if ( typeof window !== 'undefined' && window.location.search ) {
       var params = window.location.search.slice( 1 ).split( "&" );
       for ( var i = 0; i < params.length; i++ ) {
         var nameValuePair = params[i].split( "=" );
