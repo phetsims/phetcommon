@@ -8,6 +8,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function( require ) {
+  'use strict';
+
     var imagesloaded = require( 'imagesloaded' );
     var assert = require( 'ASSERT/assert' )( 'phetcommon' );
     "use strict";
