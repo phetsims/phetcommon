@@ -9,14 +9,14 @@
 (function() {
   'use strict';
 
-  var assertionsEnabled = !!window.phetcommon.getQueryParameter('dev');
+  var enableAssertions = !!window.phetcommon.getQueryParameter('ea');
   
   // always return whether assertions are enabled
   function callback( global, document, anElement ) {
-    return assertionsEnabled;
+    return enableAssertions;
   }
   
-  if ( assertionsEnabled ) {
+  if ( enableAssertions ) {
     console.log( 'assertions enabled' );
   }
   
