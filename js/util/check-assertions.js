@@ -23,13 +23,13 @@
   if ( window.has ) {
     // add an entry for each type of assertion
     _.each( [
-      'assert.dot',
+      'assert.dot', // TODO: consider names like dot.assert and scenery.assert instead?
       'assert.kite',
       'assert.kite.extra',
       'assert.scenery',
       'assert.scenery.extra'
     ], function( name ) { window.has.add( name, callback ); } );
   } else {
-    console.log( 'has.js not found, using default assertion levels');
+    console.log( 'has.js not found, using default assertion levels' );
   }
 }());
