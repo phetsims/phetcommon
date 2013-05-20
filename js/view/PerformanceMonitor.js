@@ -7,7 +7,7 @@
  * <p>
  * Dependencies: stats.js
  */
-define( function ( require ) {
+define( function( require ) {
   "use strict";
 
   var Stats = require( "stats" );
@@ -27,7 +27,7 @@ define( function ( require ) {
     document.body.appendChild( stats.domElement );
 
     // @param {Boolean} visible
-    this.setVisible = function ( visible ) {
+    this.setVisible = function( visible ) {
       if ( visible ) {
         stats.domElement.style.visibility = "visible";
       }
@@ -36,11 +36,11 @@ define( function ( require ) {
       }
     };
 
-    this.begin = function () {
+    this.begin = function() {
       stats.begin();
     };
 
-    this.end = function () {
+    this.end = function() {
       stats.end();
     };
   }
