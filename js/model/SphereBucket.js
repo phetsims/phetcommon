@@ -10,8 +10,7 @@
  *
  * @author John Blanco
  */
-define( function ( require ) {
-  'use strict';
+define( function( require ) {
 
   var Vector2 = require( 'DOT/Vector2' );
   var Inheritance = require( 'PHETCOMMON/util/Inheritance' );
@@ -27,38 +26,44 @@ define( function ( require ) {
   // Inherit from base type.
   Inheritance.inheritPrototype( SphereBucket, Bucket );
 
-  SphereBucket.prototype.addParticleFirstOpen = function ( particle ) {
-    particle.position = this.getFirstOpenLocation();
+  SphereBucket.prototype.addParticleFirstOpen = function( particle, animate ) {
+    particle.destination = this.getFirstOpenLocation();
+    if ( !animate ) {
+      particle.position = particle.destination;
+    }
     this.particles.push( particle );
     var thisBucket = this;
-    particle.once( 'change:userControlled', function ( m, userControlled ) {
+    particle.once( 'change:userControlled', function( m, userControlled ) {
       if ( userControlled ) {
         thisBucket.removeParticle( particle );
       }
-    } );
-  };
+    } )
+  }
 
-  SphereBucket.prototype.addParticleNearestOpen = function ( particle ) {
-    particle.position = this.getNearestOpenLocation( particle.position );
+  SphereBucket.prototype.addParticleNearestOpen = function( particle, animate ) {
+    particle.destination = this.getNearestOpenLocation( particle.position );
+    if ( !animate ) {
+      particle.position = particle.destination;
+    }
     this.particles.push( particle );
     var thisBucket = this;
-    particle.once( 'change:userControlled', function ( m, userControlled ) {
+    particle.once( 'change:userControlled', function( m, userControlled ) {
       if ( userControlled ) {
         thisBucket.removeParticle( particle );
       }
-    } );
-  };
+    } )
+  }
 
-  SphereBucket.prototype.removeParticle = function ( particle ) {
-    if ( this.particles.indexOf( particle ) === -1 ) {
+  SphereBucket.prototype.removeParticle = function( particle ) {
+    if ( this.particles.indexOf( particle ) == -1 ) {
       console.log( "Error: Attempt to remove particle not contained in bucket, ignoring." );
       return;
     }
     this.particles = _.without( this.particles, particle );
     this.relayoutBucketParticles();
-  };
+  }
 
-  SphereBucket.prototype.isPositionOpen = function ( position ) {
+  SphereBucket.prototype.isPositionOpen = function( position ) {
     var positionOpen = true;
     for ( var i = 0; i < this.particles.length; i++ ) {
       var particle = this.particles[ i ];
@@ -68,9 +73,9 @@ define( function ( require ) {
       }
     }
     return positionOpen;
-  };
+  }
 
-  SphereBucket.prototype.getFirstOpenLocation = function () {
+  SphereBucket.prototype.getFirstOpenLocation = function() {
     var openLocation = Vector2.ZERO;
     var usableWidth = this.size.width - 2 * this.particleRadius;
     var offsetFromBucketEdge = this.particleRadius * 2;
@@ -95,7 +100,7 @@ define( function ( require ) {
           positionInLayer = 0;
           numParticlesInLayer--;
           offsetFromBucketEdge += this.particleRadius;
-          if ( numParticlesInLayer === 0 ) {
+          if ( numParticlesInLayer == 0 ) {
             // This algorithm doesn't handle the situation where
             // more particles are added than can be stacked into
             // a pyramid of the needed size, but so far it hasn't
@@ -108,11 +113,11 @@ define( function ( require ) {
       }
     }
     return openLocation;
-  };
+  }
 
-  SphereBucket.prototype.getLayerForYPosition = function ( yPosition ) {
+  SphereBucket.prototype.getLayerForYPosition = function( yPosition ) {
     return Math.abs( Math.round( ( yPosition - ( this.position.y + this.yOffset ) ) / ( this.particleRadius * 2 * 0.866 ) ) );
-  };
+  }
 
   /*
    * Get the nearest open location to the provided current location.  This
@@ -121,11 +126,11 @@ define( function ( require ) {
    * @param location
    * @return
    */
-  SphereBucket.prototype.getNearestOpenLocation = function ( position ) {
+  SphereBucket.prototype.getNearestOpenLocation = function( position ) {
     // Determine the highest occupied layer.  The bottom layer is 0.
     var highestOccupiedLayer = 0;
     var self = this;
-    _.each( this.particles, function ( particle ) {
+    _.each( this.particles, function( particle ) {
       var layer = self.getLayerForYPosition( particle.position.y );
       if ( layer > highestOccupiedLayer ) {
         highestOccupiedLayer = layer;
@@ -148,7 +153,7 @@ define( function ( require ) {
         if ( this.isPositionOpen( testPosition ) ) {
 
           // We found a location that is unoccupied.
-          if ( layer === 0 || this.countSupportingParticles( testPosition ) === 2 ) {
+          if ( layer == 0 || this.countSupportingParticles( testPosition ) == 2 ) {
             // This is a valid open location.
             openLocations.push( testPosition );
           }
@@ -158,7 +163,7 @@ define( function ( require ) {
       // Adjust variables for the next layer.
       numParticlesInLayer--;
       offsetFromBucketEdge += this.particleRadius;
-      if ( numParticlesInLayer === 0 ) {
+      if ( numParticlesInLayer == 0 ) {
         // If the stacking pyramid is full, meaning that there are
         // no locations that are open within it, this algorithm
         // classifies the locations directly above the top of the
@@ -177,32 +182,32 @@ define( function ( require ) {
     // when released above the bucket, which just looks weird.
     var closestOpenLocation = openLocations[0] || Vector2.ZERO;
 
-    _.each( openLocations, function ( location ) {
+    _.each( openLocations, function( location ) {
       if ( location.distance( position ) < closestOpenLocation.distance( position ) ) {
         // This location is closer.
         closestOpenLocation = location;
       }
-    } );
+    } )
     return closestOpenLocation;
-  };
+  }
 
-  SphereBucket.prototype.getYPositionForLayer = function ( layer ) {
+  SphereBucket.prototype.getYPositionForLayer = function( layer ) {
     return this.position.y + this.yOffset + layer * this.particleRadius * 2 * 0.866;
-  };
+  }
 
   /*
    * Determine whether a particle is 'dangling', i.e. hanging above an open
    * space in the stack of particles.  Dangling particles should fall.
    */
-  SphereBucket.prototype.isDangling = function ( particle ) {
+  SphereBucket.prototype.isDangling = function( particle ) {
     var onBottomRow = particle.position.y === this.position.y + this.yOffset;
     return !onBottomRow && this.countSupportingParticles( particle.position ) < 2;
-  };
+  }
 
-  SphereBucket.prototype.countSupportingParticles = function ( position ) {
+  SphereBucket.prototype.countSupportingParticles = function( position ) {
     var count = 0;
     for ( var i = 0; i < this.particles.length; i++ ) {
-      var p = this.particles[i];
+      p = this.particles[i];
       if ( p.position.y < position.y && // Must be in a lower layer
            p.position.distance( position ) < this.particleRadius * 3 ) {
         // Must be a supporting particle.
@@ -210,26 +215,25 @@ define( function ( require ) {
       }
     }
     return count;
-  };
+  }
 
-  SphereBucket.prototype.relayoutBucketParticles = function () {
-    var particleMoved;
+  SphereBucket.prototype.relayoutBucketParticles = function() {
     do {
       for ( var i = 0; i < this.particles.length; i++ ) {
-        particleMoved = false;
+        var particleMoved = false;
         var particle = this.particles[i];
         if ( this.isDangling( particle ) ) {
-          particle.position = this.getNearestOpenLocation( particle.position );
+          particle.destination = this.getNearestOpenLocation( particle.position );
           particleMoved = true;
           break;
         }
       }
     } while ( particleMoved );
-  };
+  }
 
-  SphereBucket.prototype.containsParticle = function ( particle ) {
-    return this.particles.indexOf( particle ) !== -1;
-  };
+  SphereBucket.prototype.containsParticle = function( particle ) {
+    return this.particles.indexOf( particle ) != -1;
+  }
 
   return SphereBucket;
 } );
