@@ -21,7 +21,7 @@
    * @param {String} key
    * @return {String}
    */
-  window.phetcommon.getQueryParameter = function ( key ) {
+  window.phetcommon.getQueryParameter = function( key ) {
     var value;
     if ( typeof window !== 'undefined' && window.location.search ) {
       var params = window.location.search.slice( 1 ).split( "&" );

@@ -10,41 +10,41 @@
 define( function( require ) {
   'use strict';
 
-    var imagesloaded = require( 'imagesloaded' );
-    var assert = require( 'ASSERT/assert' )( 'phetcommon' );
-    "use strict";
-    
+  var imagesloaded = require( 'imagesloaded' );
+  var assert = require( 'ASSERT/assert' )( 'phetcommon' );
+  "use strict";
+
+  /**
+   * @param callback called after the images have been loaded, has one {ImagesLoader} arg
+   * @constructor
+   */
+  function ImagesLoader( callback ) {
+
+    var imagesLoader = this;
+
+    $( 'body' ).imagesLoaded( function( $images, $proper, $broken ) {
+      imagesLoader.images = $images;
+      imagesLoader.proper = $proper;
+      imagesLoader.broken = $broken;
+      callback( imagesLoader );
+    } );
+
     /**
-     * @param callback called after the images have been loaded, has one {ImagesLoader} arg
-     * @constructor
+     * Gets an image.
+     * @param {String} basename
+     * @return HTMLImageElement
      */
-    function ImagesLoader( callback ) {
+    imagesLoader.getImage = function( basename ) {
+      var selector = 'img[src$="images/' + basename + '"]';
 
-      var imagesLoader = this;
+      //Make sure there is exactly one match by name
+      var selected = imagesLoader.images.parent().find( selector );
+      assert && assert( selected.length === 1, "Should have found one match for " + basename + ", but instead found " + selected.length + " matches." );
 
-      $( 'body' ).imagesLoaded( function ( $images, $proper, $broken ) {
-        imagesLoader.images = $images;
-        imagesLoader.proper = $proper;
-        imagesLoader.broken = $broken;
-        callback( imagesLoader );
-      } );
+      //Return the match
+      return selected[0];
+    };
+  }
 
-      /**
-       * Gets an image.
-       * @param {String} basename
-       * @return HTMLImageElement
-       */
-      imagesLoader.getImage = function( basename ) {
-        var selector = 'img[src$="images/' + basename + '"]';
-        
-        //Make sure there is exactly one match by name
-        var selected = imagesLoader.images.parent().find( selector );
-        assert && assert( selected.length === 1, "Should have found one match for " + basename + ", but instead found " + selected.length + " matches." );
-        
-        //Return the match
-        return selected[0];
-      };
-    }
-
-    return ImagesLoader;
-  } );
+  return ImagesLoader;
+} );

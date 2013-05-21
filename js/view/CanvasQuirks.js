@@ -5,7 +5,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function () {
+define( function() {
   "use strict";
 
   function CanvasQuirks() {
@@ -16,11 +16,11 @@ define( function () {
    * See http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
    * @param {Canvas} canvas
    */
-  CanvasQuirks.fixTextCursor = function ( canvas ) {
-    canvas.onselectstart = function () {
+  CanvasQuirks.fixTextCursor = function( canvas ) {
+    canvas.onselectstart = function() {
       return false;
     }; // IE
-    canvas.onmousedown = function () {
+    canvas.onmousedown = function() {
       return false;
     }; // Mozilla
   };
