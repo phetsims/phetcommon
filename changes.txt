@@ -1,3 +1,4 @@
+5/30/13 Added adapters to Property.js to conform to the Fort.property interface
 4/25/13 delete ModelViewTransform2D
 4/25/13 mark ModelViewTransform2D as deprecated
 4/15/13 Added assertions in ImagesLoader to make sure there is exactly one match for the specified image, see #5

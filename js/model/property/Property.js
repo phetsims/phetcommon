@@ -101,17 +101,13 @@ define(
         };
       }
 
-      //TODO is this a good way of co-locating small tests?
-      // test
-      Property.prototype.test = function() {
-        var name = new Property( "Moe" );
-        var observer = function( newName, oldName ) {
-          console.log( "newName=" + newName + ", oldName=" + oldName );
-        };
-        name.addObserver( observer );
-        name.set( "Larry" ); // observer should be notified
-        name.removeObserver( observer );
-        name.set( "Curly" ); // this should result in no notification
+      //Adapters to conform to the Fort.property interface
+      Property.prototype = {
+        get value() { return this.get(); },
+        set value( newValue ) { this.set( newValue ); },
+
+        //Support all the same syntax is in the Fort.Model.link method
+        link: function( observer ) { this.addObserver( observer ); }
       };
 
       return Property;
