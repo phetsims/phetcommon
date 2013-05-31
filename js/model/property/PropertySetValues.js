@@ -34,7 +34,6 @@ define( function( require ) {
     this.propertySet = propertySet;
 
     propertySet.keys.forEach( function( key ) {
-      console.log( 'creating property for ' + key );
       propertySetValues.createProperty( key );
     } );
   }
