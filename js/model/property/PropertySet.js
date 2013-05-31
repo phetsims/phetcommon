@@ -28,6 +28,7 @@ define( function( require ) {
   "use strict";
 
   var Property = require( 'PHETCOMMON/model/property/Property' );
+  var PropertySetValues = require( 'PHETCOMMON/model/property/PropertySetValues' );
 
   /**
    * @class PropertySet
@@ -47,6 +48,20 @@ define( function( require ) {
   }
 
   PropertySet.prototype = {
+
+    /**
+     * Get a PropertySetValues API backed by this PropertySet.
+     * Lazily created to save space where not needed.
+     * PropertySetValues is experimental and hence this method should probably not be used.
+     *
+     * @returns {PropertySetValues} an es5 get/set API for this PropertySet
+     */
+    get values() {
+      if ( !this._values ) {
+        this._values = new PropertySetValues( this );
+      }
+      return this._values;
+    },
 
     //Resets all of the properties associated with this PropertySet 
     reset: function() {
