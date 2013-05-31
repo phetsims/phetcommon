@@ -108,7 +108,7 @@ define( function() {
     link: function( observer ) { this.addObserver( observer ); },
 
     //Provide toString for console debugging, see http://stackoverflow.com/questions/2485632/valueof-vs-tostring-in-javascript
-    toString: function() {return 'Property{' + this.get() + '}'},
+    toString: function() {return 'Property{' + this.get() + '}'; },
     valueOf: function() {return this.toString();}
   };
 
