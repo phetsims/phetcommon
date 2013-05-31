@@ -6,9 +6,10 @@
  * -Set multiple values at once, using propertySet.set({x:100,y:200,name:'alice'});
  * -TODO: Convenient toString that prints e.g., PropertySet{name:'larry',age:101,kids:['alice','bob']}
  * -TODO: Wiring up to listen to multiple properties simultaneously?
- * -TODO: function to add properties after the PropertySet is created?  Don't forget to add to the key list as well.
+ * -TODO: function to add properties after the PropertySet is created?  Don't forget to add to the key list as well.  Should also link to PropertySetValues if we continue development on that.
  * -TODO: Make it easy to mix-in with model classes?
  * -TODO: Type checking, so that a boolean input will be automatically generated as BooleanProperty, etc.
+ * -TODO: Should this be called Model or perhaps something even better?
  *
  * These properties are meant to be stored base properties, not derived (computed/composite) properties.
  *
