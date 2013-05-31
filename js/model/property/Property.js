@@ -105,7 +105,11 @@ define( function() {
 
     set value( newValue ) { this.set( newValue ); },
 
-    link: function( observer ) { this.addObserver( observer ); }
+    link: function( observer ) { this.addObserver( observer ); },
+
+    //Provide toString for console debugging, see http://stackoverflow.com/questions/2485632/valueof-vs-tostring-in-javascript
+    toString: function() {return 'Property{' + this.get() + '}'},
+    valueOf: function() {return this.toString();}
   };
 
   return Property;
