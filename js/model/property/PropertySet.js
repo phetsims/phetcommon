@@ -3,6 +3,7 @@
  * A PropertySet is a set of Property instances that provides support for:
  * -Easily creating several properties using an object literal (hash)
  * -Resetting them as a group
+ * -Set multiple values at once, using propertySet.set({x:100,y:200,name:'alice'});
  * -TODO: Convenient toString that prints e.g., PropertySet{name:'larry',age:101,kids:['alice','bob']}
  * -TODO: Wiring up to listen to multiple properties simultaneously?
  * -TODO: function to add properties after the PropertySet is created?  Don't forget to add to the key list as well.
@@ -52,6 +53,30 @@ define( function( require ) {
       var propertySet = this;
       this.keys.forEach( function( key ) {
         propertySet[key].reset();
+      } );
+    },
+
+    /**
+     * Set all of the values specified in the object hash
+     * Allows you to use this form:
+     * puller.set( {x: knot.x, y: knot.y, knot: knot} );
+     *
+     * instead of this:
+     * puller.x.value = knot.x;
+     * puller.y.value = knot.y;
+     * puller.knot.value = knot;
+     *
+     * Throws an error if you try to set a value for which there is no property.
+     */
+    set: function( values ) {
+      var propertySet = this;
+      Object.getOwnPropertyNames( values ).forEach( function( val ) {
+        if ( typeof(propertySet[val] === 'Property') ) {
+          propertySet[val].set( values[val] );
+        }
+        else {
+          throw new Error( 'property not found: ' + val );
+        }
       } );
     }
   };
