@@ -7,6 +7,7 @@
  * -TODO: Wiring up to listen to multiple properties simultaneously?
  * -TODO: function to add properties after the PropertySet is created?  Don't forget to add to the key list as well.
  * -TODO: Make it easy to mix-in with model classes?
+ * -TODO: Type checking, so that a boolean input will be automatically generated as BooleanProperty, etc.
  *
  * These properties are meant to be stored base properties, not derived (computed/composite) properties.
  *
