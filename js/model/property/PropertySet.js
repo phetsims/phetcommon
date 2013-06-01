@@ -7,7 +7,7 @@
  * -TODO: Convenient toString that prints e.g., PropertySet{name:'larry',age:101,kids:['alice','bob']}
  * -TODO: Wiring up to listen to multiple properties simultaneously?
  * -TODO: function to add properties after the PropertySet is created?  Don't forget to add to the key list as well.  Should also link to PropertySetValues if we continue development on that.
- * -TODO: Make it easy to mix-in with model classes?
+ * -TODO: Make it easy to mix-in with model classes?  Subclassing PropertySet already works fairly well, so this may good enough already.
  * -TODO: Type checking, so that a boolean input will be automatically generated as BooleanProperty, etc.
  * -TODO: Should this be called Model or perhaps something even better?
  *
@@ -21,6 +21,21 @@
  * console.log( p );
  * p.reset();
  * console.log( p );
+ * p.set({name:'clark',age:102,kids:['alice','bob','charlie']});
+ * p.values = {name:'clark',age:102,kids:['alice','bob','charlie']}; //TODO: should we support this es5 way of doing it?  I kind of like it better than set
+ *                                                                   //But it could be overloaded/confused with get values()
+ *
+ * How would this be done without PropertySet (for comparison)?
+ * //Normally would be created in a class but that is omitted here for brevity.
+ * var p ={name: new Property('larry'), age: new Property('age'), kids: new Property(['alice','bob'])}
+ * p.reset = function(){
+ *   this.name.reset(); 
+ *   this.age.reset();
+ *   this.kids.reset();
+ * }
+ * p.name.set('clark');
+ * p.age.set('102');
+ * p.kids.set(['alice','bob','charlie']);
  *
  * @author Sam Reid
  */
