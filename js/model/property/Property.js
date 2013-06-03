@@ -14,7 +14,7 @@
 define( function( require ) {
   "use strict";
 
-  var propertyLog = require( 'PHETCOMMON/model/property/propertyLog' );
+  var log = require( 'PHETCOMMON/model/property/log' );
 
   /**
    * @param {*} value
@@ -99,7 +99,7 @@ define( function( require ) {
       return this.set.bind( this, value );
     };
 
-    propertyLog.registerProperty( this );
+    log.registerProperty( this );
   }
 
   //Adapters to conform to the Fort.property interface
