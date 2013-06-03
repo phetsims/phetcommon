@@ -200,8 +200,8 @@ define( function( require ) {
    * space in the stack of particles.  Dangling particles should fall.
    */
   SphereBucket.prototype.isDangling = function( particle ) {
-    var onBottomRow = particle.position.y === this.position.y + this.yOffset;
-    return !onBottomRow && this.countSupportingParticles( particle.position ) < 2;
+    var onBottomRow = particle.destination.y === this.position.y + this.yOffset;
+    return !onBottomRow && this.countSupportingParticles( particle.destination ) < 2;
   };
 
   SphereBucket.prototype.countSupportingParticles = function( position ) {
