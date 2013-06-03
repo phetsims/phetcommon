@@ -88,14 +88,14 @@ define( function( require ) {
         log.log.push( entry );
       } );
     },
-    stepUntil: function( log, playbackTime, logIndex ) {
+    stepUntil: function( entries, playbackTime, logIndex ) {
       var log = this;
-      while ( logIndex < log.length ) {
+      while ( logIndex < entries ) {
         //find any events that passed in this time frame
         //Note, may handle multiple events before calling scene.updateScene()
-        var time = log[logIndex].time;
+        var time = entries[logIndex].time;
         if ( time <= playbackTime ) {
-          var entry = log[logIndex];
+          var entry = entries[logIndex];
           var cid = entry.cid;
 
           //if it is a change, then set the value
