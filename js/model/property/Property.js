@@ -11,8 +11,10 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function() {
+define( function( require ) {
   "use strict";
+
+  var propertyLog = require( 'PHETCOMMON/model/property/propertyLog' );
 
   /**
    * @param {*} value
@@ -96,6 +98,8 @@ define( function() {
     this._set = function( value ) {
       return this.set.bind( this, value );
     };
+
+    propertyLog.registerProperty( this );
   }
 
   //Adapters to conform to the Fort.property interface
