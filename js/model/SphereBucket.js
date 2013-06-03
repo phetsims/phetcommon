@@ -41,7 +41,7 @@ define( function( require ) {
   };
 
   SphereBucket.prototype.addParticleNearestOpen = function( particle, animate ) {
-    particle.destination = this.getNearestOpenLocation( particle.position );
+    particle.destination = this.getNearestOpenLocation( particle.destination );
     if ( !animate ) {
       particle.position = particle.destination;
     }
@@ -67,7 +67,7 @@ define( function( require ) {
     var positionOpen = true;
     for ( var i = 0; i < this.particles.length; i++ ) {
       var particle = this.particles[ i ];
-      if ( particle.position.equals( position ) ) {
+      if ( particle.destination.equals( position ) ) {
         positionOpen = false;
         break;
       }
@@ -131,7 +131,7 @@ define( function( require ) {
     var highestOccupiedLayer = 0;
     var self = this;
     _.each( this.particles, function( particle ) {
-      var layer = self.getLayerForYPosition( particle.position.y );
+      var layer = self.getLayerForYPosition( particle.destination.y );
       if ( layer > highestOccupiedLayer ) {
         highestOccupiedLayer = layer;
       }
@@ -208,8 +208,8 @@ define( function( require ) {
     var count = 0;
     for ( var i = 0; i < this.particles.length; i++ ) {
       var p = this.particles[i];
-      if ( p.position.y < position.y && // Must be in a lower layer
-           p.position.distance( position ) < this.particleRadius * 3 ) {
+      if ( p.destination.y < position.y && // Must be in a lower layer
+           p.destination.distance( position ) < this.particleRadius * 3 ) {
         // Must be a supporting particle.
         count++;
       }
@@ -224,7 +224,7 @@ define( function( require ) {
         particleMoved = false;
         var particle = this.particles[i];
         if ( this.isDangling( particle ) ) {
-          particle.destination = this.getNearestOpenLocation( particle.position );
+          particle.destination = this.getNearestOpenLocation( particle.destination );
           particleMoved = true;
           break;
         }
