@@ -32,9 +32,8 @@ define( function( require ) {
 
   var cid = 0;
 
-  function PropertyLog() {
-
-    var propertyLog = this;
+  function Log() {
+    var log = this;
 
     //Keep track of all the models, hashed by cid
     this.properties = {};
@@ -60,7 +59,7 @@ define( function( require ) {
 
     this.reviver = function( key, value ) {
       if ( value && value.jsonClass && value.jsonClass === 'Property' ) {
-        return propertyLog.properties[value.cid];
+        return log.properties[value.cid];
       }
       if ( value && value.jsonClass && value.jsonClass === 'Vector2' ) {
         return new Vector2( value.x, value.y );
@@ -69,7 +68,7 @@ define( function( require ) {
     };
   }
 
-  PropertyLog.prototype = {
+  Log.prototype = {
 
     /**
      * When a property is created, register it for recording and playback.
@@ -81,17 +80,17 @@ define( function( require ) {
         return;
       }
       property.cid = cid++;
-      var propertyLog = this;
+      var log = this;
       this.properties[property.cid] = property;
 
       property.link( function( value ) {
-        var entry = {time: Date.now(), cid: property.cid, action: 'change', value: JSON.stringify( value, propertyLog.replacer )};
+        var entry = {time: Date.now(), cid: property.cid, action: 'change', value: JSON.stringify( value, log.replacer )};
 //        console.log( entry );
-        propertyLog.log.push( entry );
+        log.log.push( entry );
       } );
     },
     stepUntil: function( log, playbackTime, logIndex ) {
-      var propertyLog = this;
+      var log = this;
       while ( logIndex < log.length ) {
         //find any events that passed in this time frame
         //Note, may handle multiple events before calling scene.updateScene()
@@ -103,26 +102,26 @@ define( function( require ) {
           //if it is a change, then set the value
           if ( entry.action === 'change' ) {
             if ( entry.value ) {
-              propertyLog.properties[cid].value = JSON.parse( entry.value, propertyLog.reviver );
+              log.properties[cid].value = JSON.parse( entry.value, log.reviver );
             }
             else {
               console.log( "missing value for index: ", logIndex, entry );
             }
           }
           else if ( entry.action === 'trigger' ) {
-            propertyLog.properties[cid].trigger( entry.event );
+            log.properties[cid].trigger( entry.event );
           }
           else if ( entry.action === 'add' ) {
-            propertyLog.collections[entry.collectionCid].add( propertyLog.properties[entry.cid] );
+            log.collections[entry.collectionCid].add( log.properties[entry.cid] );
           }
           else if ( entry.action === 'remove' ) {
-            propertyLog.collections[entry.collectionCid].remove( propertyLog.properties[entry.cid] );
+            log.collections[entry.collectionCid].remove( log.properties[entry.cid] );
           }
           else if ( entry.action === 'reset' ) {
-            propertyLog.collections[entry.collectionCid].reset();
+            log.collections[entry.collectionCid].reset();
           }
           else if ( entry.action === 'sort' ) {
-            propertyLog.collections[entry.collectionCid].sort();
+            log.collections[entry.collectionCid].sort();
           }
 
           logIndex++;
@@ -138,7 +137,7 @@ define( function( require ) {
   //It is a singleton, so just return the one and only instance.
   //For unknown reasons, running the unit tests was creating 2 wiretap instances.  So use global space to prevent it (for now?)
   window.phet = window.phet || {};
-  window.phet.propertyLog = window.phet.propertyLog || new PropertyLog();
+  window.phet.log = window.phet.log || new Log();
 
-  return window.phet.propertyLog;
+  return window.phet.log;
 } );
