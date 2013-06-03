@@ -18,7 +18,6 @@
  * 
  * @author Sam Reid (PhET Interactive Simulations)
  * 
- * TODO: Rename to log since it will log things other than properties (such as trigger, and array changes)
  * TODO: Factor out class into one file, and singleton instance to another file
  * TODO: Remove extra cruft leftover from wiretap.js
  */
