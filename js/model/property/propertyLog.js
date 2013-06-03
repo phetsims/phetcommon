@@ -34,7 +34,9 @@ define( function( require ) {
 
   function PropertyLog() {
 
-    //Keep track of all the models
+    var propertyLog = this;
+
+    //Keep track of all the models, hashed by cid
     this.properties = {};
     this.collections = {};
 
@@ -43,7 +45,13 @@ define( function( require ) {
 
     //Replacer and reviver for the JSON.  Could be moved to the models themselves to decouple/simplify.
     this.replacer = function( key, value ) {
-//      console.log( "value", value, "value.constructor.name", value===null? 'null' : value===undefined? 'undefined': value.constructor.name );
+
+      //Properties must be stored separately, in case of nested properties (such as Forces and Motion: Basics
+      //TODO: A better way of detecting a property?  Perhaps checking the constructor?
+      if ( value && value.cid ) {
+        return {jsonClass: 'Property', cid: value.cid};
+      }
+
       if ( value && value.constructor.name === 'Vector2' ) {
         return {x: value.x, y: value.y, jsonClass: 'Vector2'};
       }
@@ -51,6 +59,9 @@ define( function( require ) {
     };
 
     this.reviver = function( key, value ) {
+      if ( value && value.jsonClass && value.jsonClass === 'Property' ) {
+        return propertyLog.properties[value.cid];
+      }
       if ( value && value.jsonClass && value.jsonClass === 'Vector2' ) {
         return new Vector2( value.x, value.y );
       }
@@ -66,10 +77,10 @@ define( function( require ) {
      * @param property
      */
     registerProperty: function( property ) {
-      property.cid = cid++;
       if ( !enabled ) {
         return;
       }
+      property.cid = cid++;
       var propertyLog = this;
       this.properties[property.cid] = property;
 
