@@ -13,7 +13,7 @@ define( function( require ) {
 
   /**
    * @param {Array<Property>} dependencies
-   * @param {Function} derivation
+   * @param {Function} derivation function that expects args in the same order as dependencies
    * @constructor
    */
   function DerivedProperty( dependencies, derivation ) {
