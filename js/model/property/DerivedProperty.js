@@ -12,10 +12,8 @@ define( function( require ) {
   var Property = require( 'PHETCOMMON/model/property/Property' );
 
   /**
-   * Create a DerivedProperty.  Arguments are: property1,...,propertyN,derivationFunction
-   * Example: new DerivedProperty(name,age,function(name,age){return name+' is '+age+' yrs old'});
-   * TODO: I prefer to omit the [] at the call site, but this could be rewritten with named parameters like this if needs be
-   * function DerivedProperty(properties,derivationFunction)
+   * @param {Array<Property>} dependencies
+   * @param {Function} derivation
    * @constructor
    */
   function DerivedProperty( dependencies, derivation ) {
