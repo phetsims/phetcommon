@@ -49,16 +49,6 @@ define( function( require ) {
   var Property = require( 'PHETCOMMON/model/property/Property' );
   var DerivedProperty = require( 'PHETCOMMON/model/property/DerivedProperty' );
 
-  //See http://stackoverflow.com/questions/1606797/use-of-apply-with-new-operator-is-this-possible
-  function construct( constructor, args ) {
-    function F() {
-      return constructor.apply( this, args );
-    }
-
-    F.prototype = constructor.prototype;
-    return new F();
-  }
-
   /**
    * @class PropertySet
    * @constructor
@@ -116,10 +106,12 @@ define( function( require ) {
       } );
     },
 
-    addDerivedProperty: function( name, properties_, derivationFunction ) {
-      var args = Array.prototype.slice.call( arguments, 0 );
-      args.splice( 0, 1 );//Remove the name
-      this[name + 'Property'] = construct( DerivedProperty, args );//TODO: different naming convention since it is a derived property and cannot have its value set?  I would recommend same naming convention since it has observableProperty interface and using different words would be confusing
+    addDerivedProperty: function( name, dependencyNames, derivation ) {
+      var propertySet = this;
+      var dependencies = dependencyNames.map( function( dependency ) {
+        return propertySet[dependency + 'Property'];
+      } );
+      this[name + 'Property'] = new DerivedProperty( dependencies, derivation );//TODO: different naming convention since it is a derived property and cannot have its value set?  I would recommend same naming convention since it has observableProperty interface and using different words would be confusing
       this.addGetter( name );
     },
 

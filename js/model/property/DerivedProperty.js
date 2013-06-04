@@ -18,10 +18,8 @@ define( function( require ) {
    * function DerivedProperty(properties,derivationFunction)
    * @constructor
    */
-  function DerivedProperty( /*arguments are property1,property2,...propertyN, derivationFunction*/ ) {
-    var args = Array.prototype.slice.call( arguments );
-    this.derivation = args.pop();//Remove last item and use it as the derivation function
-    this.dependencies = args;
+  function DerivedProperty( dependencies, derivation ) {
+
     this.observers = [];
 
     var derivedProperty = this;
@@ -31,8 +29,8 @@ define( function( require ) {
     function update() {
 
       //TODO: Could just re-evaluate the changed property instead of recomputing all of them, right?
-      var args = derivedProperty.dependencies.map( function( property ) { return property.get(); } );
-      var newValue = derivedProperty.derivation.apply( null, args );
+      var args = dependencies.map( function( property ) { return property.get(); } );
+      var newValue = derivation.apply( null, args );
 
       //Send out notifications if the value has truly changed
       if ( newValue !== derivedProperty._value ) {
@@ -42,7 +40,7 @@ define( function( require ) {
       }
     }
 
-    this.dependencies.forEach( function( property ) {
+    dependencies.forEach( function( property ) {
       property.link( update );//todo: no need to call these all back right away.  Perhaps we should have a way to add observers that doesn't call back right away?
     } );
   }
