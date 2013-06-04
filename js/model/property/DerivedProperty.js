@@ -1,6 +1,7 @@
 // Copyright 2002-2013, University of Colorado
+
 /**
- * A CompositeProperty is computed based on other properties.  It is also known as a derived/computed property.
+ * A DerivedProperty is computed based on other properties.
  *
  * TODO: Inherit from ObservableProperty?
  * @author Sam Reid
