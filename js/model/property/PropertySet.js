@@ -89,10 +89,12 @@ define( function( require ) {
     },
 
     addGetter: function( name ) {
-      var propertyName = name + 'Property';  //TODO: Store the this[propertyName] for performance?
+
+      //TODO: Store the this[propertyName] for performance?
+      var propertyName = name + 'Property';
       Object.defineProperty( this, name, {
 
-        get: function() { return this[propertyName].value;},//TODO: rewrite with get() for performance?
+        get: function() { return this[propertyName].get();},
 
         // Make it configurable and enumerable so it's easy to override...
         configurable: true,
