@@ -154,7 +154,6 @@ define( function( require ) {
     /**
      * Add a listener to zero or more properties in this PropertySet, useful when you have an update function
      * that relies on several properties.  Similar to DerivedProperty.
-     * TODO: This gives one callback for each listener on initialization.  It should just give one callback on registration
      * TODO: Should this be named link because it won't clash with any other methods on this class?
      * TODO: Make it possible to remove from a multilink function?
      * @param dependencyNames {Array<String>} the list of dependencies to use

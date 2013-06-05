@@ -25,6 +25,7 @@ define( function( require ) {
 
     //When any of the dependencies change, see if the value has changed
     //If the value has changed, send out notification.
+    //TODO: Move to prototype?
     function update() {
 
       //TODO: Could just re-evaluate the changed property instead of recomputing all of them, right?
@@ -40,8 +41,13 @@ define( function( require ) {
     }
 
     dependencies.forEach( function( property ) {
-      property.link( update );//todo: no need to call these all back right away.  Perhaps we should have a way to add observers that doesn't call back right away?
+      property.lazyLink( update );
     } );
+
+    //TODO: Should we add an option to defer callbacks (like lazyLink?)
+
+    //Call the derivation function with the initial value(s)
+    update();
   }
 
   //TODO: _value could be made private if we moved these functions to the constructor, but I don't think it is necessary
