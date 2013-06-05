@@ -155,12 +155,21 @@ define( function( require ) {
      * Add a listener to zero or more properties in this PropertySet, useful when you have an update function
      * that relies on several properties.  Similar to DerivedProperty.
      * TODO: Should this be named link because it won't clash with any other methods on this class?
-     * TODO: Make it possible to remove from a multilink function?
+     *  Discussion result: Let's use 'multilink' for now, and in the future we may change it to link.
      * @param dependencyNames {Array<String>} the list of dependencies to use
      * @param listener {Function} the listener to call back, with signature matching the dependency names
      */
     multilink: function( dependencyNames, listener ) {
       return this.toDerivedProperty( dependencyNames, listener );
+    },
+
+    /**
+     * Removes the multilinked listener from this PropertySet.
+     * Same as calling detach() on the handle (which happens to be a DerivedProperty instance)
+     * @param derivedProperty
+     */
+    unmultilink: function( derivedProperty ) {
+      derivedProperty.detach();
     }
   };
 

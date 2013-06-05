@@ -20,6 +20,7 @@ define( function( require ) {
   function DerivedProperty( dependencies, derivation ) {
 
     this.observers = [];
+    this.dependencies = dependencies;
 
     var derivedProperty = this;
 
@@ -39,6 +40,8 @@ define( function( require ) {
         derivedProperty.observers.forEach( function( observer ) { observer( newValue, oldValue ); } );
       }
     }
+
+    this.update = update;
 
     dependencies.forEach( function( property ) {
       property.lazyLink( update );
@@ -72,6 +75,23 @@ define( function( require ) {
     link: function( observer ) {
       this.observers.push( observer );
       observer( this._value );
+    },
+
+    unlink: function( observer ) {
+      var index = this.observers.indexOf( observer );
+      if ( index !== -1 ) {
+        this.observers.splice( index, index + 1 );
+      }
+    },
+
+    /**
+     * Detaches this derived property from its dependencies.
+     */
+    detach: function() {
+      var derivedProperty = this;
+      this.dependencies.forEach( function( property ) {
+        property.unlink( derivedProperty.update );
+      } );
     }
   };
 
