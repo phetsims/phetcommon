@@ -1,20 +1,20 @@
 // Copyright 2002-2013, University of Colorado
 /**
- * Experimental implementation of PropertySet that makes it easy to access values and still use properties.  Copied from PropertySet.
- * Do not use until this has been cleaned up.
+ * PropertySet facilitates creation and use of multiple named Property instances.  There are still several API design issues in question, but this
+ * class is ready for use.
  *
  * A PropertySet is a set of Property instances that provides support for:
  * -Easily creating several properties using an object literal (hash)
  * -Resetting them as a group
  * -Set multiple values at once, using propertySet.set({x:100,y:200,name:'alice'});
+ * -Support for derived properties, which appear with the same interface as basic properties
  * -TODO: Convenient toString that prints e.g., PropertySet{name:'larry',age:101,kids:['alice','bob']}
  * -TODO: Wiring up to listen to multiple properties simultaneously?
  * -TODO: function to add properties after the PropertySet is created?  Don't forget to add to the key list as well.  Should also link to PropertySetValues if we continue development on that.
  * -TODO: Make it easy to mix-in with model classes?  Subclassing PropertySet already works fairly well, so this may good enough already.
  * -TODO: Type checking, so that a boolean input will be automatically generated as BooleanProperty, etc.
  * -TODO: Should this be called Model or perhaps something even better?
- *
- * These properties are meant to be stored base properties, not derived (computed/composite) properties.
+ * -TODO: Add support for multilink and give it similar style to addDerivedProperty.  Example person.multilink(['name','age'],function(name,age){return ...};]
  *
  * Sample usage:
  * var p = new PropertySet( {name: 'larry', age: 100, kids: ['alice', 'bob']} );
@@ -72,6 +72,8 @@ define( function( require ) {
     //Taken from https://gist.github.com/dandean/1292057, same as in github/Atlas
     addGetterAndSetter: function( name ) {
       var propertyName = name + 'Property';
+
+      //TODO: Store the this[propertyName] in a closure for performance?  Memory/performance tradeoff, and problems if the property instance ever changes (unlikely)
       Object.defineProperty( this, name, {
 
         // Getter proxies to Model#get()...
@@ -87,7 +89,7 @@ define( function( require ) {
     },
 
     addGetter: function( name ) {
-      var propertyName = name + 'Property';
+      var propertyName = name + 'Property';  //TODO: Store the this[propertyName] for performance?
       Object.defineProperty( this, name, {
 
         get: function() { return this[propertyName].value;},//TODO: rewrite with get() for performance?
@@ -111,7 +113,7 @@ define( function( require ) {
       var dependencies = dependencyNames.map( function( dependency ) {
         return propertySet[dependency + 'Property'];
       } );
-      this[name + 'Property'] = new DerivedProperty( dependencies, derivation );//TODO: different naming convention since it is a derived property and cannot have its value set?  I would recommend same naming convention since it has observableProperty interface and using different words would be confusing
+      this[name + 'Property'] = new DerivedProperty( dependencies, derivation );
       this.addGetter( name );
     },
 
