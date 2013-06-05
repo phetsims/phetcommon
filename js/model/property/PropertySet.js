@@ -16,6 +16,7 @@
  * -TODO: Type checking, so that a boolean input will be automatically generated as BooleanProperty, etc.
  * -TODO: Should this be called Model or perhaps something even better?
  * -TODO: Add support for multilink and give it similar style to addDerivedProperty.  Example person.multilink(['name','age'],function(name,age){return ...};]
+ * -TODO: addProperty(DerivedProperty/Property)???  Perhaps overload it?
  *
  * Sample usage:
  * var p = new PropertySet( {name: 'larry', age: 100, kids: ['alice', 'bob']} );
@@ -80,7 +81,24 @@ define( function( require ) {
       this.keys.push( name );
     },
 
-    //person.addProperty('lastName','Jenkins');
+    /**
+     * Remove any property (whether a derived property or not) that was added to this PropertySet
+     * @param name
+     */
+    removeProperty: function( name ) {
+
+      //Remove from the keys (only for non-derived properties)
+      var index = this.keys.indexOf( name );
+      if ( index !== -1 ) {
+        this.keys.splice( index, index + 1 );
+      }
+
+      //Unregister the Property instance from the PropertySet
+      delete this[name + 'Property'];
+
+      //Unregister the getter/setter, if they exist
+      delete this[name];
+    },
 
     //Taken from https://gist.github.com/dandean/1292057, same as in github/Atlas
     addGetterAndSetter: function( name ) {
