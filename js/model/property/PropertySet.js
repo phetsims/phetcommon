@@ -74,6 +74,7 @@ define( function( require ) {
       var propertyName = name + 'Property';
 
       //TODO: Store the this[propertyName] in a closure for performance?  Memory/performance tradeoff, and problems if the property instance ever changes (unlikely)
+      //TODO: If a subclass ever substitutes a property like this: person.ageProperty = new Property(person.age), then it would break the getter/setter
       Object.defineProperty( this, name, {
 
         // Getter proxies to Model#get()...
