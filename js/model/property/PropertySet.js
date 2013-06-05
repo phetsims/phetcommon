@@ -8,7 +8,6 @@
  * -Resetting them as a group
  * -Set multiple values at once, using propertySet.set({x:100,y:200,name:'alice'});
  * -Support for derived properties, which appear with the same interface as basic properties
- * -TODO: Convenient toString that prints e.g., PropertySet{name:'larry',age:101,kids:['alice','bob']}
  * -TODO: Wiring up to listen to multiple properties simultaneously?
  * -TODO: function to add properties after the PropertySet is created?  Don't forget to add to the key list as well.  Should also link to PropertySetValues if we continue development on that.
  * -TODO: Make it easy to mix-in with model classes?  Subclassing PropertySet already works fairly well, so this may good enough already.
@@ -173,6 +172,19 @@ define( function( require ) {
      */
     unmultilink: function( derivedProperty ) {
       derivedProperty.detach();
+    },
+
+    toString: function() {
+      var text = 'PropertySet{';
+      var propertySet = this;
+      for ( var i = 0; i < this.keys.length; i++ ) {
+        var key = this.keys[i];
+        text = text + key + ':' + propertySet[key].toString();
+        if ( i < this.keys.length - 1 ) {
+          text = text + ',';
+        }
+      }
+      return text + '}';
     }
   };
 
