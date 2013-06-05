@@ -85,6 +85,14 @@ define( function( require ) {
     },
 
     /**
+     * @see Property.lazyLink
+     * @param observer
+     */
+    lazyLink: function( observer ) {
+      this.observers.push( observer );
+    },
+
+    /**
      * Detaches this derived property from its dependencies.
      */
     detach: function() {
