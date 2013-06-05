@@ -75,7 +75,7 @@ define( function( require ) {
       Object.defineProperty( this, name, {
 
         // Getter proxies to Model#get()...
-        get: function() { return this[propertyName].get()},
+        get: function() { return this[propertyName].get();},
 
         // Setter proxies to Model#set(attributes)
         set: function( value ) { this[propertyName].set( value );},
@@ -90,7 +90,7 @@ define( function( require ) {
       var propertyName = name + 'Property';
       Object.defineProperty( this, name, {
 
-        get: function() { return this[propertyName].value},//TODO: rewrite with get() for performance?
+        get: function() { return this[propertyName].value;},//TODO: rewrite with get() for performance?
 
         // Make it configurable and enumerable so it's easy to override...
         configurable: true,
