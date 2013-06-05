@@ -55,6 +55,10 @@ define( function( require ) {
       return this._value;
     },
 
+    get: function() {
+      return this._value;
+    },
+
     /**
      * Add an observer to this DerivedProperty
      * @param observer

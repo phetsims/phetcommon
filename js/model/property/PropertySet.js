@@ -108,12 +108,22 @@ define( function( require ) {
       } );
     },
 
-    addDerivedProperty: function( name, dependencyNames, derivation ) {
+    /**
+     * Creates a DerivedProperty from the given dependency names and derivation.
+     * @param dependencyNames {Array<String>}
+     * @param derivation {Function}
+     * @returns {DerivedProperty}
+     */
+    toDerivedProperty: function( dependencyNames, derivation ) {
       var propertySet = this;
       var dependencies = dependencyNames.map( function( dependency ) {
         return propertySet[dependency + 'Property'];
       } );
-      this[name + 'Property'] = new DerivedProperty( dependencies, derivation );
+      return new DerivedProperty( dependencies, derivation );
+    },
+
+    addDerivedProperty: function( name, dependencyNames, derivation ) {
+      this[name + 'Property'] = this.toDerivedProperty( dependencyNames, derivation );
       this.addGetter( name );
     },
 
@@ -139,6 +149,19 @@ define( function( require ) {
           throw new Error( 'property not found: ' + val );
         }
       } );
+    },
+
+    /**
+     * Add a listener to zero or more properties in this PropertySet, useful when you have an update function
+     * that relies on several properties.  Similar to DerivedProperty.
+     * TODO: This gives one callback for each listener on initialization.  It should just give one callback on registration
+     * TODO: Should this be named link because it won't clash with any other methods on this class?
+     * TODO: Make it possible to remove from a multilink function?
+     * @param dependencyNames {Array<String>} the list of dependencies to use
+     * @param listener {Function} the listener to call back, with signature matching the dependency names
+     */
+    multilink: function( dependencyNames, listener ) {
+      return this.toDerivedProperty( dependencyNames, listener );
     }
   };
 
