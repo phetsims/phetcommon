@@ -9,17 +9,17 @@
 (function() {
   'use strict';
 
-  var enableAssertions = !!window.phetcommon.getQueryParameter('ea');
-  
+  var enableAssertions = !!window.phetcommon.getQueryParameter( 'ea' );
+
   // always return whether assertions are enabled
   function callback( global, document, anElement ) {
     return enableAssertions;
   }
-  
+
   if ( enableAssertions ) {
     console.log( 'assertions enabled' );
   }
-  
+
   if ( window.has ) {
     // add an entry for each type of assertion
     _.each( [
@@ -29,7 +29,8 @@
       'assert.scenery',
       'assert.scenery.extra'
     ], function( name ) { window.has.add( name, callback ); } );
-  } else {
+  }
+  else {
     console.log( 'has.js not found, using default assertion levels' );
   }
 }());

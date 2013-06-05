@@ -7,7 +7,7 @@
  */
 define(
   ['PHETCOMMON/model/property/Property', 'PHETCOMMON/util/Inheritance'],
-  function ( Property, Inheritance ) {
+  function( Property, Inheritance ) {
     "use strict";
 
     function BooleanProperty( value ) {
@@ -16,7 +16,7 @@ define(
 
     Inheritance.inheritPrototype( BooleanProperty, Property );
 
-    BooleanProperty.prototype.toggle = function () {
+    BooleanProperty.prototype.toggle = function() {
       this.set( !this.get() );
     };
 

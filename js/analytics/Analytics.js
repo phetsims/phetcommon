@@ -7,13 +7,13 @@
  */
 define(
   [],
-  function () {
+  function() {
     "use strict";
 
     function Analytics() {
     }
 
-    Analytics.prototype.log = function ( component, componentType, action, parameters, messageType ) {
+    Analytics.prototype.log = function( component, componentType, action, parameters, messageType ) {
       var time = new Date().getTime();
       var m = (messageType === undefined) ? "user" : messageType;
 
@@ -33,7 +33,7 @@ define(
       //TODO: echo a copy to Google analytics event tracking for recording, visualization and other Google Analytics benefits?
     };
 
-    Analytics.prototype.messageToString = function ( component, componentType, action, parameters, messageType, time ) {
+    Analytics.prototype.messageToString = function( component, componentType, action, parameters, messageType, time ) {
       var array = [time, messageType, component, componentType, action];
       if ( parameters ) {
 
@@ -59,7 +59,7 @@ define(
      * @param {String} messageType optional
      * @param {Number} time
      * */
-    Analytics.prototype.logToSimian = function ( component, componentType, action, parameters, messageType, time ) {
+    Analytics.prototype.logToSimian = function( component, componentType, action, parameters, messageType, time ) {
       var img = new Image();
       var message = "http://simian.colorado.edu/__utm.gif?" +
                     "time=" + time +

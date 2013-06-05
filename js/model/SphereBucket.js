@@ -85,7 +85,7 @@ define( function( require ) {
     var found = false;
     while ( !found ) {
       var testLocation = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.particleRadius,
-                                      this.getYPositionForLayer( row ) );
+        this.getYPositionForLayer( row ) );
       if ( this.isPositionOpen( testLocation ) ) {
         // We found a location that is open.
         openLocation = testLocation;
@@ -149,7 +149,7 @@ define( function( require ) {
       // Add all open locations in the current layer.
       for ( var positionInLayer = 0; positionInLayer < numParticlesInLayer; positionInLayer++ ) {
         var testPosition = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.particleRadius,
-                                        this.getYPositionForLayer( layer ) );
+          this.getYPositionForLayer( layer ) );
         if ( this.isPositionOpen( testPosition ) ) {
 
           // We found a location that is unoccupied.

@@ -19,17 +19,17 @@
 
 define( function( require ) {
   'use strict';
-  
+
   var _ = require( 'underscore' );
   var Vector2 = require( 'DOT/Vector2' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Shape = require( 'KITE/Shape' );
-  
+
   // Proportion of the total height which the ellipse that represents
   // the hole occupies.  It is assumed that the width of the hole
   // is the same as the width specified at construction.
   var HOLE_ELLIPSE_HEIGHT_PROPORTION = 0.25;
-  
+
   var Bucket = function( options ) {
     options = _.extend( {
       // defaults
@@ -39,7 +39,7 @@ define( function( require ) {
       caption: 'Set a caption!',
       captionColor: 'white'
     }, options );
-    
+
     // The position is defined to be where the center of the hole is.
     this.position = options.position;
 
@@ -51,13 +51,13 @@ define( function( require ) {
 
     // Color for the caption.
     this.captionColor = options.captionColor;
-    
+
     this.size = options.size;
     var size = this.size;
-    
+
     var holeRadiusX = size.width / 2;
     var holeRadiusY = size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2;
-    
+
     // Create the shape of the bucket's hole.
     this.holeShape = Shape.ellipse( 0, 0, holeRadiusX, holeRadiusY );
 
@@ -68,18 +68,18 @@ define( function( require ) {
     // rework this code.
     var containerHeight = size.height * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
     this.containerShape = new Shape().moveTo( -size.width * 0.5, 0 )
-                                     .lineTo( -size.width * 0.4, -containerHeight * 0.8 )
-                                     .cubicCurveTo(
-                                       -size.width * 0.3,
-                                       -containerHeight * 0.8 - size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
-                                       size.width * 0.3,
-                                       -containerHeight * 0.8 - size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
-                                       size.width * 0.4,
-                                       -containerHeight * 0.8 )
-                                     .lineTo( size.width * 0.5, 0 )
-                                     .ellipticalArc( 0, 0, holeRadiusX, holeRadiusY, 0, 0, Math.PI, true )
-                                     .close();
+      .lineTo( -size.width * 0.4, -containerHeight * 0.8 )
+      .cubicCurveTo(
+        -size.width * 0.3,
+        -containerHeight * 0.8 - size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
+        size.width * 0.3,
+        -containerHeight * 0.8 - size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
+        size.width * 0.4,
+        -containerHeight * 0.8 )
+      .lineTo( size.width * 0.5, 0 )
+      .ellipticalArc( 0, 0, holeRadiusX, holeRadiusY, 0, 0, Math.PI, true )
+      .close();
   };
-  
+
   return Bucket;
 } );

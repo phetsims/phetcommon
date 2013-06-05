@@ -10,19 +10,20 @@
   'use strict';
 
   var enableAccessibility = !!window.phetcommon.getQueryParameter( 'accessibility' );
-  
+
   // always return whether assertions are enabled
   function callback( global, document, anElement ) {
     return enableAccessibility;
   }
-  
+
   if ( enableAccessibility ) {
     console.log( 'accessibility enabled' );
   }
-  
+
   if ( window.has ) {
     window.has.add( 'scenery.accessibility', callback );
-  } else {
+  }
+  else {
     console.log( 'has.js not found, using default accessibility levels' );
   }
 }());

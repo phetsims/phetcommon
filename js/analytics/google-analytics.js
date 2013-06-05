@@ -18,7 +18,7 @@ _gaq.push( ["b._setAccount", "UA-5033010-1"] );
 _gaq.push( ["b._setDomainName", "phet.colorado.edu"] );
 _gaq.push( ["b._trackPageview"] );
 
-(function () {
+(function() {
   "use strict";
   var ga = document.createElement( 'script' );
   ga.type = 'text/javascript';
