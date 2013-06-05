@@ -11,11 +11,10 @@
  * -Convenient toString that prints e.g., PropertySet{name:'larry',age:101,kids:['alice','bob']}
  * -Wiring up to listen to multiple properties simultaneously
  * -Add properties after the PropertySet is created?  Don't forget to add to the key list as well.
- * -TODO: Remove properties that were added using addProperty or the constructor
+ * -Remove properties that were added using addProperty or the constructor
  * -TODO: Make it easy to mix-in with model classes?  Subclassing PropertySet already works fairly well, so this may good enough already.
  * -TODO: Type checking, so that a boolean input will be automatically generated as BooleanProperty, etc.
  * -TODO: Should this be called Model or perhaps something even better?
- * -TODO: Add support for multilink and give it similar style to addDerivedProperty.  Example person.multilink(['name','age'],function(name,age){return ...};]
  * -TODO: addProperty(DerivedProperty/Property)???  Perhaps overload it?
  *
  * Sample usage:
