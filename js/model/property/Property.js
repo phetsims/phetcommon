@@ -25,7 +25,7 @@ define( function( require ) {
     // Variables declared in the constructor are private.
     var _value = value;
     var _initialValue = value;
-    var _observers = [];
+    this._observers = [];
 
     /**
      * Gets the value.
@@ -45,7 +45,7 @@ define( function( require ) {
       if ( value !== _value ) {
         var oldValue = _value;
         _value = value;
-        var observersCopy = _observers.slice(); // make a copy, in case notification results in removeObserver
+        var observersCopy = this._observers.slice(); // make a copy, in case notification results in removeObserver
         for ( var i = 0; i < observersCopy.length; i++ ) {
           observersCopy[i]( value, oldValue );
         }
@@ -65,10 +65,11 @@ define( function( require ) {
      * The initial notification provides the current value for newValue and null for oldValue.
      *
      * @param {Function} observer a function of the form observer(newValue,oldValue)
+     * @deprecated will be removed when everyone is using link //TODO: Delete when all usages are gone
      */
     this.addObserver = function( observer ) {
-      if ( _observers.indexOf( observer ) === -1 ) {
-        _observers.push( observer );
+      if ( this._observers.indexOf( observer ) === -1 ) {
+        this._observers.push( observer );
         observer( _value, null ); // null should be used when an object is expected but unavailable
       }
     };
@@ -78,11 +79,12 @@ define( function( require ) {
      * If observer is not registered, this is a no-op.
      *
      * @param {Function} observer
+     * @deprecated will be removed when everyone is using link //TODO: Delete when all usages are gone
      */
     this.removeObserver = function( observer ) {
-      var index = _observers.indexOf( observer );
+      var index = this._observers.indexOf( observer );
       if ( index !== -1 ) {
-        _observers.splice( index, index + 1 );
+        this._observers.splice( index, index + 1 );
       }
     };
 
@@ -112,6 +114,16 @@ define( function( require ) {
     link: function( observer ) { this.addObserver( observer ); },
 
     unlink: function( observer ) { this.removeObserver( observer ); },
+
+    /**
+     * Add an observer to the Property, without calling it back right away.  This is mostly used for internal code.
+     * @param {Function} observer  a function with a single argument, which is the value of the property at the time the function is called.
+     */
+    lazyLink: function( observer ) {
+      if ( this._observers.indexOf( observer ) === -1 ) {
+        this._observers.push( observer );
+      }
+    },
 
     //Provide toString for console debugging, see http://stackoverflow.com/questions/2485632/valueof-vs-tostring-in-javascript
     toString: function() {return 'Property{' + this.get() + '}'; },
