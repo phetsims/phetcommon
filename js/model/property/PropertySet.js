@@ -8,8 +8,10 @@
  * -Resetting them as a group
  * -Set multiple values at once, using propertySet.set({x:100,y:200,name:'alice'});
  * -Support for derived properties, which appear with the same interface as basic properties
- * -TODO: Wiring up to listen to multiple properties simultaneously?
- * -TODO: function to add properties after the PropertySet is created?  Don't forget to add to the key list as well.  Should also link to PropertySetValues if we continue development on that.
+ * -Convenient toString that prints e.g., PropertySet{name:'larry',age:101,kids:['alice','bob']}
+ * -Wiring up to listen to multiple properties simultaneously
+ * -Add properties after the PropertySet is created?  Don't forget to add to the key list as well.
+ * -TODO: Remove properties that were added using addProperty or the constructor
  * -TODO: Make it easy to mix-in with model classes?  Subclassing PropertySet already works fairly well, so this may good enough already.
  * -TODO: Type checking, so that a boolean input will be automatically generated as BooleanProperty, etc.
  * -TODO: Should this be called Model or perhaps something even better?
@@ -60,13 +62,25 @@ define( function( require ) {
     this.keys = [];
 
     Object.getOwnPropertyNames( values ).forEach( function( value ) {
-      propertySet.addGetterAndSetter( value );
-      propertySet[value + 'Property'] = new Property( values[value] );
-      propertySet.keys.push( value );
+      propertySet.addProperty( value, values[value] );
     } );
   }
 
   PropertySet.prototype = {
+
+    /**
+     * Adds a new property to this PropertySet
+     *
+     * @param {String} name
+     * @param value
+     */
+    addProperty: function( name, value ) {
+      this[name + 'Property'] = new Property( value );
+      this.addGetterAndSetter( name );
+      this.keys.push( name );
+    },
+
+    //person.addProperty('lastName','Jenkins');
 
     //Taken from https://gist.github.com/dandean/1292057, same as in github/Atlas
     addGetterAndSetter: function( name ) {
