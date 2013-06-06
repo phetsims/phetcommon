@@ -20,7 +20,7 @@ define( function ( require ) {
     Transform3.call( this, matrix );
   }
   
-  inherit( ModelViewTransform2, Transform3, {
+  inherit( Transform3, ModelViewTransform2, {
     // convenience model => view
     modelToViewPosition: function( point )  { return this.transformPosition2( point ); },
     modelToViewDelta:    function( vector ) { return this.transformDelta2( vector ); },
