@@ -33,7 +33,7 @@ define( function( require ) {
     }
     this.particles.push( particle );
     var thisBucket = this;
-    particle.once( 'change:userControlled', function( m, userControlled ) {
+    particle.userControlledProperty.once( function( userControlled ) {
       if ( userControlled ) {
         thisBucket.removeParticle( particle );
       }
