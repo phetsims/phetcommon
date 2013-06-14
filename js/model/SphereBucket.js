@@ -12,6 +12,8 @@
  */
 define( function( require ) {
   'use strict';
+
+  // Includes
   var Vector2 = require( 'DOT/Vector2' );
   var Inheritance = require( 'PHETCOMMON/util/Inheritance' );
   var Bucket = require( 'PHETCOMMON/model/Bucket' );
@@ -19,7 +21,7 @@ define( function( require ) {
   function SphereBucket( options ) {
     Bucket.call( this, options );
     this.particleRadius = options.particleRadius || 10;
-    this.yOffset = -this.particleRadius / 2; // Empirically determined, for positioning particles inside the bucket.
+    this.yOffset = -this.particleRadius * 0.4; // Empirically determined, for positioning particles inside the bucket.
     this.particles = [];
   }
 
@@ -78,7 +80,7 @@ define( function( require ) {
   SphereBucket.prototype.getFirstOpenLocation = function() {
     var openLocation = Vector2.ZERO;
     var usableWidth = this.size.width - 2 * this.particleRadius;
-    var offsetFromBucketEdge = this.particleRadius * 2;
+    var offsetFromBucketEdge = this.particleRadius * 1.75;
     var numParticlesInLayer = Math.floor( usableWidth / ( this.particleRadius * 2 ) );
     var row = 0;
     var positionInLayer = 0;
