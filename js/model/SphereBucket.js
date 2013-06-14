@@ -80,7 +80,7 @@ define( function( require ) {
   SphereBucket.prototype.getFirstOpenLocation = function() {
     var openLocation = Vector2.ZERO;
     var usableWidth = this.size.width - 2 * this.particleRadius;
-    var offsetFromBucketEdge = this.particleRadius * 1.75;
+    var offsetFromBucketEdge = this.particleRadius * 2;
     var numParticlesInLayer = Math.floor( usableWidth / ( this.particleRadius * 2 ) );
     var row = 0;
     var positionInLayer = 0;
