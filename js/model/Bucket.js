@@ -20,7 +20,6 @@
 define( function( require ) {
   'use strict';
 
-  var _ = require( 'underscore' );
   var Vector2 = require( 'DOT/Vector2' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Shape = require( 'KITE/Shape' );
