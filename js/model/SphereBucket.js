@@ -76,7 +76,7 @@ define( function( require ) {
         closestParticle = particle;
       }
     });
-    if ( closestParticle != null ){
+    if ( closestParticle !== null ){
       this.removeParticle( closestParticle );
     }
     return closestParticle;
