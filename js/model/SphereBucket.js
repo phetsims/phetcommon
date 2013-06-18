@@ -71,12 +71,12 @@ define( function( require ) {
 
   SphereBucket.prototype.extractClosestParticle = function( location ) {
     var closestParticle = null;
-    this.particles.forEach( function( particle ){
-      if ( closestParticle === null || closestParticle.position.distance( location ) > particle.position.distance( location )){
+    this.particles.forEach( function( particle ) {
+      if ( closestParticle === null || closestParticle.position.distance( location ) > particle.position.distance( location ) ) {
         closestParticle = particle;
       }
-    });
-    if ( closestParticle !== null ){
+    } );
+    if ( closestParticle !== null ) {
       this.removeParticle( closestParticle );
     }
     return closestParticle;
