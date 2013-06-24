@@ -75,7 +75,6 @@ define( function( require ) {
         -containerHeight,
         size.width * 0.4,
         -containerHeight * 0.8 )
-      .lineTo( size.width * 0.4, -containerHeight * 0.8 )// TODO: This line is temporary, for testing.
       .lineTo( size.width * 0.5, 0 )
       .cubicCurveTo(
         size.width * 0.3,
