@@ -15,7 +15,7 @@ define( function( require ) {
 
   // Includes
   var Vector2 = require( 'DOT/Vector2' );
-  var Inheritance = require( 'PHETCOMMON/util/Inheritance' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var Bucket = require( 'PHETCOMMON/model/Bucket' );
 
   function SphereBucket( options ) {
@@ -26,7 +26,7 @@ define( function( require ) {
   }
 
   // Inherit from base type.
-  Inheritance.inheritPrototype( SphereBucket, Bucket );
+  inherit( Bucket, SphereBucket );
 
   SphereBucket.prototype.addParticleFirstOpen = function( particle, animate ) {
     particle.destination = this._getFirstOpenLocation();
