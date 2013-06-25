@@ -1,8 +1,6 @@
 phetcommon
 ==========
 
-Test commit - remove this.
-
 Common code used by PhET Interactive Simulations HTML5 sims.
 
 This project contains code that will be common to all PhET simulations, including analytics, help/about/credits, etc.
