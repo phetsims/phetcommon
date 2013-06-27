@@ -1,4 +1,4 @@
-// Copyright 2002-2013, University of Colorado
+// Copyright 2002-2013, University of Colorado Boulder
 
 /*
  * A bucket that can be used to store spherical objects.  Manages the addition
