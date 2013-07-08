@@ -58,7 +58,6 @@ define( function( require ) {
 
   SphereBucket.prototype.removeParticle = function( particle ) {
     if ( this.particles.indexOf( particle ) === -1 ) {
-      debugger;
       console.log( "Error: Attempt to remove particle not contained in bucket, ignoring." );
       return;
     }
