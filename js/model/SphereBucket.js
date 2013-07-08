@@ -58,6 +58,7 @@ define( function( require ) {
 
   SphereBucket.prototype.removeParticle = function( particle ) {
     if ( this.particles.indexOf( particle ) === -1 ) {
+      debugger;
       console.log( "Error: Attempt to remove particle not contained in bucket, ignoring." );
       return;
     }
@@ -77,7 +78,10 @@ define( function( require ) {
       }
     } );
     if ( closestParticle !== null ) {
-      this.removeParticle( closestParticle );
+      // The particle is removed by setting 'userControlled' to true.  This
+      // relies on the listener that was added when the particle was placed
+      // into the bucket.
+      closestParticle.userControlled = true;
     }
     return closestParticle;
   };
