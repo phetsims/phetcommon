@@ -20,9 +20,10 @@ define( function( require ) {
 
   function SphereBucket( options ) {
     Bucket.call( this, options );
-    this.sphereRadius = options.sphereRadius || 10;
-    this.yOffset = -this.sphereRadius * 0.4; // Empirically determined, for positioning particles inside the bucket.
-    this.particles = [];
+    this._sphereRadius = options.sphereRadius || 10;
+    this._usableWidthProportion = options.usableWidthProportion || 1.0;
+    this._verticalParticleOffset = -this._sphereRadius * 0.4; // Empirically determined, for positioning particles inside the bucket.
+    this._particles = [];
   }
 
   // Inherit from base type.
@@ -33,7 +34,7 @@ define( function( require ) {
     if ( !animate ) {
       particle.position = particle.destination;
     }
-    this.particles.push( particle );
+    this._particles.push( particle );
     var thisBucket = this;
     particle.userControlledProperty.once( function( userControlled ) {
       if ( userControlled ) {
@@ -47,7 +48,7 @@ define( function( require ) {
     if ( !animate ) {
       particle.position = particle.destination;
     }
-    this.particles.push( particle );
+    this._particles.push( particle );
     var thisBucket = this;
     particle.userControlledProperty.once( function( userControlled ) {
       if ( userControlled ) {
@@ -57,21 +58,21 @@ define( function( require ) {
   };
 
   SphereBucket.prototype.removeParticle = function( particle ) {
-    if ( this.particles.indexOf( particle ) === -1 ) {
+    if ( this._particles.indexOf( particle ) === -1 ) {
       console.log( "Error: Attempt to remove particle not contained in bucket, ignoring." );
       return;
     }
-    this.particles = _.without( this.particles, particle );
+    this._particles = _.without( this._particles, particle );
     this.relayoutBucketParticles();
   };
 
   SphereBucket.prototype.containsParticle = function( particle ) {
-    return this.particles.indexOf( particle ) !== -1;
+    return this._particles.indexOf( particle ) !== -1;
   };
 
   SphereBucket.prototype.extractClosestParticle = function( location ) {
     var closestParticle = null;
-    this.particles.forEach( function( particle ) {
+    this._particles.forEach( function( particle ) {
       if ( closestParticle === null || closestParticle.position.distance( location ) > particle.position.distance( location ) ) {
         closestParticle = particle;
       }
@@ -88,8 +89,8 @@ define( function( require ) {
 
   SphereBucket.prototype._isPositionOpen = function( position ) {
     var positionOpen = true;
-    for ( var i = 0; i < this.particles.length; i++ ) {
-      var particle = this.particles[ i ];
+    for ( var i = 0; i < this._particles.length; i++ ) {
+      var particle = this._particles[ i ];
       if ( particle.destination.equals( position ) ) {
         positionOpen = false;
         break;
@@ -100,14 +101,14 @@ define( function( require ) {
 
   SphereBucket.prototype._getFirstOpenLocation = function() {
     var openLocation = Vector2.ZERO;
-    var usableWidth = this.size.width - 2 * this.sphereRadius;
-    var offsetFromBucketEdge = this.sphereRadius * 2;
-    var numParticlesInLayer = Math.floor( usableWidth / ( this.sphereRadius * 2 ) );
+    var usableWidth = this.size.width - 2 * this._sphereRadius;
+    var offsetFromBucketEdge = this._sphereRadius * 2;
+    var numParticlesInLayer = Math.floor( usableWidth / ( this._sphereRadius * 2 ) );
     var row = 0;
     var positionInLayer = 0;
     var found = false;
     while ( !found ) {
-      var testLocation = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.sphereRadius,
+      var testLocation = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this._sphereRadius,
         this._getYPositionForLayer( row ) );
       if ( this._isPositionOpen( testLocation ) ) {
         // We found a location that is open.
@@ -122,7 +123,7 @@ define( function( require ) {
           row++;
           positionInLayer = 0;
           numParticlesInLayer--;
-          offsetFromBucketEdge += this.sphereRadius;
+          offsetFromBucketEdge += this._sphereRadius;
           if ( numParticlesInLayer === 0 ) {
             // This algorithm doesn't handle the situation where
             // more particles are added than can be stacked into
@@ -130,7 +131,7 @@ define( function( require ) {
             // needed to.  If this requirement changes, the
             // algorithm will need to change too.
             numParticlesInLayer = 1;
-            offsetFromBucketEdge -= this.sphereRadius;
+            offsetFromBucketEdge -= this._sphereRadius;
           }
         }
       }
@@ -139,7 +140,7 @@ define( function( require ) {
   };
 
   SphereBucket.prototype._getLayerForYPosition = function( yPosition ) {
-    return Math.abs( Math.round( ( yPosition - ( this.position.y + this.yOffset ) ) / ( this.sphereRadius * 2 * 0.866 ) ) );
+    return Math.abs( Math.round( ( yPosition - ( this.position.y + this._verticalParticleOffset ) ) / ( this._sphereRadius * 2 * 0.866 ) ) );
   };
 
   /*
@@ -153,7 +154,7 @@ define( function( require ) {
     // Determine the highest occupied layer.  The bottom layer is 0.
     var highestOccupiedLayer = 0;
     var self = this;
-    _.each( this.particles, function( particle ) {
+    _.each( this._particles, function( particle ) {
       var layer = self._getLayerForYPosition( particle.destination.y );
       if ( layer > highestOccupiedLayer ) {
         highestOccupiedLayer = layer;
@@ -162,16 +163,16 @@ define( function( require ) {
 
     // Make a list of all open locations in the occupied layers.
     var openLocations = [];
-    var placeableWidth = this.size.width - 2 * this.sphereRadius;
-    var offsetFromBucketEdge = ( this.size.width - placeableWidth ) / 2 + this.sphereRadius;
-    var numParticlesInLayer = Math.floor( placeableWidth / ( this.sphereRadius * 2 ) );
+    var usableWidth = this.size.width - 2 * this._sphereRadius;
+    var offsetFromBucketEdge = ( this.size.width - usableWidth ) / 2 + this._sphereRadius;
+    var numParticlesInLayer = Math.floor( usableWidth / ( this._sphereRadius * 2 ) );
 
     // Loop, searching for open positions in the particle stack.
     for ( var layer = 0; layer <= highestOccupiedLayer + 1; layer++ ) {
 
       // Add all open locations in the current layer.
       for ( var positionInLayer = 0; positionInLayer < numParticlesInLayer; positionInLayer++ ) {
-        var testPosition = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this.sphereRadius,
+        var testPosition = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this._sphereRadius,
           this._getYPositionForLayer( layer ) );
         if ( this._isPositionOpen( testPosition ) ) {
 
@@ -185,7 +186,7 @@ define( function( require ) {
 
       // Adjust variables for the next layer.
       numParticlesInLayer--;
-      offsetFromBucketEdge += this.sphereRadius;
+      offsetFromBucketEdge += this._sphereRadius;
       if ( numParticlesInLayer === 0 ) {
         // If the stacking pyramid is full, meaning that there are
         // no locations that are open within it, this algorithm
@@ -195,7 +196,7 @@ define( function( require ) {
         // been a problem, but this limitation may limit
         // reusability of this algorithm.
         numParticlesInLayer = 1;
-        offsetFromBucketEdge -= this.sphereRadius;
+        offsetFromBucketEdge -= this._sphereRadius;
       }
     }
 
@@ -215,7 +216,7 @@ define( function( require ) {
   };
 
   SphereBucket.prototype._getYPositionForLayer = function( layer ) {
-    return this.position.y + this.yOffset + layer * this.sphereRadius * 2 * 0.866;
+    return this.position.y + this._verticalParticleOffset + layer * this._sphereRadius * 2 * 0.866;
   };
 
   /*
@@ -223,16 +224,16 @@ define( function( require ) {
    * space in the stack of particles.  Dangling particles should fall.
    */
   SphereBucket.prototype._isDangling = function( particle ) {
-    var onBottomRow = particle.destination.y === this.position.y + this.yOffset;
+    var onBottomRow = particle.destination.y === this.position.y + this._verticalParticleOffset;
     return !onBottomRow && this.countSupportingParticles( particle.destination ) < 2;
   };
 
   SphereBucket.prototype.countSupportingParticles = function( position ) {
     var count = 0;
-    for ( var i = 0; i < this.particles.length; i++ ) {
-      var p = this.particles[i];
+    for ( var i = 0; i < this._particles.length; i++ ) {
+      var p = this._particles[i];
       if ( p.destination.y < position.y && // Must be in a lower layer
-           p.destination.distance( position ) < this.sphereRadius * 3 ) {
+           p.destination.distance( position ) < this._sphereRadius * 3 ) {
         // Must be a supporting particle.
         count++;
       }
@@ -243,9 +244,9 @@ define( function( require ) {
   SphereBucket.prototype.relayoutBucketParticles = function() {
     var particleMoved;
     do {
-      for ( var i = 0; i < this.particles.length; i++ ) {
+      for ( var i = 0; i < this._particles.length; i++ ) {
         particleMoved = false;
-        var particle = this.particles[i];
+        var particle = this._particles[i];
         if ( this._isDangling( particle ) ) {
           particle.destination = this.getNearestOpenLocation( particle.destination );
           particleMoved = true;
