@@ -101,8 +101,8 @@ define( function( require ) {
 
   SphereBucket.prototype._getFirstOpenLocation = function() {
     var openLocation = Vector2.ZERO;
-    var usableWidth = this.size.width - 2 * this._sphereRadius;
-    var offsetFromBucketEdge = this._sphereRadius * 2;
+    var usableWidth = this.size.width * this._usableWidthProportion - 2 * this._sphereRadius;
+    var offsetFromBucketEdge = ( this.size.width - usableWidth ) / 2 + this._sphereRadius;
     var numParticlesInLayer = Math.floor( usableWidth / ( this._sphereRadius * 2 ) );
     var row = 0;
     var positionInLayer = 0;
@@ -163,7 +163,7 @@ define( function( require ) {
 
     // Make a list of all open locations in the occupied layers.
     var openLocations = [];
-    var usableWidth = this.size.width - 2 * this._sphereRadius;
+    var usableWidth = this.size.width * this._usableWidthProportion - 2 * this._sphereRadius;
     var offsetFromBucketEdge = ( this.size.width - usableWidth ) / 2 + this._sphereRadius;
     var numParticlesInLayer = Math.floor( usableWidth / ( this._sphereRadius * 2 ) );
 
