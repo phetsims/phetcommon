@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * Class that defines the shape and common functionality for a "bucket", which
+ * Class that defines the shape and common functionality for a 'bucket', which
  * is container into which some sort of model objects may be placed.  This is
  * a model object in the Model-View-Controller paradigm, and requires a
  * counterpart in the view in order to be presented to the user.
@@ -60,10 +60,10 @@ define( function( require ) {
     // Create the shape of the bucket's hole.
     this.holeShape = Shape.ellipse( 0, 0, holeRadiusX, holeRadiusY );
 
-    // Create the shape of the container.  This code is a bit "tweaky",
+    // Create the shape of the container.  This code is a bit 'tweaky',
     // meaning that there are a lot of fractional multipliers in here
     // to try to achieve the desired pseudo-3D look.  The intent is
-    // that the "tilt" of the bucket can be changed without needing to
+    // that the 'tilt' of the bucket can be changed without needing to
     // rework this code.
     var containerHeight = size.height * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
     this.containerShape = new Shape().moveTo( -size.width * 0.5, 0 )

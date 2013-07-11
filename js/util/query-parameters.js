@@ -9,7 +9,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 (function() {
-  "use strict";
+  'use strict';
 
   if ( !window.phetcommon ) {
     window.phetcommon = {};
@@ -24,9 +24,9 @@
   window.phetcommon.getQueryParameter = function( key ) {
     var value;
     if ( typeof window !== 'undefined' && window.location.search ) {
-      var params = window.location.search.slice( 1 ).split( "&" );
+      var params = window.location.search.slice( 1 ).split( '&' );
       for ( var i = 0; i < params.length; i++ ) {
-        var nameValuePair = params[i].split( "=" );
+        var nameValuePair = params[i].split( '=' );
         if ( nameValuePair[0] === key ) {
           value = decodeURI( nameValuePair[1] ).toLowerCase();
           break;

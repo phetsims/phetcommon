@@ -4,7 +4,7 @@
  * Collection of utility function related to Strings.
  */
 define( function() {
-  "use strict";
+  'use strict';
 
   function StringUtils() {
   }
@@ -14,7 +14,7 @@ define( function() {
    * Similar to Java's MessageFormat, supports simple substitution, simple substitution only.
    * The full MessageFormat specification allows conditional formatting, for example to support pluralisation.
    * <p>
-   * Eg, StringUtils.format( "{0} + {1}", 2, 3 ) -> "2 + 3"
+   * Eg, StringUtils.format( '{0} + {1}', 2, 3 ) -> '2 + 3'
    *
    * @param {String} pattern pattern string, with N placeholders, where N is an integer
    * @return {String}

@@ -8,9 +8,9 @@
  * Dependencies: stats.js
  */
 define( function( require ) {
-  "use strict";
+  'use strict';
 
-  var Stats = require( "stats" );
+  var Stats = require( 'stats' );
 
   function PerformanceMonitor() {
 
@@ -29,10 +29,10 @@ define( function( require ) {
     // @param {Boolean} visible
     this.setVisible = function( visible ) {
       if ( visible ) {
-        stats.domElement.style.visibility = "visible";
+        stats.domElement.style.visibility = 'visible';
       }
       else {
-        stats.domElement.style.visibility = "hidden";
+        stats.domElement.style.visibility = 'hidden';
       }
     };
 

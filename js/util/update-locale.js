@@ -5,7 +5,6 @@
  * See https://github.com/phetsims/ohms-law/issues/16?source=c
  */
 (function() {
-  "use strict";
-
+  'use strict';
   require.config( {config: { i18n: { locale: window.phetcommon.getQueryParameter( 'locale' ) } }} );
 })();

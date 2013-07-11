@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( function() {
-  "use strict";
+  'use strict';
 
   function CanvasQuirks() {
   }

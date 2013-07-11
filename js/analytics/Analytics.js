@@ -8,14 +8,14 @@
 define(
   [],
   function() {
-    "use strict";
+    'use strict';
 
     function Analytics() {
     }
 
     Analytics.prototype.log = function( component, componentType, action, parameters, messageType ) {
       var time = new Date().getTime();
-      var m = (messageType === undefined) ? "user" : messageType;
+      var m = (messageType === undefined) ? 'user' : messageType;
 
       //Create the standard formatted line for logging, matches the java format output
       var line = this.messageToString( component, componentType, action, parameters, m, time );
@@ -24,9 +24,9 @@ define(
       console.log( line );
 
       //Log it to the DOM
-      var analyticsElement = document.getElementById( "analyticsLog" );
+      var analyticsElement = document.getElementById( 'analyticsLog' );
       if ( analyticsElement !== null && typeof analyticsElement !== 'undefined' ) {
-        analyticsElement.innerHTML += line + "<br>";
+        analyticsElement.innerHTML += line + '<br>';
       }
 
       this.logToSimian( component, componentType, action, parameters, m, time );
@@ -42,12 +42,12 @@ define(
 
           //See http://stackoverflow.com/questions/1078118/how-to-iterate-over-a-json-structure
           for ( var key in obj ) {
-            array.push( key + " = " + obj[key] );
+            array.push( key + ' = ' + obj[key] );
           }
         }
 
       }
-      return array.join( "\t" );
+      return array.join( '\t' );
     };
 
     /**
@@ -61,12 +61,12 @@ define(
      * */
     Analytics.prototype.logToSimian = function( component, componentType, action, parameters, messageType, time ) {
       var img = new Image();
-      var message = "http://simian.colorado.edu/__utm.gif?" +
-                    "time=" + time +
-                    "&messageType=" + messageType +
-                    "&component=" + component +
-                    "&componentType=" + componentType +
-                    "&action=" + action;
+      var message = 'http://simian.colorado.edu/__utm.gif?' +
+                    'time=' + time +
+                    '&messageType=' + messageType +
+                    '&component=' + component +
+                    '&componentType=' + componentType +
+                    '&action=' + action;
       if ( parameters !== undefined ) {
         for ( var i = 0; i < parameters.length; i++ ) {
           var obj = parameters[i];
@@ -75,7 +75,7 @@ define(
           for ( var key in obj ) {
             var attributeName = key;
             var attributeValue = obj[key];
-            message = message + "&parameter_" + attributeName + "=" + attributeValue;
+            message = message + '&parameter_' + attributeName + '=' + attributeValue;
           }
         }
       }

@@ -6,7 +6,7 @@
  * the stack as spheres are removed.
  *
  * This expects the spheres to have certain properties, please inspect the
- * code to understand the "contract" between the bucket and the spheres.
+ * code to understand the 'contract' between the bucket and the spheres.
  *
  * @author John Blanco
  */
@@ -59,7 +59,7 @@ define( function( require ) {
 
   SphereBucket.prototype.removeParticle = function( particle ) {
     if ( this._particles.indexOf( particle ) === -1 ) {
-      console.log( "Error: Attempt to remove particle not contained in bucket, ignoring." );
+      console.log( 'Error: Attempt to remove particle not contained in bucket, ignoring.' );
       return;
     }
     this._particles = _.without( this._particles, particle );
