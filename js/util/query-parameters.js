@@ -28,7 +28,7 @@
       for ( var i = 0; i < params.length; i++ ) {
         var nameValuePair = params[i].split( '=' );
         if ( nameValuePair[0] === key ) {
-          value = decodeURI( nameValuePair[1] ).toLowerCase();
+          value = decodeURIComponent( nameValuePair[1] ).toLowerCase();
           break;
         }
       }
