@@ -1,5 +1,6 @@
-phetcommon.iml
-images/Thumbs.db
+build/
 node_modules/
+images/Thumbs.db
+*.iml
 .DS_Store
 .DS_Store?
