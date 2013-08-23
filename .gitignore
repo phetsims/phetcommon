@@ -1,2 +1,5 @@
 phetcommon.iml
 images/Thumbs.db
+node_modules/
+.DS_Store
+.DS_Store?
