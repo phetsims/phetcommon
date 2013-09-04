@@ -86,7 +86,6 @@ define( function( require ) {
     return closestParticle;
   };
 
-
   SphereBucket.prototype._isPositionOpen = function( position ) {
     var positionOpen = true;
     for ( var i = 0; i < this._particles.length; i++ ) {
