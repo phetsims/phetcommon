@@ -29,6 +29,7 @@ define( function( require ) {
   // Inherit from base type.
   inherit( Bucket, SphereBucket );
 
+  // NOTE: beware, 2nd argument boolean flag is the opposite from the Java implementation!
   SphereBucket.prototype.addParticleFirstOpen = function( particle, animate ) {
     particle.destination = this._getFirstOpenLocation();
     if ( !animate ) {
@@ -85,6 +86,8 @@ define( function( require ) {
     }
     return closestParticle;
   };
+  
+  SphereBucket.prototype.getParticleList = function() { return this._particles; };
 
   SphereBucket.prototype._isPositionOpen = function( position ) {
     var positionOpen = true;
