@@ -67,23 +67,15 @@ define( function( require ) {
     // rework this code.
     var containerHeight = size.height * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
     this.containerShape = new Shape().moveTo( -size.width * 0.5, 0 )
-      .lineTo( -size.width * 0.4, -containerHeight * 0.8 )
-      .cubicCurveTo(
-        -size.width * 0.3,
-        -containerHeight,
-        size.width * 0.3,
-        -containerHeight,
-        size.width * 0.4,
-        -containerHeight * 0.8 )
-      .lineTo( size.width * 0.5, 0 )
-      .cubicCurveTo(
-        size.width * 0.3,
-        -containerHeight * 0.2,
-        -size.width * 0.3,
-        -containerHeight * 0.2,
-        -size.width * 0.5,
-        0 )
-      .close();
+                                     .lineTo( -size.width * 0.4, -containerHeight * 0.8 )
+                                     .cubicCurveTo( -size.width * 0.3, -containerHeight,
+                                                    size.width * 0.3,  -containerHeight,
+                                                    size.width * 0.4,  -containerHeight * 0.8 )
+                                     .lineTo( size.width * 0.5, 0 )
+                                     .cubicCurveTo( size.width * 0.3,  -containerHeight * 0.2,
+                                                    -size.width * 0.3, -containerHeight * 0.2,
+                                                    -size.width * 0.5, 0 )
+                                     .close();
   };
 
   return Bucket;
