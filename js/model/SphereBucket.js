@@ -58,13 +58,15 @@ define( function( require ) {
     } );
   };
 
-  SphereBucket.prototype.removeParticle = function( particle ) {
+  SphereBucket.prototype.removeParticle = function( particle, skipLayout ) {
     if ( this._particles.indexOf( particle ) === -1 ) {
       console.log( 'Error: Attempt to remove particle not contained in bucket, ignoring.' );
       return;
     }
     this._particles = _.without( this._particles, particle );
-    this.relayoutBucketParticles();
+    if ( !skipLayout ) {
+      this.relayoutBucketParticles();
+    }
   };
 
   SphereBucket.prototype.containsParticle = function( particle ) {
