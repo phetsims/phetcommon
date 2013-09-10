@@ -68,13 +68,11 @@ define( function( require ) {
     var containerHeight = size.height * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
     this.containerShape = new Shape().moveTo( -size.width * 0.5, 0 )
                                      .lineTo( -size.width * 0.4, -containerHeight * 0.8 )
-                                     .cubicCurveTo( -size.width * 0.3, -containerHeight,
-                                                    size.width * 0.3,  -containerHeight,
+                                     .cubicCurveTo( -size.width * 0.3, -containerHeight * 0.8 - size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
+                                                    size.width * 0.3,  -containerHeight * 0.8 - size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
                                                     size.width * 0.4,  -containerHeight * 0.8 )
                                      .lineTo( size.width * 0.5, 0 )
-                                     .cubicCurveTo( size.width * 0.3,  -containerHeight * 0.2,
-                                                    -size.width * 0.3, -containerHeight * 0.2,
-                                                    -size.width * 0.5, 0 )
+                                     .ellipticalArc( 0, 0, holeRadiusX, holeRadiusY, 0, 0, Math.PI, true )
                                      .close();
   };
 
