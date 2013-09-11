@@ -22,7 +22,9 @@ define( function( require ) {
     Bucket.call( this, options );
     this._sphereRadius = options.sphereRadius || 10;
     this._usableWidthProportion = options.usableWidthProportion || 1.0;
-    this._verticalParticleOffset = -this._sphereRadius * 0.4; // Empirically determined, for positioning particles inside the bucket.
+    
+    // Empirically determined, for positioning particles inside the bucket.
+    this._verticalParticleOffset = options.verticalParticleOffset === undefined ? -this._sphereRadius * 0.4 : options.verticalParticleOffset;
     this._particles = [];
   }
 
