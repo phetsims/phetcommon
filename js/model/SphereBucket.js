@@ -39,11 +39,14 @@ define( function( require ) {
     }
     this._particles.push( particle );
     var thisBucket = this;
-    particle.userControlledProperty.once( function( userControlled ) {
-      if ( userControlled ) {
-        thisBucket.removeParticle( particle );
-      }
-    } );
+
+    var particleRemovedListener = function( userControlled ) {
+      thisBucket.removeParticle( particle );
+      particle.userControlledProperty.unlink( particleRemovedListener );
+      delete particle.bucketRemovalListener;
+    };
+    particle.userControlledProperty.lazyLink( particleRemovedListener );
+    particle.bucketRemovalListener = particleRemovedListener; // Attach to the particle to aid unlinking in some cases.
   };
 
   SphereBucket.prototype.addParticleNearestOpen = function( particle, animate ) {
@@ -93,6 +96,17 @@ define( function( require ) {
   
   SphereBucket.prototype.getParticleList = function() { return this._particles; };
 
+  SphereBucket.prototype.reset = function(){
+    this._particles.forEach( function( particle ){
+      // Remove listeners that are watching for removal from bucket.
+      if ( typeof( particle.bucketRemovalListener ) === 'function' ){
+        particle.userControlledProperty.unlink( particle.bucketRemovalListener );
+        delete particle.bucketRemovalListener;
+      }
+    });
+    this._particles.length = 0;
+  };
+
   SphereBucket.prototype._isPositionOpen = function( position ) {
     var positionOpen = true;
     for ( var i = 0; i < this._particles.length; i++ ) {
@@ -120,7 +134,6 @@ define( function( require ) {
         // We found a location that is open.
         openLocation = testLocation;
         found = true;
-        continue;
       }
       else {
         positionInLayer++;
