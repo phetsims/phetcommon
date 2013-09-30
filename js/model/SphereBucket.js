@@ -39,7 +39,6 @@ define( function( require ) {
     }
     this._particles.push( particle );
     var thisBucket = this;
-
     var particleRemovedListener = function( userControlled ) {
       thisBucket.removeParticle( particle );
       particle.userControlledProperty.unlink( particleRemovedListener );
@@ -56,11 +55,13 @@ define( function( require ) {
     }
     this._particles.push( particle );
     var thisBucket = this;
-    particle.userControlledProperty.once( function( userControlled ) {
-      if ( userControlled ) {
-        thisBucket.removeParticle( particle );
-      }
-    } );
+    var particleRemovedListener = function( userControlled ) {
+      thisBucket.removeParticle( particle );
+      particle.userControlledProperty.unlink( particleRemovedListener );
+      delete particle.bucketRemovalListener;
+    };
+    particle.userControlledProperty.lazyLink( particleRemovedListener );
+    particle.bucketRemovalListener = particleRemovedListener; // Attach to the particle to aid unlinking in some cases.
   };
 
   SphereBucket.prototype.removeParticle = function( particle, skipLayout ) {
