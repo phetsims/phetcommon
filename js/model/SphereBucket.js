@@ -34,22 +34,15 @@ define( function( require ) {
   // NOTE: beware, 2nd argument boolean flag is the opposite from the Java implementation!
   SphereBucket.prototype.addParticleFirstOpen = function( particle, animate ) {
     particle.destination = this._getFirstOpenLocation();
-    if ( !animate ) {
-      particle.position = particle.destination;
-    }
-    this._particles.push( particle );
-    var thisBucket = this;
-    var particleRemovedListener = function( userControlled ) {
-      thisBucket.removeParticle( particle );
-      particle.userControlledProperty.unlink( particleRemovedListener );
-      delete particle.bucketRemovalListener;
-    };
-    particle.userControlledProperty.lazyLink( particleRemovedListener );
-    particle.bucketRemovalListener = particleRemovedListener; // Attach to the particle to aid unlinking in some cases.
+    this._addParticle( particle, animate );
   };
 
   SphereBucket.prototype.addParticleNearestOpen = function( particle, animate ) {
-    particle.destination = this.getNearestOpenLocation( particle.destination );
+    particle.destination = this._getNearestOpenLocation( particle.destination );
+    this._addParticle( particle, animate );
+  };
+
+  SphereBucket.prototype._addParticle = function( particle, animate ) {
     if ( !animate ) {
       particle.position = particle.destination;
     }
@@ -62,9 +55,9 @@ define( function( require ) {
     };
     particle.userControlledProperty.lazyLink( particleRemovedListener );
     particle.bucketRemovalListener = particleRemovedListener; // Attach to the particle to aid unlinking in some cases.
-  };
+  }
 
-  SphereBucket.prototype.removeParticle = function( particle, skipLayout ) {
+    SphereBucket.prototype.removeParticle = function( particle, skipLayout ) {
     if ( this._particles.indexOf( particle ) === -1 ) {
       console.log( 'Error: Attempt to remove particle not contained in bucket, ignoring.' );
       return;
@@ -170,7 +163,7 @@ define( function( require ) {
    * @param location
    * @return
    */
-  SphereBucket.prototype.getNearestOpenLocation = function( position ) {
+  SphereBucket.prototype._getNearestOpenLocation = function( position ) {
     // Determine the highest occupied layer.  The bottom layer is 0.
     var highestOccupiedLayer = 0;
     var self = this;
@@ -268,7 +261,7 @@ define( function( require ) {
         particleMoved = false;
         var particle = this._particles[i];
         if ( this._isDangling( particle ) ) {
-          particle.destination = this.getNearestOpenLocation( particle.destination );
+          particle.destination = this._getNearestOpenLocation( particle.destination );
           particleMoved = true;
           break;
         }
