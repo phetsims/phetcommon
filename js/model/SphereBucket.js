@@ -22,7 +22,7 @@ define( function( require ) {
     Bucket.call( this, options );
     this._sphereRadius = options.sphereRadius || 10;
     this._usableWidthProportion = options.usableWidthProportion || 1.0;
-    
+
     // Empirically determined, for positioning particles inside the bucket.
     this._verticalParticleOffset = options.verticalParticleOffset === undefined ? -this._sphereRadius * 0.4 : options.verticalParticleOffset;
     this._particles = [];
@@ -55,9 +55,9 @@ define( function( require ) {
     };
     particle.userControlledProperty.lazyLink( particleRemovedListener );
     particle.bucketRemovalListener = particleRemovedListener; // Attach to the particle to aid unlinking in some cases.
-  }
+  };
 
-    SphereBucket.prototype.removeParticle = function( particle, skipLayout ) {
+  SphereBucket.prototype.removeParticle = function( particle, skipLayout ) {
     if ( this._particles.indexOf( particle ) === -1 ) {
       console.log( 'Error: Attempt to remove particle not contained in bucket, ignoring.' );
       return;
@@ -87,17 +87,17 @@ define( function( require ) {
     }
     return closestParticle;
   };
-  
+
   SphereBucket.prototype.getParticleList = function() { return this._particles; };
 
-  SphereBucket.prototype.reset = function(){
-    this._particles.forEach( function( particle ){
+  SphereBucket.prototype.reset = function() {
+    this._particles.forEach( function( particle ) {
       // Remove listeners that are watching for removal from bucket.
-      if ( typeof( particle.bucketRemovalListener ) === 'function' ){
+      if ( typeof( particle.bucketRemovalListener ) === 'function' ) {
         particle.userControlledProperty.unlink( particle.bucketRemovalListener );
         delete particle.bucketRemovalListener;
       }
-    });
+    } );
     this._particles.length = 0;
   };
 
