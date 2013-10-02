@@ -15,6 +15,17 @@
     window.phetcommon = {};
   }
 
+  //Pre-populate the query parameters map so that multiple subsequent look-ups are fast
+  var queryParamsMap = {};
+
+  if ( typeof window !== 'undefined' && window.location.search ) {
+    var params = window.location.search.slice( 1 ).split( '&' );
+    for ( var i = 0; i < params.length; i++ ) {
+      var nameValuePair = params[i].split( '=' );
+      queryParamsMap[nameValuePair[0]] = decodeURIComponent( nameValuePair[1] );
+    }
+  }
+
   /**
    * Retrieves the first occurrence of a query parameter based on its key.
    * Returns undefined if the query parameter is not found.
@@ -22,18 +33,7 @@
    * @return {String}
    */
   window.phetcommon.getQueryParameter = function( key ) {
-    var value;
-    if ( typeof window !== 'undefined' && window.location.search ) {
-      var params = window.location.search.slice( 1 ).split( '&' );
-      for ( var i = 0; i < params.length; i++ ) {
-        var nameValuePair = params[i].split( '=' );
-        if ( nameValuePair[0] === key ) {
-          value = decodeURIComponent( nameValuePair[1] ).toLowerCase();
-          break;
-        }
-      }
-    }
-    return value;
+    return queryParamsMap[key];
   };
 
 }());
