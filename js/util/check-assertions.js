@@ -26,11 +26,11 @@
   if ( window.has ) {
     
     if ( !isProduction && ( hasBasic === undefined && enableAssertions ) || hasBasic ) {
-      console.log( 'enabling basic assertions (pass ?da to disable)' );
+      console.log( 'enabling basic assertions' );
     }
     
     if ( !isProduction && ( hasSlow === undefined && enableAllAssertions ) || hasSlow ) {
-      console.log( 'enabling slow assertions (?ea detected in query string)' );
+      console.log( 'enabling slow assertions' );
     }
   
     // window.assert enabled by default. turned off with 'da'
