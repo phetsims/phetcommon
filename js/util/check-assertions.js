@@ -8,27 +8,40 @@
  */
 (function() {
   'use strict';
-
-  var enableAssertions = !!window.phetcommon.getQueryParameter( 'ea' );
+  
+  // TODO: separate this logic out into a more common area?
+  var isProduction = $( 'meta[name=phet-sim-level]' ).attr( 'content' ) === 'production';
+  
+  var enableAllAssertions = !isProduction && !!window.phetcommon.getQueryParameter( 'eall' ); // for disabling all assertions
+  var enableAssertions = enableAllAssertions || ( !isProduction && !!window.phetcommon.getQueryParameter( 'ea' ) );  // for enabling all assertions
+  
+  var hasBasic = window.has && window.has( 'assert.basic' );
+  var hasSlow = window.has && window.has( 'assert.slow' );
 
   // always return whether assertions are enabled
   function callback( global, document, anElement ) {
     return enableAssertions;
   }
-
-  if ( enableAssertions ) {
-    console.log( 'assertions enabled' );
-  }
-
+  
   if ( window.has ) {
-    // add an entry for each type of assertion
-    _.each( [
-      'assert.dot', // TODO: consider names like dot.assert and scenery.assert instead?
-      'assert.kite',
-      'assert.kite.extra',
-      'assert.scenery',
-      'assert.scenery.extra'
-    ], function( name ) { window.has.add( name, callback ); } );
+    
+    if ( !isProduction && ( hasBasic === undefined && enableAssertions ) || hasBasic ) {
+      console.log( 'enabling basic assertions (pass ?da to disable)' );
+    }
+    
+    if ( !isProduction && ( hasSlow === undefined && enableAllAssertions ) || hasSlow ) {
+      console.log( 'enabling slow assertions (?ea detected in query string)' );
+    }
+  
+    // window.assert enabled by default. turned off with 'da'
+    if ( hasBasic === undefined ) {
+      window.has.add( 'assert.basic', function( global, document, anElement ) { return enableAssertions; } );
+    }
+    
+    // window.assertSlow disabled by default. turned on with 'ea'
+    if ( hasSlow === undefined ) {
+      window.has.add( 'assert.slow', function( global, document, anElement ) { return enableAllAssertions; } );
+    }
   }
   else {
     console.log( 'has.js not found, using default assertion levels' );
