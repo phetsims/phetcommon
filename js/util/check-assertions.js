@@ -18,11 +18,6 @@
   var hasBasic = window.has && window.has( 'assert.basic' );
   var hasSlow = window.has && window.has( 'assert.slow' );
 
-  // always return whether assertions are enabled
-  function callback( global, document, anElement ) {
-    return enableAssertions;
-  }
-  
   if ( window.has ) {
     
     if ( !isProduction && ( hasBasic === undefined && enableAssertions ) || hasBasic ) {
