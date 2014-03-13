@@ -26,9 +26,24 @@ _gaq.push( ['_trackPageLoadTime'] );
 })();
 
 // Tracking code for Hewlett, see https://github.com/phetsims/joist/issues/109
+/* Originally below, modified for linter:
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','hewlettOERTracker');
 hewlettOERTracker('create', 'UA-5033010-1', 'phet.colorado.edu');
 hewlettOERTracker('send', 'pageview');
+*/
+(function(i,s,o,g,r,a,m) {
+  'use strict';
+  i.GoogleAnalyticsObject=r;
+  i[r]=i[r]||function() {
+    (i[r].q=i[r].q||[]).push(arguments);
+  },i[r].l=1*new Date();
+  a=s.createElement(o),m=s.getElementsByTagName(o)[0];
+  a.async=1;
+  a.src=g;
+  m.parentNode.insertBefore(a,m);
+} )( window, document, 'script', '//www.google-analytics.com/analytics.js', 'hewlettOERTracker' );
+window.hewlettOERTracker('create', 'UA-5033010-1', 'phet.colorado.edu');
+window.hewlettOERTracker('send', 'pageview');
