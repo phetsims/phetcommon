@@ -2,7 +2,7 @@
 
 /**
  * Google analytics collection for HTML5 sims.
- * Code provided by Google, possibly doctored by PhET.
+ * Code provided by Google and Hewlett, possibly doctored by PhET.
  * Include this script as the last thing in your DOM's head, like this:
  * <script src='common/phetcommon/js/analytics/google-analytics.js'></script>
  *
@@ -14,9 +14,6 @@ _gaq.push( ['_setAccount', 'UA-5033201-1'] );
 _gaq.push( ['_setDomainName', 'phet.colorado.edu'] );
 _gaq.push( ['_trackPageview'] );
 _gaq.push( ['_trackPageLoadTime'] );
-_gaq.push( ['b._setAccount', 'UA-5033010-1'] );
-_gaq.push( ['b._setDomainName', 'phet.colorado.edu'] );
-_gaq.push( ['b._trackPageview'] );
 
 (function() {
   'use strict';
@@ -27,3 +24,11 @@ _gaq.push( ['b._trackPageview'] );
   var s = document.getElementsByTagName( 'script' )[0];
   s.parentNode.insertBefore( ga, s );
 })();
+
+// Tracking code for Hewlett, see https://github.com/phetsims/joist/issues/109
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','hewlettOERTracker');
+hewlettOERTracker('create', 'UA-5033010-1', 'phet.colorado.edu');
+hewlettOERTracker('send', 'pageview');
