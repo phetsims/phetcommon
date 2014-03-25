@@ -15,7 +15,7 @@
  * recordInputEventLog - enables input event logging, provide an optional name for the session, log is available via PhET menu
  * screenIndex - selects this screen on the home screen
  * showHomeScreen - if false, go immediate to screenIndex, defaults to screenIndex=0
- * showPointerArea - touch areas in red, mouse areas in blue, both dotted outlines
+ * showPointerAreas - touch areas in red, mouse areas in blue, both dotted outlines
  * standalone - runs screenIndex as a standalone sim, defaults to screenIndex=0
  *
  * @author Sam Reid, PhET
