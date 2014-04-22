@@ -4,7 +4,7 @@
  * Enables or disables assertions in common libraries based on the 'dev' query parameter flag.
  * Must be run before RequireJS, and assumes that query-parameters.js has been run.
  *
- * @author Jonathan Olson <olsonsjc@gmail.com>
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 (function() {
   'use strict';

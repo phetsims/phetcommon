@@ -4,7 +4,7 @@
  * Transform between model and view coordinate frames,
  * and provides convenience methods over an actual dot.Transform3
  *
- * @author Jonathan Olson <olsonsjc@gmail.com>
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Sam Reid
  */
 define( function ( require ) {
