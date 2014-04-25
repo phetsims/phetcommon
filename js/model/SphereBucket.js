@@ -14,6 +14,7 @@ define( function( require ) {
   'use strict';
 
   // Includes
+  var cleanArray = require( 'PHET_CORE/cleanArray' );
   var Vector2 = require( 'DOT/Vector2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Bucket = require( 'PHETCOMMON/model/Bucket' );
@@ -98,7 +99,7 @@ define( function( require ) {
         delete particle.bucketRemovalListener;
       }
     } );
-    this._particles.length = 0;
+    cleanArray( this._particles );
   };
 
   SphereBucket.prototype._isPositionOpen = function( position ) {
