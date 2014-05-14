@@ -29,7 +29,7 @@ define( function( require ) {
   // is the same as the width specified at construction.
   var HOLE_ELLIPSE_HEIGHT_PROPORTION = 0.25;
 
-  var Bucket = function( options ) {
+  function Bucket( options ) {
     options = _.extend( {
       // defaults
       position: options.position || Vector2.ZERO,
@@ -74,7 +74,7 @@ define( function( require ) {
                                      .lineTo( size.width * 0.5, 0 )
                                      .ellipticalArc( 0, 0, holeRadiusX, holeRadiusY, 0, 0, Math.PI, true )
                                      .close();
-  };
+  }
 
   return Bucket;
 } );
