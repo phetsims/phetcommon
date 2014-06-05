@@ -23,6 +23,7 @@ define( function ( require ) {
   inherit( Transform3, ModelViewTransform2, {
     // convenience model => view
     modelToViewPosition: function( point )  { return this.transformPosition2( point ); },
+    modelToViewXY:       function( x, y )   { return new Vector2( this.modelToViewX( x ), this.modelToViewY( y ) ); },
     modelToViewX:        function( x )      { return this.matrix.m00() * x + this.matrix.m02();},
     modelToViewY:        function( y )      { return this.matrix.m11() * y + this.matrix.m12();},
     modelToViewDelta:    function( vector ) { return this.transformDelta2( vector ); },
@@ -35,6 +36,7 @@ define( function ( require ) {
     
     // convenience view => model
     viewToModelPosition: function( point )  { return this.inversePosition2( point ); },
+    viewToModelXY:       function( x, y )   { return new Vector2( this.viewToModelX( x ), this.viewToModelY( y ) ); },
     viewToModelX:        function( x )      { return this.inversePosition2( new Vector2( x, 0 ) ).x; },
     viewToModelY:        function( y )      { return this.inversePosition2( new Vector2( 0, y ) ).y; },
     viewToModelDelta:    function( vector ) { return this.inverseDelta2( vector ); },

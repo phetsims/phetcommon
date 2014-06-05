@@ -1,3 +1,4 @@
+6/5/14 #15 added modelToViewXY and viewToModelXY to ModelViewTransform2
 5/30/13 Added adapters to Property.js to conform to the Fort.property interface
 4/25/13 delete ModelViewTransform2D
 4/25/13 mark ModelViewTransform2D as deprecated
