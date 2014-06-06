@@ -4,6 +4,10 @@
  * Transform between model and view coordinate frames,
  * and provides convenience methods over an actual dot.Transform3
  *
+ * Requires that the transform is "aligned", i.e., it can be built only from component-wise translation and scaling.
+ * Equivalently, the output x coordinate should not depend on the input y, and the output y shouldn't depend on the
+ * input x.
+ *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Sam Reid
  */
@@ -37,15 +41,23 @@ define( function ( require ) {
     // convenience view => model
     viewToModelPosition: function( point )  { return this.inversePosition2( point ); },
     viewToModelXY:       function( x, y )   { return new Vector2( this.viewToModelX( x ), this.viewToModelY( y ) ); },
-    viewToModelX:        function( x )      { return this.inversePosition2( new Vector2( x, 0 ) ).x; },
-    viewToModelY:        function( y )      { return this.inversePosition2( new Vector2( 0, y ) ).y; },
+    viewToModelX:        function( x )      { return this.getInverse().m00() * x + this.getInverse().m02(); },
+    viewToModelY:        function( y )      { return this.getInverse().m11() * y + this.getInverse().m12(); },
     viewToModelDelta:    function( vector ) { return this.inverseDelta2( vector ); },
     viewToModelNormal:   function( normal ) { return this.inverseNormal2( normal ); },
     viewToModelDeltaX:   function( x )      { return this.inverseDeltaX( x ); },
     viewToModelDeltaY:   function( y )      { return this.inverseDeltaY( y ); },
     viewToModelBounds:   function( bounds ) { return this.inverseBounds2( bounds ); },
     viewToModelShape:    function( shape )  { return this.inverseShape( shape ); },
-    viewToModelRay:      function( ray )    { return this.inverseRay2( ray ); }
+    viewToModelRay:      function( ray )    { return this.inverseRay2( ray ); },
+    
+    // @overrides Transform3.setMatrix
+    setMatrix: function( matrix ) {
+      assert && assert( matrix.isAligned(),
+                        'Our current ModelViewTransform2 implementation will not work with arbitrary rotations.' );
+      
+      Transform3.prototype.setMatrix.call( this, matrix );
+    }
   } );
   
   /*---------------------------------------------------------------------------*
