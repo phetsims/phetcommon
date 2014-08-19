@@ -53,6 +53,10 @@ define( function( require ) {
         var gcd = this.gcd( this.numerator, this.denominator );
         this.numerator = gcd === 0 ? 0 : Math.round( this.numerator / gcd );
         this.denominator = gcd === 0 ? 0 : Math.round( this.denominator / gcd );
+      },
+
+      equals: function( that ) {
+        return this.numerator === that.numerator && this.denominator === that.denominator
       }
     },
 
