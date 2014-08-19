@@ -31,6 +31,7 @@ define( function( require ) {
 
   return inherit( Object, Fraction, {
 
+      // Floating-point error is not an issue as long as numerator and denominator are integers < 2^53
       getValue: function() {
         return this.numerator / this.denominator;
       },
