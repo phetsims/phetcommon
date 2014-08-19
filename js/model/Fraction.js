@@ -56,7 +56,7 @@ define( function( require ) {
       },
 
       equals: function( that ) {
-        return this.numerator === that.numerator && this.denominator === that.denominator
+        return this.numerator === that.numerator && this.denominator === that.denominator;
       }
     },
 
