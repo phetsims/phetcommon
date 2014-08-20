@@ -44,13 +44,8 @@ define( function( require ) {
         return this.numerator + '/' + this.denominator;
       },
 
-      // @private, find the greatest common denominator using the classic algorithm
-      gcd: function( a, b ) {
-        return b === 0 ? a : this.gcd( b, a % b );
-      },
-
       reduce: function() {
-        var gcd = this.gcd( this.numerator, this.denominator );
+        var gcd = Util.gcd( this.numerator, this.denominator );
         this.numerator = gcd === 0 ? 0 : Math.round( this.numerator / gcd );
         this.denominator = gcd === 0 ? 0 : Math.round( this.denominator / gcd );
       },
