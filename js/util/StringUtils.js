@@ -1,7 +1,7 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * Collection of utility function related to Strings.
+ * Collection of utility functions related to Strings.
  */
 define( function() {
   'use strict';
