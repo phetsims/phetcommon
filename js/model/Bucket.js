@@ -36,7 +36,11 @@ define( function( require ) {
       size: new Dimension2( options.width || 200, options.height || 50 ),
       baseColor: '#ff0000',
       caption: 'Set a caption!',
-      captionColor: 'white'
+      captionColor: 'white',
+
+      // The following flag controls whether the bucket shape should be essentially upside down.  This allows it to be
+      // used in cases where the model uses the inverted-y scheme commonly associated with screen layouts.
+      invertY: false
     }, options );
 
     // The position is defined to be where the center of the hole is.
@@ -66,14 +70,15 @@ define( function( require ) {
     // that the 'tilt' of the bucket can be changed without needing to
     // rework this code.
     var containerHeight = size.height * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
+    var multiplier = options.invertY ? 1 : -1;
     this.containerShape = new Shape().moveTo( -size.width * 0.5, 0 )
-                                     .lineTo( -size.width * 0.4, -containerHeight * 0.8 )
-                                     .cubicCurveTo( -size.width * 0.3, -containerHeight * 0.8 - size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
-                                                    size.width * 0.3,  -containerHeight * 0.8 - size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
-                                                    size.width * 0.4,  -containerHeight * 0.8 )
-                                     .lineTo( size.width * 0.5, 0 )
-                                     .ellipticalArc( 0, 0, holeRadiusX, holeRadiusY, 0, 0, Math.PI, true )
-                                     .close();
+      .lineTo( -size.width * 0.4, multiplier * containerHeight * 0.8 )
+      .cubicCurveTo( -size.width * 0.3, multiplier * ( containerHeight * 0.8 + size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6 ),
+        size.width * 0.3, multiplier * ( containerHeight * 0.8 + size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6 ),
+        size.width * 0.4, multiplier * containerHeight * 0.8 )
+      .lineTo( size.width * 0.5, 0 )
+      .ellipticalArc( 0, 0, holeRadiusX, holeRadiusY, 0, 0, Math.PI, !options.invertY )
+      .close();
   }
 
   return Bucket;
