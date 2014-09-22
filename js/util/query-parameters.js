@@ -12,6 +12,7 @@
  * fuzzTouches - randomly sends touch events to sim (not working as of 10/8/13)
  * locale - test with a specific locale
  * playbackInputEventLog - plays event logging back from the server, provide an optional name for the session
+ * profiler - shows profiling information for the sim
  * recordInputEventLog - enables input event logging, provide an optional name for the session, log is available via PhET menu
  * screenIndex - selects this screen on the home screen
  * showHomeScreen - if false, go immediate to screenIndex, defaults to screenIndex=0
