@@ -22,7 +22,8 @@
  *                         - if a value is specified, it will also simulate a context loss after the specified number
  *                         - of milliseconds has elapsed.
  *                         - The value can be omitted to manually simulate the context loss with simScene.simulateWebGLContextLoss()
- * webglContextLossIncremental - if this option is present, it will put the WebGLLayer into a testing mode.
+ * webglContextLossIncremental - if this option is present, it will put the WebGLLayer into a testing mode which
+ *                             - simulates context loss between successively increasing gl calls (starting at 1)
  *                             - this option should be used in conjunction with webglContextLossTimeout since
  *                             - it only triggers upon the first context lass.
  *
