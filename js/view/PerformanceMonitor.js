@@ -26,7 +26,7 @@ define( function( require ) {
     // add to DOM
     document.body.appendChild( stats.domElement );
 
-    // @param {Boolean} visible
+    // @param {boolean} visible
     this.setVisible = function( visible ) {
       if ( visible ) {
         stats.domElement.style.visibility = 'visible';

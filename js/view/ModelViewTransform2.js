@@ -78,7 +78,7 @@ define( function ( require ) {
    * view = model * scale + offset
    *
    * @param offset {Vector2} the offset in view coordinates
-   * @param scale  {Number} the scale to map model to view
+   * @param scale  {number} the scale to map model to view
    * @return the resultant ModelViewTransform2
    */
   ModelViewTransform2.createOffsetScaleMapping = function( offset, scale ) {
@@ -91,8 +91,8 @@ define( function ( require ) {
    * view.y = model.y * yScale + offset.y
    *
    * @param offset {Vector2} the offset in view coordinates
-   * @param xScale {Number} the scale to map model to view in the x-dimension
-   * @param yScale {Number} the scale to map model to view in the y-dimension
+   * @param xScale {number} the scale to map model to view in the x-dimension
+   * @param yScale {number} the scale to map model to view in the y-dimension
    * @return the resultant ModelViewTransform2
    */
   ModelViewTransform2.createOffsetXYScaleMapping = function( offset, xScale, yScale ) {
@@ -104,8 +104,8 @@ define( function ( require ) {
    *
    * @param modelPoint {Vector2} the reference point in the model which maps to the specified view point
    * @param viewPoint  {Vector2} the reference point in the view
-   * @param xScale     {Number} the amount to scale in the x direction
-   * @param yScale     {Number} the amount to scale in the y direction
+   * @param xScale     {number} the amount to scale in the x direction
+   * @param yScale     {number} the amount to scale in the y direction
    * @return the resultant ModelViewTransform2
    */
   ModelViewTransform2.createSinglePointXYScaleMapping = function( modelPoint, viewPoint, xScale, yScale ) {
@@ -121,7 +121,7 @@ define( function ( require ) {
    *
    * @param modelPoint {Vector2} the reference point in the model which maps to the specified view point
    * @param viewPoint  {Vector2} the reference point in the view
-   * @param scale      {Number} the amount to scale in the x and y directions
+   * @param scale      {number} the amount to scale in the x and y directions
    * @return the resultant ModelViewTransform2
    */
   ModelViewTransform2.createSinglePointScaleMapping = function( modelPoint, viewPoint, scale ) {
@@ -135,7 +135,7 @@ define( function ( require ) {
    *
    * @param modelPoint {Vector2} the reference point in the model which maps to the specified view point
    * @param viewPoint  {Vector2} the reference point in the view
-   * @param scale      {Number} the amount to scale in the x and y directions
+   * @param scale      {number} the amount to scale in the x and y directions
    * @return the resultant ModelViewTransform2
    */
   ModelViewTransform2.createSinglePointScaleInvertedYMapping = function( modelPoint, viewPoint, scale ) {

@@ -54,8 +54,8 @@
   /**
    * Retrieves the first occurrence of a query parameter based on its key.
    * Returns undefined if the query parameter is not found.
-   * @param {String} key
-   * @return {String}
+   * @param {string} key
+   * @return {string}
    */
   window.phetcommon.getQueryParameter = function( key ) {
     return queryParamsMap[key];

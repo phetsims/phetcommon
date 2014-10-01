@@ -16,8 +16,8 @@ define( function() {
    * <p>
    * Eg, StringUtils.format( '{0} + {1}', 2, 3 ) -> '2 + 3'
    *
-   * @param {String} pattern pattern string, with N placeholders, where N is an integer
-   * @return {String}
+   * @param {string} pattern pattern string, with N placeholders, where N is an integer
+   * @return {string}
    */
   StringUtils.format = function( pattern ) {
     var args = arguments;

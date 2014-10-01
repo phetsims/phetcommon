@@ -52,12 +52,12 @@ define(
 
     /**
      * This function starts with required parameters
-     * @param {String} component
-     * @param {String} componentType
-     * @param {String} action
+     * @param {string} component
+     * @param {string} componentType
+     * @param {string} action
      * @param {Array} parameters optional parameters
-     * @param {String} messageType optional
-     * @param {Number} time
+     * @param {string} messageType optional
+     * @param {number} time
      * */
     Analytics.prototype.logToSimian = function( component, componentType, action, parameters, messageType, time ) {
       var img = new Image();

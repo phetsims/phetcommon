@@ -19,8 +19,8 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   /**
-   * @param {Number} numerator must be an integer
-   * @param {Number} denominator must be an integer
+   * @param {number} numerator must be an integer
+   * @param {number} denominator must be an integer
    * @constructor
    */
   function Fraction( numerator, denominator ) {
