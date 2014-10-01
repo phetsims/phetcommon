@@ -7,7 +7,10 @@
  * <p>
  * Available query parameters:
  *
- * dev - enable developer-only features
+ * accessibility - enable accessibility features, such as keyboard navigation (mileage may vary!)
+ * dev - enable developer-only features, such as showing the layout bounds
+ * ea - enable assertions, internal code error checks
+ * eall - enable all assertions, as above but with more time consuming checks
  * fuzzMouse - randomly sends mouse events to sim
  * fuzzTouches - randomly sends touch events to sim (not working as of 10/8/13)
  * locale - test with a specific locale
