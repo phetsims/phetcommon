@@ -7,7 +7,6 @@
  *
  * dev - enable developer-only features, such as showing the layout bounds
  * ea - enable assertions, internal code error checks
- * eall - enable all assertions, as above but with more time consuming checks
  * fuzzMouse - randomly sends mouse events to sim
  * profiler - shows profiling information for the sim
  * showPointerAreas - touch areas in red, mouse areas in blue, both dotted outlines
@@ -15,6 +14,7 @@
  * Here are the other supported query parameters:
  *
  * accessibility - enable accessibility features, such as keyboard navigation (mileage may vary!)
+ * eall - enable all assertions, as above but with more time consuming checks
  * fuzzTouches - randomly sends touch events to sim (not working as of 10/8/13)
  * locale - test with a specific locale
  * playbackInputEventLog - plays event logging back from the server, provide an optional name for the session
