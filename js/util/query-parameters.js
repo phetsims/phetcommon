@@ -3,7 +3,7 @@
 /**
  * PhET Simulations can be launched with query parameters which enable certain features.
  *
- * Here are the query parameters that are most useful for QA Testing:
+ * Query parameters most useful for QA Testing:
  *
  * dev - enable developer-only features, such as showing the layout bounds
  * ea - enable assertions, internal code error checks
@@ -11,11 +11,10 @@
  * profiler - shows profiling information for the sim
  * showPointerAreas - touch areas in red, mouse areas in blue, both dotted outlines
  *
- * Here are the other supported query parameters:
+ * Other query parameters:
  *
  * accessibility - enable accessibility features, such as keyboard navigation (mileage may vary!)
  * eall - enable all assertions, as above but with more time consuming checks
- * fuzzTouches - randomly sends touch events to sim (not working as of 10/8/13)
  * locale - test with a specific locale
  * playbackInputEventLog - plays event logging back from the server, provide an optional name for the session
  * recordInputEventLog - enables input event logging, provide an optional name for the session, log is available via PhET menu
