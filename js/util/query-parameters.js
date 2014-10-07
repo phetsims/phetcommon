@@ -12,7 +12,7 @@
  * profiler - shows profiling information for the sim
  * showPointerAreas - touch areas in red, mouse areas in blue, both dotted outlines
  *
- * Here are the other supported QA testing:
+ * Here are the other supported query parameters:
  *
  * accessibility - enable accessibility features, such as keyboard navigation (mileage may vary!)
  * fuzzTouches - randomly sends touch events to sim (not working as of 10/8/13)
