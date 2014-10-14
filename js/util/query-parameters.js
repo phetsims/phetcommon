@@ -19,6 +19,11 @@
  * playbackInputEventLog - plays event logging back from the server, provide an optional name for the session
  * recordInputEventLog - enables input event logging, provide an optional name for the session, log is available via PhET menu
  * screenIndex - selects this screen on the home screen
+ * screens - select one or more screens (with a 1-based index) to run in the sim, with a dot instead of a comma delimiter.
+ *                          - For example ?screens=3.1 will launch with screen 1 and 3 with 3 first and 1 second.
+ *                          - ?screens=2 would launch with just screen 2.
+ *                          - Note that launching with a subset of screen can speed up the startup time significantly
+ *                          - because only the selected screens are initialized
  * showHomeScreen - if false, go immediate to screenIndex, defaults to screenIndex=0
  * standalone - runs screenIndex as a standalone sim, defaults to screenIndex=0
  * webglContextLossTimeout - if enabled, will create WebGL contexts that can simulate context loss
