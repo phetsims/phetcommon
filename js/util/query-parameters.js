@@ -30,6 +30,7 @@
  *                         - if a value is specified, it will also simulate a context loss after the specified number
  *                         - of milliseconds has elapsed.
  *                         - The value can be omitted to manually simulate the context loss with simScene.simulateWebGLContextLoss()
+ * webgl - can be set to false to disallow webgl rendering in scenery, see https://github.com/phetsims/scenery/issues/289
  * webglContextLossIncremental - if this option is present, it will put the WebGLLayer into a testing mode which
  *                             - simulates context loss between successively increasing gl calls (starting at 1)
  *                             - this option should be used in conjunction with webglContextLossTimeout since
