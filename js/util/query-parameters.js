@@ -22,7 +22,7 @@
  * screens - select one or more screens (with a 1-based index) to run in the sim, with a dot instead of a comma delimiter.
  *                          - For example ?screens=3.1 will launch with screen 1 and 3 with 3 first and 1 second.
  *                          - ?screens=2 would launch with just screen 2.
- *                          - Note that launching with a subset of screen can speed up the startup time significantly
+ *                          - Note that launching with a subset of screens can speed up the startup time significantly
  *                          - because only the selected screens are initialized
  * showHomeScreen - if false, go immediate to screenIndex, defaults to screenIndex=0
  * standalone - runs screenIndex as a standalone sim, defaults to screenIndex=0
