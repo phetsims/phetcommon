@@ -22,14 +22,17 @@
     var hasBasic = window.has( 'assert.basic' );
     var hasSlow = window.has( 'assert.slow' );
 
+    //TODO last part of this expression looks wrong, hasBasic doesn't mean that it's enabled
     if ( !isProduction && ( hasBasic === undefined && enableBasicAssertions ) || hasBasic ) {
       console.log( 'enabling basic assertions' );
     }
-    
+
+    //TODO last part of this expression looks wrong, hasSlow doesn't mean that it's enabled
     if ( !isProduction && ( hasSlow === undefined && enableAllAssertions ) || hasSlow ) {
       console.log( 'enabling slow assertions' );
     }
 
+    //TODO why not move these above the console output? If would simplify the 'if' expressions.
     // window.assert.basic undefined by default, turned on with 'ea'
     if ( hasBasic === undefined ) {
       window.has.add( 'assert.basic', function( global, document, anElement ) { return enableBasicAssertions; } );
