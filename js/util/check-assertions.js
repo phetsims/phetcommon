@@ -30,12 +30,12 @@
       console.log( 'enabling slow assertions' );
     }
 
-    // window.assert disabled by default, turned on with 'ea'
+    // window.assert.basic undefined by default, turned on with 'ea'
     if ( hasBasic === undefined ) {
       window.has.add( 'assert.basic', function( global, document, anElement ) { return enableBasicAssertions; } );
     }
 
-    // window.assertSlow disabled by default, turned on with 'eall'
+    // window.assert.slow undefined by default, turned on with 'eall'
     if ( hasSlow === undefined ) {
       window.has.add( 'assert.slow', function( global, document, anElement ) { return enableAllAssertions; } );
     }
