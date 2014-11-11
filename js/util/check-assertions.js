@@ -32,12 +32,13 @@
       console.log( 'enabling slow assertions' );
     }
 
-    //TODO why not move these above the console output? If would simplify the 'if' expressions.
+    //TODO why not move this above the console output? if expression would simplify to ( !isProduction && enableBasicAssertions )
     // window.assert.basic undefined by default, turned on with 'ea'
     if ( hasBasic === undefined ) {
       window.has.add( 'assert.basic', function( global, document, anElement ) { return enableBasicAssertions; } );
     }
 
+    //TODO why not move this above the console output? if expression would simplify to ( !isProduction && enableAllAssertions )
     // window.assert.slow undefined by default, turned on with 'eall'
     if ( hasSlow === undefined ) {
       window.has.add( 'assert.slow', function( global, document, anElement ) { return enableAllAssertions; } );
