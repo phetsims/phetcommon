@@ -4,7 +4,7 @@
  * Enables or disables assertions in common libraries using query parameters.
  * There are two types of assertions: basic and slow. Enabling slow assertions will adversely impact performance.
  * 'ea' enables basic assertions, 'eall' enables basic and slow assertions.
- * Must be run before RequireJS, and assumes that query-parameters.js has been run.
+ * Must be run before RequireJS, and assumes that assert.js and query-parameters.js has been run.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
