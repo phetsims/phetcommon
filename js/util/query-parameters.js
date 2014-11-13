@@ -10,7 +10,7 @@
  * fuzzMouse - randomly sends mouse events to sim
  * profiler - shows profiling information for the sim
  * showPointerAreas - touch areas in red, mouse areas in blue, both dotted outlines
- * webgl - can be set to false to turn off webgl rendering in scenery, see https://github.com/phetsims/scenery/issues/289
+ * webgl - can be set to false to turn off WebGL rendering, see https://github.com/phetsims/scenery/issues/289
  *
  * Other query parameters:
  *
