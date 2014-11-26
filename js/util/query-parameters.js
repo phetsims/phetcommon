@@ -16,7 +16,6 @@
  *
  * accessibility - enable accessibility features, such as keyboard navigation (mileage may vary!)
  * eall - enable all assertions, as above but with more time consuming checks
- * iframeAPI - enable the SimIFrameAPI, see SimIFrameAPI.js
  * joistRenderer - specify a renderer for Joist to use, such as 'svg', 'webgl' or 'canvas'
  * locale - test with a specific locale
  * playbackInputEventLog - plays event logging back from the server, provide an optional name for the session
