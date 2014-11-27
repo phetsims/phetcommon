@@ -1,7 +1,19 @@
 // Copyright 2002-2013, University of Colorado Boulder
 
 /**
- * PhET Simulations can be launched with query parameters which enable certain features.
+ * PhET Simulations can be launched with query parameters which enable certain features.  To use a query parameter,
+ * provide the full URL of the simulation and append a question mark (?) then the query parameter (and optionally its
+ * value assignment).  For instance:
+ * http://www.colorado.edu/physics/phet/dev/html/reactants-products-and-leftovers/1.0.0-dev.13/reactants-products-and-leftovers_en.html?dev
+ *
+ * Here is an example of a value assignment:
+ * http://www.colorado.edu/physics/phet/dev/html/reactants-products-and-leftovers/1.0.0-dev.13/reactants-products-and-leftovers_en.html?webgl=false
+ *
+ * To use multiple query parameters, specify the question mark before the first query parameter, then ampersands (&)
+ * between other query parameters.  Here is an example of multiple query parameters:
+ * http://www.colorado.edu/physics/phet/dev/html/reactants-products-and-leftovers/1.0.0-dev.13/reactants-products-and-leftovers_en.html?dev&showPointerAreas&webgl=false
+ *
+ * For more on query parameters, please see http://en.wikipedia.org/wiki/Query_string
  *
  * Query parameters most useful for QA Testing:
  *
@@ -10,7 +22,7 @@
  * fuzzMouse - randomly sends mouse events to sim
  * profiler - shows profiling information for the sim
  * showPointerAreas - touch areas in red, mouse areas in blue, both dotted outlines
- * webgl - can be set to false to turn off WebGL rendering, see https://github.com/phetsims/scenery/issues/289
+ * webgl - can be set to false with ?webgl=false to turn off WebGL rendering, see https://github.com/phetsims/scenery/issues/289
  *
  * Other query parameters:
  *
