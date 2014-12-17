@@ -2,7 +2,7 @@
 
 /**
  * Class that defines the shape and common functionality for a 'bucket', which
- * is container into which some sort of model objects may be placed.  This is
+ * is a container into which some sort of model objects may be placed.  This is
  * a model object in the Model-View-Controller paradigm, and requires a
  * counterpart in the view in order to be presented to the user.
  * <p/>
