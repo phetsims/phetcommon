@@ -1,7 +1,7 @@
 {
   "name": "phetcommon",
   "version": "1.0.0-dev.1",
-  "phetLibs": "phetcommon",
+  "phetLibs": "phetcommon phet-core",
   "preload": "",
   "license": "GPLv3",
   "repository": {
