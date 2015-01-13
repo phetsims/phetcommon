@@ -11,58 +11,58 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Sam Reid
  */
-define( function ( require ) {
+define( function( require ) {
   'use strict';
 
   var inherit = require( 'PHET_CORE/inherit' );
-  
+
   var Vector2 = require( 'DOT/Vector2' );
   var Matrix3 = require( 'DOT/Matrix3' );
   var Transform3 = require( 'DOT/Transform3' );
-  
+
   function ModelViewTransform2( matrix ) {
     Transform3.call( this, matrix );
   }
-  
+
   inherit( Transform3, ModelViewTransform2, {
     // convenience model => view
-    modelToViewPosition: function( point )  { return this.transformPosition2( point ); },
-    modelToViewXY:       function( x, y )   { return new Vector2( this.modelToViewX( x ), this.modelToViewY( y ) ); },
-    modelToViewX:        function( x )      { return this.matrix.m00() * x + this.matrix.m02();},
-    modelToViewY:        function( y )      { return this.matrix.m11() * y + this.matrix.m12();},
-    modelToViewDelta:    function( vector ) { return this.transformDelta2( vector ); },
-    modelToViewNormal:   function( normal ) { return this.transformNormal2( normal ); },
-    modelToViewDeltaX:   function( x )      { return this.transformDeltaX( x ); },
-    modelToViewDeltaY:   function( y )      { return this.transformDeltaY( y ); },
-    modelToViewBounds:   function( bounds ) { return this.transformBounds2( bounds ); },
-    modelToViewShape:    function( shape )  { return this.transformShape( shape ); },
-    modelToViewRay:      function( ray )    { return this.transformRay2( ray ); },
-    
+    modelToViewPosition: function( point ) { return this.transformPosition2( point ); },
+    modelToViewXY: function( x, y ) { return new Vector2( this.modelToViewX( x ), this.modelToViewY( y ) ); },
+    modelToViewX: function( x ) { return this.matrix.m00() * x + this.matrix.m02();},
+    modelToViewY: function( y ) { return this.matrix.m11() * y + this.matrix.m12();},
+    modelToViewDelta: function( vector ) { return this.transformDelta2( vector ); },
+    modelToViewNormal: function( normal ) { return this.transformNormal2( normal ); },
+    modelToViewDeltaX: function( x ) { return this.transformDeltaX( x ); },
+    modelToViewDeltaY: function( y ) { return this.transformDeltaY( y ); },
+    modelToViewBounds: function( bounds ) { return this.transformBounds2( bounds ); },
+    modelToViewShape: function( shape ) { return this.transformShape( shape ); },
+    modelToViewRay: function( ray ) { return this.transformRay2( ray ); },
+
     // convenience view => model
-    viewToModelPosition: function( point )  { return this.inversePosition2( point ); },
-    viewToModelXY:       function( x, y )   { return new Vector2( this.viewToModelX( x ), this.viewToModelY( y ) ); },
-    viewToModelX:        function( x )      { return this.getInverse().m00() * x + this.getInverse().m02(); },
-    viewToModelY:        function( y )      { return this.getInverse().m11() * y + this.getInverse().m12(); },
-    viewToModelDelta:    function( vector ) { return this.inverseDelta2( vector ); },
-    viewToModelNormal:   function( normal ) { return this.inverseNormal2( normal ); },
-    viewToModelDeltaX:   function( x )      { return this.inverseDeltaX( x ); },
-    viewToModelDeltaY:   function( y )      { return this.inverseDeltaY( y ); },
-    viewToModelBounds:   function( bounds ) { return this.inverseBounds2( bounds ); },
-    viewToModelShape:    function( shape )  { return this.inverseShape( shape ); },
-    viewToModelRay:      function( ray )    { return this.inverseRay2( ray ); },
-    
+    viewToModelPosition: function( point ) { return this.inversePosition2( point ); },
+    viewToModelXY: function( x, y ) { return new Vector2( this.viewToModelX( x ), this.viewToModelY( y ) ); },
+    viewToModelX: function( x ) { return this.getInverse().m00() * x + this.getInverse().m02(); },
+    viewToModelY: function( y ) { return this.getInverse().m11() * y + this.getInverse().m12(); },
+    viewToModelDelta: function( vector ) { return this.inverseDelta2( vector ); },
+    viewToModelNormal: function( normal ) { return this.inverseNormal2( normal ); },
+    viewToModelDeltaX: function( x ) { return this.inverseDeltaX( x ); },
+    viewToModelDeltaY: function( y ) { return this.inverseDeltaY( y ); },
+    viewToModelBounds: function( bounds ) { return this.inverseBounds2( bounds ); },
+    viewToModelShape: function( shape ) { return this.inverseShape( shape ); },
+    viewToModelRay: function( ray ) { return this.inverseRay2( ray ); },
+
     // @overrides Transform3.setMatrix
     setMatrix: function( matrix ) {
       assert && assert( matrix.isAligned(),
-                        'Our current ModelViewTransform2 implementation will not work with arbitrary rotations.' );
-      
+        'Our current ModelViewTransform2 implementation will not work with arbitrary rotations.' );
+
       Transform3.prototype.setMatrix.call( this, matrix );
     }
   } );
-  
+
   /*---------------------------------------------------------------------------*
-  * Factory methods
-  *----------------------------------------------------------------------------*/
+   * Factory methods
+   *----------------------------------------------------------------------------*/
 
   /**
    * Creates a ModelViewTransform that uses the identity transform (i.e. model coordinates are the same as view coordinates)

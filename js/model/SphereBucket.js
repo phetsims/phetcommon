@@ -218,7 +218,7 @@ define( function( require ) {
     // Only the X-component is used for this determination, because if
     // the Y-component is used the particles often appear to fall sideways
     // when released above the bucket, which just looks weird.
-    var closestOpenLocation = openLocations[0] || Vector2.ZERO;
+    var closestOpenLocation = openLocations[ 0 ] || Vector2.ZERO;
 
     _.each( openLocations, function( location ) {
       if ( location.distance( position ) < closestOpenLocation.distance( position ) ) {
@@ -245,7 +245,7 @@ define( function( require ) {
   SphereBucket.prototype.countSupportingParticles = function( position ) {
     var count = 0;
     for ( var i = 0; i < this._particles.length; i++ ) {
-      var p = this._particles[i];
+      var p = this._particles[ i ];
       if ( p.destination.y < position.y && // Must be in a lower layer
            p.destination.distance( position ) < this._sphereRadius * 3 ) {
         // Must be a supporting particle.
@@ -260,7 +260,7 @@ define( function( require ) {
     do {
       for ( var i = 0; i < this._particles.length; i++ ) {
         particleMoved = false;
-        var particle = this._particles[i];
+        var particle = this._particles[ i ];
         if ( this._isDangling( particle ) ) {
           particle.destination = this._getNearestOpenLocation( particle.destination );
           particleMoved = true;

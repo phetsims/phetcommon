@@ -74,8 +74,8 @@ define( function( require ) {
     this.containerShape = new Shape().moveTo( -size.width * 0.5, 0 )
       .lineTo( -size.width * 0.4, multiplier * containerHeight * 0.8 )
       .cubicCurveTo( -size.width * 0.3, multiplier * ( containerHeight * 0.8 + size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6 ),
-        size.width * 0.3, multiplier * ( containerHeight * 0.8 + size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6 ),
-        size.width * 0.4, multiplier * containerHeight * 0.8 )
+      size.width * 0.3, multiplier * ( containerHeight * 0.8 + size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6 ),
+      size.width * 0.4, multiplier * containerHeight * 0.8 )
       .lineTo( size.width * 0.5, 0 )
       .ellipticalArc( 0, 0, holeRadiusX, holeRadiusY, 0, 0, Math.PI, !options.invertY )
       .close();

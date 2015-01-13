@@ -71,8 +71,8 @@
   if ( typeof window !== 'undefined' && window.location.search ) {
     var params = window.location.search.slice( 1 ).split( '&' );
     for ( var i = 0; i < params.length; i++ ) {
-      var nameValuePair = params[i].split( '=' );
-      queryParamsMap[nameValuePair[0]] = decodeURIComponent( nameValuePair[1] );
+      var nameValuePair = params[ i ].split( '=' );
+      queryParamsMap[ nameValuePair[ 0 ] ] = decodeURIComponent( nameValuePair[ 1 ] );
     }
   }
 
@@ -83,7 +83,7 @@
    * @return {string}
    */
   window.phetcommon.getQueryParameter = function( key ) {
-    return queryParamsMap[key];
+    return queryParamsMap[ key ];
   };
 
 }());

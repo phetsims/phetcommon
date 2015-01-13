@@ -34,15 +34,15 @@ define(
     };
 
     Analytics.prototype.messageToString = function( component, componentType, action, parameters, messageType, time ) {
-      var array = [time, messageType, component, componentType, action];
+      var array = [ time, messageType, component, componentType, action ];
       if ( parameters ) {
 
         for ( var i = 0; i < parameters.length; i++ ) {
-          var obj = parameters[i];
+          var obj = parameters[ i ];
 
           //See http://stackoverflow.com/questions/1078118/how-to-iterate-over-a-json-structure
           for ( var key in obj ) {
-            array.push( key + ' = ' + obj[key] );
+            array.push( key + ' = ' + obj[ key ] );
           }
         }
 
@@ -69,12 +69,12 @@ define(
                     '&action=' + action;
       if ( parameters !== undefined ) {
         for ( var i = 0; i < parameters.length; i++ ) {
-          var obj = parameters[i];
+          var obj = parameters[ i ];
 
           //http://stackoverflow.com/questions/1078118/how-to-iterate-over-a-json-structure
           for ( var key in obj ) {
             var attributeName = key;
-            var attributeValue = obj[key];
+            var attributeValue = obj[ key ];
             message = message + '&parameter_' + attributeName + '=' + attributeValue;
           }
         }

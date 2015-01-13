@@ -21,7 +21,7 @@ define( function() {
    */
   StringUtils.format = function( pattern ) {
     var args = arguments;
-    return pattern.replace( /{(\d)}/g, function( r, n ) { return args[+n + 1];} );
+    return pattern.replace( /{(\d)}/g, function( r, n ) { return args[ +n + 1 ];} );
   };
 
   return StringUtils;
