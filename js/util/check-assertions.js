@@ -14,8 +14,8 @@
   // TODO: separate this logic out into a more common area?
   var isProduction = $( 'meta[name=phet-sim-level]' ).attr( 'content' ) === 'production';
 
-  var enableAllAssertions = !isProduction && !!window.phetcommon.getQueryParameter( 'eall' ); // enables all assertions (basic and slow)
-  var enableBasicAssertions = enableAllAssertions || ( !isProduction && !!window.phetcommon.getQueryParameter( 'ea' ) );  // enables basic assertions
+  var enableAllAssertions = !isProduction && !!phet.phetcommon.getQueryParameter( 'eall' ); // enables all assertions (basic and slow)
+  var enableBasicAssertions = enableAllAssertions || ( !isProduction && !!phet.phetcommon.getQueryParameter( 'ea' ) );  // enables basic assertions
 
   if ( enableBasicAssertions ) {
     window.assertions.enableAssert();

@@ -9,7 +9,7 @@
 (function() {
   'use strict';
 
-  var enableAccessibility = !!window.phetcommon.getQueryParameter( 'accessibility' );
+  var enableAccessibility = !!phet.phetcommon.getQueryParameter( 'accessibility' );
 
   // always return whether assertions are enabled
   function callback( global, document, anElement ) {

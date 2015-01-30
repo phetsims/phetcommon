@@ -6,5 +6,5 @@
  */
 (function() {
   'use strict';
-  require.config( { config: { i18n: { locale: window.phetcommon.getQueryParameter( 'locale' ) } } } );
+  require.config( { config: { i18n: { locale: phet.phetcommon.getQueryParameter( 'locale' ) } } } );
 })();

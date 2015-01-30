@@ -63,9 +63,9 @@
 (function() {
   'use strict';
 
-  if ( !window.phetcommon ) {
-    window.phetcommon = {};
-  }
+  // Create the attachment point for all PhET globals
+  window.phet = window.phet || {};
+  window.phet.phetcommon = window.phet.phetcommon || {};
 
   //Pre-populate the query parameters map so that multiple subsequent look-ups are fast
   var queryParamsMap = {};
@@ -84,7 +84,7 @@
    * @param {string} key
    * @return {string}
    */
-  window.phetcommon.getQueryParameter = function( key ) {
+  window.phet.phetcommon.getQueryParameter = function( key ) {
     return queryParamsMap[ key ];
   };
 
