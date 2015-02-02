@@ -6,6 +6,8 @@
  * Include this script as the last thing in your DOM's head, like this:
  * <script src='common/phetcommon/js/analytics/google-analytics.js'></script>
  *
+ * NOTE: Please be careful about modifications, as it relies on external scripts.
+ *
  * @author Sam Reid
  */
 
