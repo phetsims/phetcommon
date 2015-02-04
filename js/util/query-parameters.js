@@ -88,4 +88,14 @@
     return queryParamsMap[ key ];
   };
 
+  /**
+   * Gets the cache buster args based on the provided query parameters.  Dy default it is:
+   * ?bust=<number>
+   * But this can be omitted if ?cacheBuster=false is provided
+   * See https://github.com/phetsims/joist/issues/196
+   * @returns {string}
+   */
+  window.phet.phetcommon.getCacheBusterArgs = function() {
+    return (phet.phetcommon.getQueryParameter( 'cacheBuster' ) !== 'false') ? ('bust=' + Date.now()) : '';
+  };
 }());
