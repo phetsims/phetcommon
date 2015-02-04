@@ -23,4 +23,24 @@
   if ( enableAllAssertions ) {
     window.assertions.enableAssertSlow();
   }
+
+  // Communicate sim errors to joist/tests/test-sims.html
+  if ( phet.phetcommon.getQueryParameter( 'postMessageOnError' ) ) {
+    window.addEventListener( 'error', function( a, b, c, d, e ) {
+      var message = '';
+      var stack = '';
+      if ( a && a.message ) {
+        message = a.message;
+      }
+      if ( a && a.error && a.error.stack ) {
+        stack = a.error.stack;
+      }
+      window.parent && window.parent.postMessage( JSON.stringify( {
+        type: 'error',
+        url: window.location.href,
+        message: message,
+        stack: stack
+      } ), '*' );
+    } );
+  }
 }());
