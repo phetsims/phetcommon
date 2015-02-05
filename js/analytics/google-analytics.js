@@ -16,7 +16,7 @@ _gaq.push( [ '_setAccount', 'UA-5033201-1' ] );
 _gaq.push( [ '_setDomainName', document.domain ] ); // track any domain (except localhost or file://)
 _gaq.push( [ '_setAllowLinker', true ] ); // allow cross-domain tracking
 _gaq.push( [ '_setCustomVar', 1, 'Sim Version', window.phetVersion, 3 ] ); // slot 1, 3->page-level scope
-_gaq.push( [ '_setCustomVar', 2, 'Sim Locale', window.phetLocale, 3 ] ); // slot 2, 3->page-level scope
+_gaq.push( [ '_setCustomVar', 2, 'Sim Locale', ( phet.chipper && phet.chipper.locale ), 3 ] ); // slot 2, 3->page-level scope
 _gaq.push( [ '_trackPageview' ] );
 _gaq.push( [ '_trackPageLoadTime' ] );
 
