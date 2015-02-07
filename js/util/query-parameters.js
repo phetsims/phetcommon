@@ -35,7 +35,6 @@
  * sceneryLog - list of one or more logs to enable in scenery 0.2+, delimited with .
  *                          - For example: ?sceneryLog=Display.Drawable.WebGLBlock
  * sceneryStringLog - Scenery logs will be output to a string instead of the window
- * screenIndex - selects this screen on the home screen
  * screens - select one or more screens (with a 1-based index) to run in the sim, with a dot instead of a comma delimiter.
  *                          - For example ?screens=3.1 will launch with screen 1 and 3 with 3 first and 1 second.
  *                          - ?screens=2 would launch with just screen 2.
