@@ -1,9 +1,8 @@
 {
   "name": "phetcommon",
-  "version": "1.0.0-dev.1",
-  "phetLibs": "phetcommon dot kite phet-core",
-  "preload": "",
+  "version": "0.0.0",
   "license": "MIT",
+  "phetLibs": "phetcommon dot kite phet-core",
   "repository": {
     "type": "git",
     "url": "https://github.com/phetsims/phetcommon.git"
