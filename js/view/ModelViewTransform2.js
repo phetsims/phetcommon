@@ -51,12 +51,12 @@ define( function( require ) {
     viewToModelShape: function( shape ) { return this.inverseShape( shape ); },
     viewToModelRay: function( ray ) { return this.inverseRay2( ray ); },
 
-    // @overrides Transform3.setMatrix
-    setMatrix: function( matrix ) {
-      assert && assert( matrix.isAligned(),
+    // @overrides Transform3.invalidate
+    invalidate: function() {
+      assert && assert( this.matrix.isAligned(),
         'Our current ModelViewTransform2 implementation will not work with arbitrary rotations.' );
 
-      Transform3.prototype.setMatrix.call( this, matrix );
+      Transform3.prototype.invalidate.call( this );
     }
   } );
 
