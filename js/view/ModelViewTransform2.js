@@ -41,8 +41,14 @@ define( function( require ) {
     // convenience view => model
     viewToModelPosition: function( point ) { return this.inversePosition2( point ); },
     viewToModelXY: function( x, y ) { return new Vector2( this.viewToModelX( x ), this.viewToModelY( y ) ); },
-    viewToModelX: function( x ) { return this.getInverse().m00() * x + this.getInverse().m02(); },
-    viewToModelY: function( y ) { return this.getInverse().m11() * y + this.getInverse().m12(); },
+    viewToModelX: function( x ) {
+      var inverse = this.getInverse();
+      return inverse.m00() * x + inverse.m02();
+    },
+    viewToModelY: function( y ) {
+      var inverse = this.getInverse();
+      return inverse.m11() * y + inverse.m12();
+    },
     viewToModelDelta: function( vector ) { return this.inverseDelta2( vector ); },
     viewToModelNormal: function( normal ) { return this.inverseNormal2( normal ); },
     viewToModelDeltaX: function( x ) { return this.inverseDeltaX( x ); },
