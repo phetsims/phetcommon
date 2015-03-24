@@ -31,9 +31,8 @@ define( function( require ) {
 
   function Bucket( options ) {
     options = _.extend( {
-      // defaults
-      position: options.position || Vector2.ZERO,
-      size: new Dimension2( options.width || 200, options.height || 50 ),
+      position: Vector2.ZERO,
+      size: new Dimension2( 200, 50 ),
       baseColor: '#ff0000',
       caption: 'Set a caption!',
       captionColor: 'white',
