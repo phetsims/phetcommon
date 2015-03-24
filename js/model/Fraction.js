@@ -53,12 +53,5 @@ define( function( require ) {
       equals: function( that ) {
         return this.numerator === that.numerator && this.denominator === that.denominator;
       }
-    },
-
-    // Static values and methods
-    {
-      fraction: function( numerator, denominator ) {
-        return new Fraction( numerator, denominator );
-      }
     } );
 } );
