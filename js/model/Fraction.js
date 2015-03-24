@@ -31,27 +31,27 @@ define( function( require ) {
 
   return inherit( Object, Fraction, {
 
-      // Floating-point error is not an issue as long as numerator and denominator are integers < 2^53
-      getValue: function() {
-        return this.numerator / this.denominator;
-      },
+    // Floating-point error is not an issue as long as numerator and denominator are integers < 2^53
+    getValue: function() {
+      return this.numerator / this.denominator;
+    },
 
-      isInteger: function() {
-        return Util.isInteger( this.getValue() );
-      },
+    isInteger: function() {
+      return Util.isInteger( this.getValue() );
+    },
 
-      toString: function() {
-        return this.numerator + '/' + this.denominator;
-      },
+    toString: function() {
+      return this.numerator + '/' + this.denominator;
+    },
 
-      reduce: function() {
-        var gcd = Util.gcd( this.numerator, this.denominator );
-        this.numerator = gcd === 0 ? 0 : Math.round( this.numerator / gcd );
-        this.denominator = gcd === 0 ? 0 : Math.round( this.denominator / gcd );
-      },
+    reduce: function() {
+      var gcd = Util.gcd( this.numerator, this.denominator );
+      this.numerator = gcd === 0 ? 0 : Math.round( this.numerator / gcd );
+      this.denominator = gcd === 0 ? 0 : Math.round( this.denominator / gcd );
+    },
 
-      equals: function( that ) {
-        return this.numerator === that.numerator && this.denominator === that.denominator;
-      }
-    } );
+    equals: function( that ) {
+      return this.numerator === that.numerator && this.denominator === that.denominator;
+    }
+  } );
 } );
