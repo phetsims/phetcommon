@@ -50,6 +50,7 @@ define( function( require ) {
       return inverse.m11() * y + inverse.m12();
     },
     viewToModelDelta: function( vector ) { return this.inverseDelta2( vector ); },
+    viewToModelDeltaXY: function( x, y ) { return new Vector2( this.viewToModelDeltaX( x ), this.viewToModelDeltaY( y ) ); },
     viewToModelNormal: function( normal ) { return this.inverseNormal2( normal ); },
     viewToModelDeltaX: function( x ) { return this.inverseDeltaX( x ); },
     viewToModelDeltaY: function( y ) { return this.inverseDeltaY( y ); },
