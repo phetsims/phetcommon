@@ -59,7 +59,7 @@
     a.async = 1;
     a.src = g;
     m.parentNode.insertBefore( a, m );
-  })( window, document, 'script', '//www.google-analytics.com/analytics.js', 'hewlettOERTracker' );
+  })( window, document, 'script', ( 'https:' === document.location.protocol ? 'https:' : 'http:' ) + '//www.google-analytics.com/analytics.js', 'hewlettOERTracker' );
   window.hewlettOERTracker( 'create', 'UA-5033010-1', 'phet.colorado.edu' );
   window.hewlettOERTracker( 'send', 'pageview' );
 } )();
