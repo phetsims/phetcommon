@@ -68,6 +68,16 @@
   } );
   window.googleAnalytics( 'send', 'pageview', phetPageviewOptions );
 
+  // PhET iO tracker (see https://github.com/phetsims/phetcommon/issues/26)
+  if ( phet.chipper.brand === 'phet-io' ) {
+    window.googleAnalytics( 'create', {
+      trackingId: 'UA-37615182-3',
+      cookieDomain: 'none',
+      name: 'io'
+    } );
+    window.googleAnalytics( 'io.send', 'pageview', phetPageviewOptions );
+  }
+
   // Third-party PhET tracker (excludes non-third-party usage, see https://github.com/phetsims/yotta/issues/12)
   if ( window.location.protocol !== 'file:' &&
        !document.domain.match( /(.*\.colorado\.edu\.?$)|(^localhost$)|(^127\.0\.0\.1$)/ ) ) {
