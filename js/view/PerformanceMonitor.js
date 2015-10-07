@@ -10,7 +10,7 @@
 define( function( require ) {
   'use strict';
 
-  var Stats = require( 'stats' );
+  var Stats = require( 'stats' ); // eslint-disable-line require-statement-match
 
   function PerformanceMonitor() {
 
