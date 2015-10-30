@@ -18,6 +18,7 @@ define( function() {
    *
    * @param {string} pattern pattern string, with N placeholders, where N is an integer
    * @return {string}
+   * @public
    */
   StringUtils.format = function( pattern ) {
     var args = arguments;

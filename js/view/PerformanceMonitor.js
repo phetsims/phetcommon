@@ -12,6 +12,9 @@ define( function( require ) {
 
   var Stats = require( 'stats' ); // eslint-disable-line require-statement-match
 
+  /**
+   * @constructor
+   */
   function PerformanceMonitor() {
 
     var stats = new Stats();

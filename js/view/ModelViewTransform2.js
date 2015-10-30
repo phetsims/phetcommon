@@ -25,7 +25,8 @@ define( function( require ) {
   }
 
   inherit( Transform3, ModelViewTransform2, {
-    // convenience model => view
+
+    // @public convenience model => view
     modelToViewPosition: function( point ) { return this.transformPosition2( point ); },
     modelToViewXY: function( x, y ) { return new Vector2( this.modelToViewX( x ), this.modelToViewY( y ) ); },
     modelToViewX: function( x ) { return this.matrix.m00() * x + this.matrix.m02();},
@@ -38,7 +39,7 @@ define( function( require ) {
     modelToViewShape: function( shape ) { return this.transformShape( shape ); },
     modelToViewRay: function( ray ) { return this.transformRay2( ray ); },
 
-    // convenience view => model
+    // @public convenience view => model
     viewToModelPosition: function( point ) { return this.inversePosition2( point ); },
     viewToModelXY: function( x, y ) { return new Vector2( this.viewToModelX( x ), this.viewToModelY( y ) ); },
     viewToModelX: function( x ) {
@@ -58,7 +59,7 @@ define( function( require ) {
     viewToModelShape: function( shape ) { return this.inverseShape( shape ); },
     viewToModelRay: function( ray ) { return this.inverseRay2( ray ); },
 
-    // @overrides Transform3.invalidate
+    // @public @overrides Transform3.invalidate
     invalidate: function() {
       assert && assert( this.matrix.isAligned(),
         'Our current ModelViewTransform2 implementation will not work with arbitrary rotations.' );
@@ -73,8 +74,8 @@ define( function( require ) {
 
   /**
    * Creates a ModelViewTransform that uses the identity transform (i.e. model coordinates are the same as view coordinates)
-   *
-   * @return the identity ModelViewTransform
+   * @return {ModelViewTransform2}
+   * @public
    */
   ModelViewTransform2.createIdentity = function() {
     return new ModelViewTransform2( Matrix3.IDENTITY );
@@ -86,7 +87,8 @@ define( function( require ) {
    *
    * @param offset {Vector2} the offset in view coordinates
    * @param scale  {number} the scale to map model to view
-   * @return the resultant ModelViewTransform2
+   * @return {ModelViewTransform2}
+   * @public
    */
   ModelViewTransform2.createOffsetScaleMapping = function( offset, scale ) {
     return new ModelViewTransform2( Matrix3.affine( scale, 0, 0, scale, offset.x, offset.y ) );
@@ -100,7 +102,8 @@ define( function( require ) {
    * @param offset {Vector2} the offset in view coordinates
    * @param xScale {number} the scale to map model to view in the x-dimension
    * @param yScale {number} the scale to map model to view in the y-dimension
-   * @return the resultant ModelViewTransform2
+   * @return {ModelViewTransform2}
+   * @public
    */
   ModelViewTransform2.createOffsetXYScaleMapping = function( offset, xScale, yScale ) {
     return new ModelViewTransform2( Matrix3.affine( xScale, 0, 0, yScale, offset.x, offset.y ) );
@@ -113,7 +116,8 @@ define( function( require ) {
    * @param viewPoint  {Vector2} the reference point in the view
    * @param xScale     {number} the amount to scale in the x direction
    * @param yScale     {number} the amount to scale in the y direction
-   * @return the resultant ModelViewTransform2
+   * @return {ModelViewTransform2}
+   * @public
    */
   ModelViewTransform2.createSinglePointXYScaleMapping = function( modelPoint, viewPoint, xScale, yScale ) {
     // mx * scale + ox = vx
@@ -129,7 +133,8 @@ define( function( require ) {
    * @param modelPoint {Vector2} the reference point in the model which maps to the specified view point
    * @param viewPoint  {Vector2} the reference point in the view
    * @param scale      {number} the amount to scale in the x and y directions
-   * @return the resultant ModelViewTransform2
+   * @return {ModelViewTransform2}
+   * @public
    */
   ModelViewTransform2.createSinglePointScaleMapping = function( modelPoint, viewPoint, scale ) {
     return this.createSinglePointXYScaleMapping( modelPoint, viewPoint, scale, scale );
@@ -143,7 +148,8 @@ define( function( require ) {
    * @param modelPoint {Vector2} the reference point in the model which maps to the specified view point
    * @param viewPoint  {Vector2} the reference point in the view
    * @param scale      {number} the amount to scale in the x and y directions
-   * @return the resultant ModelViewTransform2
+   * @return {ModelViewTransform2}
+   * @public
    */
   ModelViewTransform2.createSinglePointScaleInvertedYMapping = function( modelPoint, viewPoint, scale ) {
     return this.createSinglePointXYScaleMapping( modelPoint, viewPoint, scale, -scale );
@@ -156,7 +162,8 @@ define( function( require ) {
    *
    * @param modelBounds {Bounds2} the reference rectangle in the model, must have area > 0
    * @param viewBounds  {Bounds2} the reference rectangle in the view, must have area > 0
-   * @return the resultant ModelViewTransform2
+   * @return {ModelViewTransform2}
+   * @public
    */
   ModelViewTransform2.createRectangleMapping = function( modelBounds, viewBounds ) {
     var m00 = viewBounds.width / modelBounds.width;
@@ -174,7 +181,8 @@ define( function( require ) {
    *
    * @param modelBounds {Bounds2} the reference rectangle in the model, must have area > 0
    * @param viewBounds  {Bounds2} the reference rectangle in the view, must have area > 0
-   * @return the resultant ModelViewTransform2
+   * @return {ModelViewTransform2}
+   * @public
    */
   ModelViewTransform2.createRectangleInvertedYMapping = function( modelBounds, viewBounds ) {
     var m00 = viewBounds.width / modelBounds.width;
