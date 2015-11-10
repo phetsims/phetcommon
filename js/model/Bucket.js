@@ -38,25 +38,26 @@ define( function( require ) {
       invertY: false
     }, options );
 
-    // The position is defined to be where the center of the hole is.
+    // @public (read-only) - The position is defined to be where the center of the hole is.
     this.position = options.position;
 
-    // Base color of the bucket.
+    // @public (read-only) - Base color of the bucket.
     this.baseColor = options.baseColor;
 
-    // Caption to be shown on the bucket.
+    // @public (read-only) - Caption to be shown on the bucket.
     this.captionText = options.caption;
 
-    // Color for the caption.
+    // @public (read-only) - Color for the caption.
     this.captionColor = options.captionColor;
 
+    // @public (read-only) - The {Dimension2} size of the bucket
     this.size = options.size;
     var size = this.size;
 
     var holeRadiusX = size.width / 2;
     var holeRadiusY = size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2;
 
-    // Create the shape of the bucket's hole.
+    // @public (read-only) - Create the shape of the bucket's hole.
     this.holeShape = Shape.ellipse( 0, 0, holeRadiusX, holeRadiusY );
 
     // Create the shape of the container.  This code is a bit 'tweaky', meaning that there are a lot of fractional
@@ -64,6 +65,8 @@ define( function( require ) {
     // can be changed without needing to rework this code.
     var containerHeight = size.height * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
     var multiplier = options.invertY ? 1 : -1;
+
+    // @public (read-only) - The shape of the container
     this.containerShape = new Shape().moveTo( -size.width * 0.5, 0 )
       .lineTo( -size.width * 0.4, multiplier * containerHeight * 0.8 )
       .cubicCurveTo( -size.width * 0.3, multiplier * ( containerHeight * 0.8 + size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6 ),
