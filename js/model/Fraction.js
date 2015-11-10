@@ -25,31 +25,36 @@ define( function( require ) {
    */
   function Fraction( numerator, denominator ) {
     assert && assert( Util.isInteger( numerator ) ) && assert( Util.isInteger( denominator ) );
-    this.numerator = numerator;
-    this.denominator = denominator;
+
+    this.numerator = numerator;     // @public (read-only)
+    this.denominator = denominator; // @public (read-only)
   }
 
   return inherit( Object, Fraction, {
 
-    // Floating-point error is not an issue as long as numerator and denominator are integers < 2^53
+    // @public - Floating-point error is not an issue as long as numerator and denominator are integers < 2^53
     getValue: function() {
       return this.numerator / this.denominator;
     },
 
+    // @public
     isInteger: function() {
       return Util.isInteger( this.getValue() );
     },
 
+    // @public
     toString: function() {
       return this.numerator + '/' + this.denominator;
     },
 
+    // @public
     reduce: function() {
       var gcd = Util.gcd( this.numerator, this.denominator );
       this.numerator = gcd === 0 ? 0 : Util.roundSymmetric( this.numerator / gcd );
       this.denominator = gcd === 0 ? 0 : Util.roundSymmetric( this.denominator / gcd );
     },
 
+    // @public
     equals: function( that ) {
       return this.numerator === that.numerator && this.denominator === that.denominator;
     }
