@@ -18,7 +18,12 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var inherit = require( 'PHET_CORE/inherit' );
   var Bucket = require( 'PHETCOMMON/model/Bucket' );
+  var phetcommon = require( 'PHETCOMMON/phetcommon' );
 
+  /**
+   * @param {Object} options
+   * @constructor
+   */
   function SphereBucket( options ) {
     Bucket.call( this, options );
     this._sphereRadius = options.sphereRadius || 10;
@@ -28,6 +33,8 @@ define( function( require ) {
     this._verticalParticleOffset = options.verticalParticleOffset === undefined ? -this._sphereRadius * 0.4 : options.verticalParticleOffset;
     this._particles = [];
   }
+
+  phetcommon.register( 'SphereBucket', SphereBucket );
 
   // Inherit from base type.
   inherit( Bucket, SphereBucket );

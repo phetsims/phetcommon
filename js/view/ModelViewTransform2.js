@@ -14,15 +14,22 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var inherit = require( 'PHET_CORE/inherit' );
-
   var Vector2 = require( 'DOT/Vector2' );
   var Matrix3 = require( 'DOT/Matrix3' );
   var Transform3 = require( 'DOT/Transform3' );
+  var phetcommon = require( 'PHETCOMMON/phetcommon' );
 
+  /**
+   * @param matrix
+   * @constructor
+   */
   function ModelViewTransform2( matrix ) {
     Transform3.call( this, matrix );
   }
+
+  phetcommon.register( 'ModelViewTransform2', ModelViewTransform2 );
 
   inherit( Transform3, ModelViewTransform2, {
 

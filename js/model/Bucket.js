@@ -20,11 +20,16 @@ define( function( require ) {
   var Vector2 = require( 'DOT/Vector2' );
   var Dimension2 = require( 'DOT/Dimension2' );
   var Shape = require( 'KITE/Shape' );
+  var phetcommon = require( 'PHETCOMMON/phetcommon' );
 
   // Proportion of the total height which the ellipse that represents the hole occupies.  It is assumed that the width
   // of the hole is the same as the width specified at construction.
   var HOLE_ELLIPSE_HEIGHT_PROPORTION = 0.25;
 
+  /**
+   * @param {Object} [options]
+   * @constructor
+   */
   function Bucket( options ) {
     options = _.extend( {
       position: Vector2.ZERO,
@@ -76,6 +81,8 @@ define( function( require ) {
       .ellipticalArc( 0, 0, holeRadiusX, holeRadiusY, 0, 0, Math.PI, !options.invertY )
       .close();
   }
+
+  phetcommon.register( 'Bucket', Bucket );
 
   return Bucket;
 } );

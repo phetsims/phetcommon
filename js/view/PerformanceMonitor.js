@@ -10,7 +10,9 @@
 define( function( require ) {
   'use strict';
 
+  // modules
   var Stats = require( 'stats' ); // eslint-disable-line require-statement-match
+  var phetcommon = require( 'PHETCOMMON/phetcommon' );
 
   /**
    * @constructor
@@ -47,6 +49,8 @@ define( function( require ) {
       stats.end();
     };
   }
+
+  phetcommon.register( 'PerformanceMonitor', PerformanceMonitor );
 
   return PerformanceMonitor;
 } );

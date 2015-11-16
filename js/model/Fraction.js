@@ -17,6 +17,7 @@ define( function( require ) {
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
   var Util = require( 'DOT/Util' );
+  var phetcommon = require( 'PHETCOMMON/phetcommon' );
 
   /**
    * @param {number} numerator must be an integer
@@ -29,6 +30,8 @@ define( function( require ) {
     this.numerator = numerator;     // @public (read-only)
     this.denominator = denominator; // @public (read-only)
   }
+
+  phetcommon.register( 'Fraction', Fraction );
 
   return inherit( Object, Fraction, {
 
