@@ -33,6 +33,13 @@ define( function( require ) {
     },
 
     /**
+     * @returns {boolean} - Whether this length-1 string is equal to one of the three directional embedding marks used.
+     */
+    isEmbeddingMark: function( chr ) {
+      return chr === LTR || chr === RTL || chr === POP;
+    },
+
+    /**
      * Given a string with embedding marks, this function returns an equivalent string.slice() but prefixes and suffixes
      * the string with the embedding marks needed to ensure things have the correct LTR/RTL order.
      * @public
@@ -47,8 +54,8 @@ define( function( require ) {
      * === "[LTR]first[POP]"
      *
      * Or the second word:
-     * embeddedDebugString( embeddedSlice( '\u202afirst\u202bsecond\u202cthird\u202c', 7, 13 ) )
-     * === "[LTR][RTL]second[POP][POP]"
+     * embeddedDebugString( embeddedSlice( '\u202afirst\u202bsecond\u202cthird\u202c', 6, 14 ) )
+     * === "[RTL]second[POP]"
      *
      * Or a custom range:
      * embeddedDebugString( embeddedSlice( '\u202afirst\u202bsecond\u202cthird\u202c', 3, -3 ) )
@@ -64,6 +71,27 @@ define( function( require ) {
       var stack = [];
       var chr;
 
+      if ( endIndex === undefined ) {
+        endIndex = string.length;
+      }
+      if ( endIndex < 0 ) {
+        endIndex += string.length;
+      }
+
+      // To avoid returning an extra adjacent [LTR][POP] or [RTL][POP], we can move the start forward and the
+      // end backwards as long as they are over embedding marks to avoid this.
+      while ( startIndex < string.length && StringUtils.isEmbeddingMark( string.charAt( startIndex ) ) ) {
+        startIndex++;
+      }
+      while ( endIndex >= 1 && StringUtils.isEmbeddingMark( string.charAt( endIndex - 1 ) ) ) {
+        endIndex--;
+      }
+
+      // If our string will be empty, just bail out.
+      if ( startIndex >= endIndex || startIndex >= string.length ) {
+        return '';
+      }
+
       // Walk up to the start of the string
       for ( var i = 0; i < startIndex; i++ ) {
         chr = string.charAt( i );
@@ -75,8 +103,12 @@ define( function( require ) {
         }
       }
 
-      // Our prefix will be the embedding marks that have been skipped and not popped.
-      var prefix = stack.join( '' );
+      // Will store the minimum stack size during our slice. This allows us to turn [LTR][RTL]boo[POP][POP] into
+      // [RTL]boo[POP] by skipping the "outer" layers.
+      var minimumStackSize = stack.length;
+
+      // Save our initial stack for prefix computation
+      var startStack = stack.slice();
 
       // A normal string slice
       var slice = string.slice( startIndex, endIndex );
@@ -89,13 +121,114 @@ define( function( require ) {
         }
         else if ( chr === POP ) {
           stack.pop();
+          minimumStackSize = Math.min( stack.length, minimumStackSize );
         }
       }
 
+      // Our ending stack for suffix computation
+      var endStack = stack;
+
+      // Always leave one stack level on top
+      var numSkippedStackLevels = Math.max( 0, minimumStackSize - 1 );
+      startStack = startStack.slice( numSkippedStackLevels );
+      endStack = endStack.slice( numSkippedStackLevels );
+
+      // Our prefix will be the embedding marks that have been skipped and not popped.
+      var prefix = startStack.join( '' );
+
       // Our suffix includes one POP for each embedding mark currently on the stack
-      var suffix = stack.join( '' ).replace( /./g, POP );
+      var suffix = endStack.join( '' ).replace( /./g, POP );
 
       return prefix + slice + suffix;
+    },
+
+    /**
+     * String's split() API, but uses embeddedSlice() on the extracted strings.
+     * @public
+     *
+     * For example, given a string:
+     *
+     * StringUtils.embeddedDebugString( '\u202aHello  there, \u202bHow are you\u202c doing?\u202c' );
+     * === "[LTR]Hello  there, [RTL]How are you[POP] doing?[POP]"
+     *
+     * Using embeddedSplit with a regular expression matching a sequence of spaces:
+     * StringUtils.embeddedSplit( '\u202aHello  there, \u202bHow are you\u202c doing?\u202c', / +/ )
+     *            .map( StringUtils.embeddedDebugString );
+     * === [ "[LTR]Hello[POP]",
+     *       "[LTR]there,[POP]",
+     *       "[RTL]How[POP]",
+     *       "[RTL]are[POP]",
+     *       "[RTL]you[POP]",
+     *       "[LTR]doing?[POP]" ]
+     */
+    embeddedSplit: function( string, separator, limit ) {
+      // Matching split API
+      if ( separator === undefined ) {
+        return [ string ];
+      }
+
+      // {Array.<string>} - What we will push to and return.
+      var result = [];
+
+      // { index: {number}, length: {number} } - Last result of findSeparatorMatch()
+      var separatorMatch;
+
+      // Remaining part of the string to split up. Will have substrings removed from the start.
+      var stringToSplit = string;
+
+      // Finds the index and length of the first substring of stringToSplit that matches the separator (string or regex)
+      // and returns an object with the type  { index: {number}, length: {number} }.
+      // If index === -1, there was no match for the separator.
+      function findSeparatorMatch() {
+        var index;
+        var length;
+        if ( separator instanceof window.RegExp ) {
+          var match = stringToSplit.match( separator );
+          if ( match ) {
+            index = match.index;
+            length = match[ 0 ].length;
+          }
+          else {
+            index = -1;
+          }
+        }
+        else {
+          assert && assert( typeof separator === 'string' );
+
+          index = stringToSplit.indexOf( separator );
+          length = separator.length;
+        }
+        return {
+          index: index,
+          length: length
+        };
+      }
+
+      // Loop until we run out of matches for the separator. For each separator match, stringToSplit for the next
+      // iteration will have everything up to the end of the separator match chopped off. The indexOffset variable
+      // stores how many characters we have chopped off in this fashion, so that we can index into the original string.
+      var indexOffset = 0;
+      while ( ( separatorMatch = findSeparatorMatch() ).index >= 0 ) {
+        // Extract embedded slice from the original, up until the separator match
+        result.push( StringUtils.embeddedSlice( string, indexOffset, indexOffset + separatorMatch.index ) );
+
+        // Handle chopping off the section of stringToSplit, so we can do simple matching in findSeparatorMatch()
+        var offset = separatorMatch.index + separatorMatch.length;
+        stringToSplit = stringToSplit.slice( offset );
+        indexOffset += offset;
+      }
+
+      // Embedded slice for after the last match. May be an empty string.
+      result.push( StringUtils.embeddedSlice( string, indexOffset ) );
+
+      // Matching split API
+      if ( limit !== undefined ) {
+        assert && assert( typeof limit === 'number' );
+
+        result = _.first( result, limit );
+      }
+
+      return result;
     },
 
     /**
