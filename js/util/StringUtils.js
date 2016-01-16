@@ -240,6 +240,19 @@ define( function( require ) {
      */
     embeddedDebugString: function( string ) {
       return string.replace( /\u202a/g, '[LTR]' ).replace( /\u202b/g, '[RTL]' ).replace( /\u202c/g, '[POP]' );
+    },
+
+    /**
+     * Converts a string to camel case, eg: 'simula-rasa' -> 'simulaRasa'
+     * See http://stackoverflow.com/questions/10425287/convert-string-to-camelcase-with-regular-expression
+     *
+     * @param {string} str - the input string
+     * @returns {string} a new string
+     */
+    toCamelCase: function( str ) {
+      return str.toLowerCase().replace( /-(.)/g, function( match, group1 ) {
+        return group1.toUpperCase();
+      } );
     }
   };
 
