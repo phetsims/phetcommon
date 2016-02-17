@@ -26,9 +26,11 @@ define( function( require ) {
   function SphereBucket( options ) {
     Bucket.call( this, options );
     options = _.extend( {
+      tandemName: null,
       sphereRadius: 10,  // expected radius of the spheres that will be placed in this bucket
       usableWidthProportion: 1.0  // proportion of the bucket width that the spheres can occupy
     }, options );
+    this.tandemName = options.tandemName;
 
     this._sphereRadius = options.sphereRadius;
     this._usableWidthProportion = options.usableWidthProportion;
