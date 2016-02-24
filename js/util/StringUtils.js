@@ -117,6 +117,14 @@ define( function( require ) {
         }
       }
 
+      // Remove overridden nesting (e.g. [LTR][RTL]...[POP][POP]), since the outer one is not needed
+      function collapseUnnecessary( node ) {
+        if ( node.children.length === 1 && node.children[ 0 ].dir ) {
+          node.dir = node.children[ 0 ].dir;
+          node.children = node.children[ 0 ].children;
+        }
+      }
+
       // Collapse adjacent matching dirs, e.g. [LTR]...[POP][LTR]...[POP]
       function collapseAdjacent( node ) {
         for ( var i = node.children.length - 1; i >= 1; i-- ) {
@@ -142,6 +150,7 @@ define( function( require ) {
           simplify( node.children[ i ] );
         }
 
+        collapseUnnecessary( node );
         collapseNesting( node );
         collapseAdjacent( node );
 
