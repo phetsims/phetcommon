@@ -8,6 +8,7 @@ define( function( require ) {
 
   // modules
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
+  var platform = require( 'PHET_CORE/platform' );
 
   // Unicode embedding marks that we use.
   var LTR = '\u202a';
@@ -29,14 +30,139 @@ define( function( require ) {
      */
     format: function( pattern ) {
       var args = arguments;
-      return pattern.replace( /{(\d)}/g, function( r, n ) { return args[ +n + 1 ];} );
+      var result = pattern.replace( /{(\d)}/g, function( r, n ) { return args[ +n + 1 ];} );
+
+      // See https://github.com/phetsims/scenery/issues/520. Conditional here, so we don't gutter performance on other
+      // platforms where format is used a lot.
+      if ( platform.edge ) {
+        result = StringUtils.simplifyEmbeddingMarks( result );
+      }
+      return result;
     },
 
     /**
+     * @public
      * @returns {boolean} - Whether this length-1 string is equal to one of the three directional embedding marks used.
      */
     isEmbeddingMark: function( chr ) {
       return chr === LTR || chr === RTL || chr === POP;
+    },
+
+    /**
+     * Returns a (potentially) modified string where embedding marks have been simplified.
+     * @public
+     *
+     * This simplification wouldn't usually be necessary, but we need to prevent cases like
+     * https://github.com/phetsims/scenery/issues/520 where Edge decides to turn [POP][LTR] (after another [LTR]) into
+     * a 'box' character, when nothing should be rendered.
+     *
+     * This will remove redundant nesting:
+     *   e.g. [LTR][LTR]boo[POP][POP] => [LTR]boo[POP])
+     * and will also combine adjacent directions:
+     *   e.g. [LTR]Mail[POP][LTR]Man[POP] => [LTR]MailMan[Pop]
+     *
+     * Note that it will NOT combine in this way if there was a space between the two LTRs:
+     *   e.g. [LTR]Mail[POP] [LTR]Man[Pop])
+     * as in the general case, we'll want to preserve the break there between embeddings.
+     *
+     * TODO: A stack-based implementation that doesn't create a bunch of objects/closures would be nice for performance.
+     *
+     * @param {string} string
+     * @returns {string}
+     */
+    simplifyEmbeddingMarks: function( string ) {
+      // First, we'll convert the string into a tree form, where each node is either a string object OR an object of the
+      // node type { dir: {LTR||RTL}, children: {Array.<node>}, parent: {null|node} }. Thus each LTR...POP and RTL...POP
+      // become a node with their interiors becoming children.
+
+      // Root node (no direction, so we preserve root LTR/RTLs)
+      var root = {
+        dir: null,
+        children: [],
+        parent: null
+      };
+      var current = root;
+      for ( var i = 0; i < string.length; i++ ) {
+        var chr = string.charAt( i );
+
+        // Push a direction
+        if ( chr === LTR || chr === RTL ) {
+          var node = {
+            dir: chr,
+            children: [],
+            parent: current
+          };
+          current.children.push( node );
+          current = node;
+        }
+        // Pop a direction
+        else if ( chr === POP ) {
+          assert && assert( current.parent, 'Bad nesting of embedding marks: ' + StringUtils.embeddedDebugString( string ) );
+          current = current.parent;
+        }
+        // Append characters to the current direction
+        else {
+          current.children.push( chr );
+        }
+      }
+      assert && assert( current === root, 'Bad nesting of embedding marks: ' + StringUtils.embeddedDebugString( string ) );
+
+      // Remove redundant nesting (e.g. [LTR][LTR]...[POP][POP])
+      function collapseNesting( node ) {
+        for ( var i = node.children.length - 1; i >= 0; i-- ) {
+          var child = node.children[ i ];
+          if ( node.dir === child.dir ) {
+            Array.prototype.splice.apply( node.children, [ i, 1 ].concat( child.children ) );
+          }
+        }
+      }
+
+      // Collapse adjacent matching dirs, e.g. [LTR]...[POP][LTR]...[POP]
+      function collapseAdjacent( node ) {
+        for ( var i = node.children.length - 1; i >= 1; i-- ) {
+          var previousChild = node.children[ i - 1 ];
+          var child = node.children[ i ];
+          if ( child.dir && previousChild.dir === child.dir ) {
+            previousChild.children = previousChild.children.concat( child.children );
+            node.children.splice( i, 1 );
+
+            // Now try to collapse adjacent items in the child, since we combined children arrays
+            collapseAdjacent( previousChild );
+          }
+        }
+      }
+
+      // Simplifies the tree using the above functions
+      function simplify( node ) {
+        if ( typeof node === 'string' ) {
+          return;
+        }
+
+        for ( var i = 0; i < node.children.length; i++ ) {
+          simplify( node.children[ i ] );
+        }
+
+        collapseNesting( node );
+        collapseAdjacent( node );
+
+        return node;
+      }
+
+      // Turns a tree into a string
+      function stringify( node ) {
+        if ( typeof node === 'string' ) {
+          return node;
+        }
+        var childString = node.children.map( stringify ).join( '' );
+        if ( node.dir ) {
+          return node.dir + childString + '\u202c';
+        }
+        else {
+          return childString;
+        }
+      }
+
+      return stringify( simplify( root ) );
     },
 
     /**
