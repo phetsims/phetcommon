@@ -33,7 +33,9 @@ define( function( require ) {
       var result = pattern.replace( /{(\d)}/g, function( r, n ) { return args[ +n + 1 ];} );
 
       // See https://github.com/phetsims/scenery/issues/520. Conditional here, so we don't gutter performance on other
-      // platforms where format is used a lot.
+      // platforms where format is used a lot.  This workaround was added in Feb 2016 and was seen on Edge 20 and 25.
+      // We could potentially remove this at some point in the future if it is fixed and if the versions with the bug
+      // are essentially no longer in use.
       if ( platform.edge ) {
         result = StringUtils.simplifyEmbeddingMarks( result );
       }
