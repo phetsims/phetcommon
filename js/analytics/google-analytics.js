@@ -61,11 +61,18 @@
     }
   }
 
+  var offlineSimLocation = 'offline/html/' + phet.chipper.project + '_' + phet.chipper.locale;
+
   // Main PhET tracker
   window.googleAnalytics( 'create', {
     trackingId: 'UA-5033201-1',
     cookieDomain: 'none'
   } );
+  if ( window.location.protocol === 'file:' ) {
+    window.googleAnalytics( 'set', 'checkProtocolTask', null );
+    window.googleAnalytics( 'set', 'checkStorageTask', null );
+    window.googleAnalytics( 'set', 'location', offlineSimLocation );
+  }
   window.googleAnalytics( 'send', 'pageview', phetPageviewOptions );
 
   // PhET iO tracker (see https://github.com/phetsims/phetcommon/issues/26)
@@ -75,6 +82,11 @@
       cookieDomain: 'none',
       name: 'io'
     } );
+    if ( window.location.protocol === 'file:' ) {
+      window.googleAnalytics( 'io.set', 'checkProtocolTask', null );
+      window.googleAnalytics( 'io.set', 'checkStorageTask', null );
+      window.googleAnalytics( 'io.set', 'location', offlineSimLocation );
+    }
     window.googleAnalytics( 'io.send', 'pageview', phetPageviewOptions );
   }
 
