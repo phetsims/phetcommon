@@ -233,6 +233,17 @@ define( function( require ) {
     },
 
     /**
+     * Strips embedding marks out of a string.
+     * @public
+     *
+     * @param {string} string
+     * @returns {string}
+     */
+    stripEmbeddingMarks: function( string ) {
+      return string.replace( /\u202a|\u202b|\u202c/g, '' );
+    },
+
+    /**
      * Replaces embedding mark characters with visible strings. Useful for debugging for strings with embedding marks.
      * @public
      *
