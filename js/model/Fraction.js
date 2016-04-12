@@ -53,8 +53,8 @@ define( function( require ) {
     // @public
     reduce: function() {
       var gcd = Util.gcd( this.numerator, this.denominator );
-      this.numerator = gcd === 0 ? 0 : Util.roundSymmetric( this.numerator / gcd );
-      this.denominator = gcd === 0 ? 0 : Util.roundSymmetric( this.denominator / gcd );
+      this.numerator = ( gcd === 0 ) ? 0 : Util.roundSymmetric( this.numerator / gcd );
+      this.denominator = ( gcd === 0 ) ? 0 : Util.roundSymmetric( this.denominator / gcd );
     },
 
     // @public
