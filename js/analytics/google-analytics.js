@@ -66,7 +66,8 @@
     else if ( top !== self ){
       // Checks to see if this sim is embedded - phetsims/chipper#50
       phetPageviewOptions.dimension5 = 'embedded';
-      phetPageviewOptions.dimension6 = top.location.href;
+      phetPageviewOptions.dimension6 = document.referrer;
+      console.log( phetPageviewOptions.dimension6 );
     }
     // TODO Add additional conditions for tracking hits from the installer, etc.
     else {
