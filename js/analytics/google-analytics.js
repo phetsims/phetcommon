@@ -43,7 +43,7 @@
   if ( phet.chipper ) {
     assert && assert( !phet.chipper.buildTimestamp ||
                       ( !!phet.chipper.project && !!phet.chipper.version && !!phet.chipper.locale ),
-                      'Missing Google Analytics variable in' );
+      'Missing Google Analytics variable in' );
 
     if ( phet.chipper.project ) {
       phetPageviewOptions.dimension1 = phet.chipper.project; // simName custom dimension
@@ -63,16 +63,16 @@
     else if ( phet.chipper.getQueryParameter( 'chrome-webstore' ) ) {
       phetPageviewOptions.dimension5 = 'chrome-webstore';
     }
-    else if ( top !== self ){
+    else if ( top !== self ) {
       // Checks to see if this sim is embedded - phetsims/chipper#50
       phetPageviewOptions.dimension5 = 'embedded';
-      phetPageviewOptions.dimension6 = document.referrer;
-      console.log( phetPageviewOptions.dimension6 );
     }
     // TODO Add additional conditions for tracking hits from the installer, etc.
     else {
       phetPageviewOptions.dimension5 = 'default';
     }
+
+    phetPageviewOptions.dimension6 = document.referrer;
   }
 
   var offlineSimLocation = 'offline/html/' + phet.chipper.project + '_' + phet.chipper.locale;
