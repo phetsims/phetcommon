@@ -66,12 +66,12 @@
     else if ( top !== self ){
       // Checks to see if this sim is embedded - phetsims/chipper#50
       phetPageviewOptions.dimension5 = 'embedded';
-      phetPageviewOptions.dimension6 = top.location.href;
     }
     // TODO Add additional conditions for tracking hits from the installer, etc.
     else {
       phetPageviewOptions.dimension5 = 'default';
     }
+    phetPageviewOptions.dimension6 = document.referrer;
   }
 
   var offlineSimLocation = 'offline/html/' + phet.chipper.project + '_' + phet.chipper.locale;
