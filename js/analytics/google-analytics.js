@@ -40,7 +40,7 @@
     m.parentNode.insertBefore( a, m );
   })( window, document, 'script', ( 'https:' === document.location.protocol ? 'https:' : 'http:' ) + '//www.google-analytics.com/analytics.js', 'googleAnalytics' );
 
-  // Applies custom dimensions that are common for our main and third-party tracker
+  // Applies custom dimensions that are common for our main, third-party, and phet-io tracker
   var phetPageviewOptions = {};
   if ( phet.chipper ) {
     assert && assert( !phet.chipper.buildTimestamp ||
@@ -59,6 +59,21 @@
     if ( phet.chipper.buildTimestamp ) {
       phetPageviewOptions.dimension4 = phet.chipper.buildTimestamp; // simBuildTimestamp custom dimension
     }
+    if ( phet.chipper.getQueryParameter( 'phet-app' ) ) {
+      phetPageviewOptions.dimension5 = 'phet-app';
+    }
+    else if ( phet.chipper.getQueryParameter( 'chrome-webstore' ) ) {
+      phetPageviewOptions.dimension5 = 'chrome-webstore';
+    }
+    else if ( top !== self ){
+      // Checks to see if this sim is embedded - phetsims/chipper#50
+      phetPageviewOptions.dimension5 = 'embedded';
+    }
+    // TODO Add additional conditions for tracking hits from the installer, etc.
+    else {
+      phetPageviewOptions.dimension5 = 'default';
+    }
+    phetPageviewOptions.dimension6 = document.referrer;
   }
 
   var offlineSimLocation = 'offline/html/' + phet.chipper.project + '_' + phet.chipper.locale;
