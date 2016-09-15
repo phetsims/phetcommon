@@ -65,9 +65,9 @@ define( function( require ) {
         particle.position = particle.destination;
       }
       this._particles.push( particle );
-      var thisBucket = this;
+      var self = this;
       var particleRemovedListener = function( userControlled ) {
-        thisBucket.removeParticle( particle );
+        self.removeParticle( particle );
         particle.userControlledProperty.unlink( particleRemovedListener );
         delete particle.bucketRemovalListener;
       };
