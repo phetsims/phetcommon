@@ -49,20 +49,20 @@ define( function( require ) {
 
     // @public
     addParticleFirstOpen: function( particle, animate ) {
-      particle.destination = this.getFirstOpenLocation();
+      particle.destinationProperty.set( this.getFirstOpenLocation() );
       this.addParticle( particle, animate );
     },
 
     // @public
     addParticleNearestOpen: function( particle, animate ) {
-      particle.destination = this.getNearestOpenLocation( particle.destination );
+      particle.destinationProperty.set( this.getNearestOpenLocation( particle.destinationProperty.get() ) );
       this.addParticle( particle, animate );
     },
 
     // @private
     addParticle: function( particle, animate ) {
       if ( !animate ) {
-        particle.position = particle.destination;
+        particle.positionProperty.set( particle.destinationProperty.get() );
       }
       this._particles.push( particle );
       var self = this;
@@ -96,7 +96,8 @@ define( function( require ) {
     extractClosestParticle: function( location ) {
       var closestParticle = null;
       this._particles.forEach( function( particle ) {
-        if ( closestParticle === null || closestParticle.position.distance( location ) > particle.position.distance( location ) ) {
+        if ( closestParticle === null ||
+             closestParticle.positionProperty.get().distance( location ) > particle.positionProperty.get().distance( location ) ) {
           closestParticle = particle;
         }
       } );
@@ -104,7 +105,7 @@ define( function( require ) {
         // The particle is removed by setting 'userControlled' to true.  This
         // relies on the listener that was added when the particle was placed
         // into the bucket.
-        closestParticle.userControlled = true;
+        closestParticle.userControlledProperty.set( true );
       }
       return closestParticle;
     },
@@ -129,7 +130,7 @@ define( function( require ) {
       var positionOpen = true;
       for ( var i = 0; i < this._particles.length; i++ ) {
         var particle = this._particles[ i ];
-        if ( particle.destination.equals( position ) ) {
+        if ( particle.destinationProperty.get().equals( position ) ) {
           positionOpen = false;
           break;
         }
@@ -194,7 +195,7 @@ define( function( require ) {
       var highestOccupiedLayer = 0;
       var self = this;
       _.each( this._particles, function( particle ) {
-        var layer = self.getLayerForYPosition( particle.destination.y );
+        var layer = self.getLayerForYPosition( particle.destinationProperty.get().y );
         if ( layer > highestOccupiedLayer ) {
           highestOccupiedLayer = layer;
         }
@@ -265,8 +266,8 @@ define( function( require ) {
      * @private
      */
     isDangling: function( particle ) {
-      var onBottomRow = particle.destination.y === this.position.y + this._verticalParticleOffset;
-      return !onBottomRow && this.countSupportingParticles( particle.destination ) < 2;
+      var onBottomRow = particle.destinationProperty.get().y === this.position.y + this._verticalParticleOffset;
+      return !onBottomRow && this.countSupportingParticles( particle.destinationProperty.get() ) < 2;
     },
 
     // @private
@@ -274,8 +275,8 @@ define( function( require ) {
       var count = 0;
       for ( var i = 0; i < this._particles.length; i++ ) {
         var p = this._particles[ i ];
-        if ( p.destination.y < position.y && // Must be in a lower layer
-             p.destination.distance( position ) < this._sphereRadius * 3 ) {
+        if ( p.destinationProperty.get().y < position.y && // Must be in a lower layer
+             p.destinationProperty.get().distance( position ) < this._sphereRadius * 3 ) {
           // Must be a supporting particle.
           count++;
         }
@@ -291,7 +292,7 @@ define( function( require ) {
           particleMoved = false;
           var particle = this._particles[ i ];
           if ( this.isDangling( particle ) ) {
-            particle.destination = this.getNearestOpenLocation( particle.destination );
+            particle.destinationProperty.set( this.getNearestOpenLocation( particle.destinationProperty.get() ) );
             particleMoved = true;
             break;
           }
