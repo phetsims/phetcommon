@@ -81,7 +81,6 @@
   pingURL( 'https://phet.colorado.edu/yotta/load.gif?' + pingParams );
 
   window.addEventListener( 'load', function( event ) {
-    console.log( 'loaded', googleAnalyticsErrored, googleAnalyticsLoaded );
     pingURL( 'https://phet.colorado.edu/yotta/sanity.gif?' + pingParams + '&' +
              'gaError=' + encodeURIComponent( googleAnalyticsErrored ) + '&' +
              'gaLoaded=' + encodeURIComponent( googleAnalyticsLoaded ) );
