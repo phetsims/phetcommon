@@ -60,9 +60,6 @@
     if ( phet.chipper.getQueryParameter( 'phet-app' ) ) {
       phetPageviewOptions.dimension5 = 'phet-app';
     }
-    else if ( phet.chipper.getQueryParameter( 'chrome-webstore' ) ) {
-      phetPageviewOptions.dimension5 = 'chrome-webstore';
-    }
     else if ( top !== self ) {
       // Checks to see if this sim is embedded - phetsims/chipper#50
       phetPageviewOptions.dimension5 = 'embedded';
