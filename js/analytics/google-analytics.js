@@ -57,7 +57,7 @@
     if ( phet.chipper.buildTimestamp ) {
       phetPageviewOptions.dimension4 = phet.chipper.buildTimestamp; // simBuildTimestamp custom dimension
     }
-    if ( phet.chipper.getQueryParameter( 'phet-app' ) ) {
+    if ( phet.chipper.queryParameters[ 'phet-app' ] ) {
       phetPageviewOptions.dimension5 = 'phet-app';
     }
     else if ( top !== self ) {
