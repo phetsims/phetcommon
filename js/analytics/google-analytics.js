@@ -26,6 +26,63 @@
     return;
   }
 
+  var loadType;
+  if ( phet.chipper.queryParameters[ 'phet-app' ] ) {
+    loadType = 'phet-app';
+  }
+  else if ( top !== self ) {
+    // Checks to see if this sim is embedded - phetsims/chipper#50
+    loadType = 'embedded';
+  }
+  // TODO Add additional conditions for tracking hits from the installer, etc.
+  else {
+    loadType = 'default';
+  }
+
+  // {boolean} - Whether an error was detected with anything relating to google analytics.
+  // See https://github.com/phetsims/yotta/issues/30
+  var googleAnalyticsErrored = false;
+  window.addEventListener( 'error', function( event ) {
+    if ( event &&
+         event.target &&
+         event.target.src &&
+         event.target.src.indexOf &&
+         event.target.src.indexOf( 'google-analytics' ) >= 0 ) {
+      googleAnalyticsErrored = true;
+    }
+  }, true );
+
+  // {boolean} - Whether analytics.js successfully loaded, see https://github.com/phetsims/yotta/issues/30
+  var googleAnalyticsLoaded = false;
+  function onGoogleAnalyticsLoad() {
+    googleAnalyticsLoaded = true;
+  }
+
+  var pingParams = 'pingver=2&' +
+                   'project=' + encodeURIComponent( phet.chipper.project ) + '&' +
+                   'version=' + encodeURIComponent( phet.chipper.version ) + '&' +
+                   'locale=' + encodeURIComponent( phet.chipper.locale ) + '&' +
+                   'buildTimestamp=' + encodeURIComponent( phet.chipper.buildTimestamp ) + '&' +
+                   'domain=' + encodeURIComponent( document.domain ) + '&' +
+                   'href=' + encodeURIComponent( window.location.href ) + '&' +
+                   'type=html&' +
+                   'timestamp=' + encodeURIComponent( Date.now() ) + '&' +
+                   'loadType=' + encodeURIComponent( loadType ) + '&' +
+                   'ref=' + encodeURIComponent( document.referrer );
+
+  function pingURL( url ) {
+    var img = document.createElement( 'img' );
+    img.src = url;
+  }
+
+  pingURL( 'https://phet.colorado.edu/yotta/load.gif?' + pingParams );
+
+  window.addEventListener( 'load', function( event ) {
+    pingURL( 'https://phet.colorado.edu/yotta/sanity.gif?' + pingParams + '&' +
+             'gaError=' + encodeURIComponent( googleAnalyticsErrored ) + '&' +
+             'gaLoaded=' + encodeURIComponent( googleAnalyticsLoaded ) );
+  }, false );
+
   // Google Analytics snippet for loading the API
   (function( i, s, o, g, r, a, m ) {
     i.GoogleAnalyticsObject = r;
@@ -57,24 +114,15 @@
     if ( phet.chipper.buildTimestamp ) {
       phetPageviewOptions.dimension4 = phet.chipper.buildTimestamp; // simBuildTimestamp custom dimension
     }
-    if ( phet.chipper.queryParameters[ 'phet-app' ] ) {
-      phetPageviewOptions.dimension5 = 'phet-app';
-    }
-    else if ( top !== self ) {
-      // Checks to see if this sim is embedded - phetsims/chipper#50
-      phetPageviewOptions.dimension5 = 'embedded';
-    }
-    // TODO Add additional conditions for tracking hits from the installer, etc.
-    else {
-      phetPageviewOptions.dimension5 = 'default';
-    }
-
+    phetPageviewOptions.dimension5 = loadType;
     phetPageviewOptions.dimension6 = document.referrer;
   }
 
   var offlineSimLocation = 'offline/html/' + phet.chipper.project + '_' + phet.chipper.locale;
 
-
+  // Put our function in the queue, to be invoked when the analytics.js has fully loaded.
+  // See https://github.com/phetsims/yotta/issues/30
+  window.googleAnalytics( onGoogleAnalyticsLoad );
 
   // Main PhET tracker
   window.googleAnalytics( 'create', {
