@@ -75,7 +75,7 @@
     img.src = url;
   }
 
-  pingURL( 'https://phet.colorado.edu/yotta/load.gif?' + pingParams );
+  pingURL( 'https://phet.colorado.edu/yotta/immediate.gif?' + pingParams );
 
   window.addEventListener( 'load', function( event ) {
     pingURL( 'https://phet.colorado.edu/yotta/sanity.gif?' + pingParams + '&' +
