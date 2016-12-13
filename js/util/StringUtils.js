@@ -255,19 +255,6 @@ define( function( require ) {
     },
 
     /**
-     * Converts a string to camel case, eg: 'simula-rasa' -> 'simulaRasa'
-     * See http://stackoverflow.com/questions/10425287/convert-string-to-camelcase-with-regular-expression
-     *
-     * @param {string} str - the input string
-     * @returns {string} a new string
-     */
-    toCamelCase: function( str ) {
-      return str.toLowerCase().replace( /-(.)/g, function( match, group1 ) {
-        return group1.toUpperCase();
-      } );
-    },
-
-    /**
      * Determine whether one string ends with another.  Implementation is from the MDN polyfill at
      *   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith
      * @param {string} string - the string to test
