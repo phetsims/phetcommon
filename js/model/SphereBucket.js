@@ -20,6 +20,9 @@ define( function( require ) {
   var Tandem = require( 'TANDEM/Tandem' );
   var Vector2 = require( 'DOT/Vector2' );
 
+  // phet-io modules
+  var TSphereBucket = require( 'ifphetio!PHET_IO/types/phetcommon/TSphereBucket' );
+
   /**
    * @param {Object} options
    * @constructor
@@ -41,6 +44,9 @@ define( function( require ) {
 
     // particles managed by this bucket
     this._particles = [];
+
+    // phet-io support
+    options.tandem.addInstance( this, TSphereBucket );
   }
 
   phetcommon.register( 'SphereBucket', SphereBucket );
