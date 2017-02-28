@@ -84,11 +84,18 @@ define( function( require ) {
 
     // @public
     removeParticle: function( particle, skipLayout ) {
-      if ( this._particles.indexOf( particle ) === -1 ) {
-        console.log( 'Error: Attempt to remove particle not contained in bucket, ignoring.' );
-        return;
-      }
+      assert && assert( this.containsParticle( particle ), 'attempt made to remove particle that is not in bucket' );
+
+      // remove the particle from the array
       this._particles = _.without( this._particles, particle );
+
+      // remove the removal listener if it is still present
+      if ( particle.bucketRemovalListener ) {
+        particle.userControlledProperty.unlink( particle.bucketRemovalListener );
+        delete particle.bucketRemovalListener;
+      }
+
+      // redo the layout of the particles if enabled
       if ( !skipLayout ) {
         this.relayoutBucketParticles();
       }
