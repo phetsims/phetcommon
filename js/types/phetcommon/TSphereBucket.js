@@ -55,10 +55,10 @@ define( function( require ) {
     setValue: function( instance, particleArray ) {
 
       // remove all the particles from the observable arrays
-      instance._particles.length = 0;
+      instance.reset();
 
       // add back the particles
-      particleArray.forEach( function( value ) { instance._particles.push( value ); } );
+      particleArray.forEach( function( particle ) { instance.addParticle( particle ); } );
     }
   } );
 
