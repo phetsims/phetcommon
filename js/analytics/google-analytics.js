@@ -58,8 +58,9 @@
     googleAnalyticsLoaded = true;
   }
 
-  var pingParams = 'pingver=2&' +
+  var pingParams = 'pingver=3&' +
                    'project=' + encodeURIComponent( phet.chipper.project ) + '&' +
+                   'brand=' + encodeURIComponent( phet.chipper.brand ) + '&' +
                    'version=' + encodeURIComponent( phet.chipper.version ) + '&' +
                    'locale=' + encodeURIComponent( phet.chipper.locale ) + '&' +
                    'buildTimestamp=' + encodeURIComponent( phet.chipper.buildTimestamp ) + '&' +
