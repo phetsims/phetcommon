@@ -59,7 +59,9 @@ define( function( require ) {
 
       // add back the particles
       particleArray.forEach( function( particle ) { instance.addParticle( particle ); } );
-    }
+    },
+
+    documentation: 'A model of a bucket into which spherical objects can be placed.'
   } );
 
   phetioNamespace.register( 'TSphereBucket', TSphereBucket );
