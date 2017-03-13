@@ -9,11 +9,13 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var assertInstanceOf = require( 'PHET_IO/assertions/assertInstanceOf' );
-  var phetio = require( 'PHET_IO/phetio' );
-  var phetioNamespace = require( 'PHET_IO/phetioNamespace' );
-  var phetioInherit = require( 'PHET_IO/phetioInherit' );
-  var TObject = require( 'PHET_IO/types/TObject' );
+  var phetcommon = require( 'PHETCOMMON/phetcommon' );
+
+  // phet-io modules
+  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertions/assertInstanceOf' );
+  var phetio = require( 'ifphetio!PHET_IO/phetio' );
+  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
+  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
 
   /**
    * @param {SphereBucket} instance
@@ -64,8 +66,7 @@ define( function( require ) {
     documentation: 'A model of a bucket into which spherical objects can be placed.'
   } );
 
-  phetioNamespace.register( 'TSphereBucket', TSphereBucket );
+  phetcommon.register( 'TSphereBucket', TSphereBucket );
 
   return TSphereBucket;
 } );
-

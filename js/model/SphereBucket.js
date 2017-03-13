@@ -19,9 +19,7 @@ define( function( require ) {
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Vector2 = require( 'DOT/Vector2' );
-
-  // phet-io modules
-  var TSphereBucket = require( 'ifphetio!PHET_IO/types/phetcommon/TSphereBucket' );
+  var TSphereBucket = require( 'PHETCOMMON/model/TSphereBucket' );
 
   /**
    * @param {Object} options
