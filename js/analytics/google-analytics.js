@@ -27,8 +27,13 @@
   }
 
   var loadType;
+  // This is the iOS app
   if ( phet.chipper.getQueryParameter( 'phet-app' ) ) {
     loadType = 'phet-app';
+  }
+  // For the Android app, see https://github.com/phetsims/phet-android-app/issues/16
+  else if ( phet.chipper.getQueryParameter( 'phet-android-app' ) ) {
+    loadType = 'phet-android-app';
   }
   else if ( top !== self ) {
     // Checks to see if this sim is embedded - phetsims/chipper#50
