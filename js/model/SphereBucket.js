@@ -199,7 +199,7 @@ define( function( require ) {
      * Get the nearest open location to the provided current location.  This is used for particle stacking.
      *
      * @param {Vector2} position
-     * @return {Vector2}
+     * @returns {Vector2}
      * @private
      */
     getNearestOpenLocation: function( position ) {

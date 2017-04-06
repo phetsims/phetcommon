@@ -81,7 +81,7 @@ define( function( require ) {
 
   /**
    * Creates a ModelViewTransform that uses the identity transform (i.e. model coordinates are the same as view coordinates)
-   * @return {ModelViewTransform2}
+   * @returns {ModelViewTransform2}
    * @public
    */
   ModelViewTransform2.createIdentity = function() {
@@ -94,7 +94,7 @@ define( function( require ) {
    *
    * @param offset {Vector2} the offset in view coordinates
    * @param scale  {number} the scale to map model to view
-   * @return {ModelViewTransform2}
+   * @returns {ModelViewTransform2}
    * @public
    */
   ModelViewTransform2.createOffsetScaleMapping = function( offset, scale ) {
@@ -109,7 +109,7 @@ define( function( require ) {
    * @param offset {Vector2} the offset in view coordinates
    * @param xScale {number} the scale to map model to view in the x-dimension
    * @param yScale {number} the scale to map model to view in the y-dimension
-   * @return {ModelViewTransform2}
+   * @returns {ModelViewTransform2}
    * @public
    */
   ModelViewTransform2.createOffsetXYScaleMapping = function( offset, xScale, yScale ) {
@@ -123,7 +123,7 @@ define( function( require ) {
    * @param viewPoint  {Vector2} the reference point in the view
    * @param xScale     {number} the amount to scale in the x direction
    * @param yScale     {number} the amount to scale in the y direction
-   * @return {ModelViewTransform2}
+   * @returns {ModelViewTransform2}
    * @public
    */
   ModelViewTransform2.createSinglePointXYScaleMapping = function( modelPoint, viewPoint, xScale, yScale ) {
@@ -140,7 +140,7 @@ define( function( require ) {
    * @param modelPoint {Vector2} the reference point in the model which maps to the specified view point
    * @param viewPoint  {Vector2} the reference point in the view
    * @param scale      {number} the amount to scale in the x and y directions
-   * @return {ModelViewTransform2}
+   * @returns {ModelViewTransform2}
    * @public
    */
   ModelViewTransform2.createSinglePointScaleMapping = function( modelPoint, viewPoint, scale ) {
@@ -155,7 +155,7 @@ define( function( require ) {
    * @param modelPoint {Vector2} the reference point in the model which maps to the specified view point
    * @param viewPoint  {Vector2} the reference point in the view
    * @param scale      {number} the amount to scale in the x and y directions
-   * @return {ModelViewTransform2}
+   * @returns {ModelViewTransform2}
    * @public
    */
   ModelViewTransform2.createSinglePointScaleInvertedYMapping = function( modelPoint, viewPoint, scale ) {
@@ -169,7 +169,7 @@ define( function( require ) {
    *
    * @param modelBounds {Bounds2} the reference rectangle in the model, must have area > 0
    * @param viewBounds  {Bounds2} the reference rectangle in the view, must have area > 0
-   * @return {ModelViewTransform2}
+   * @returns {ModelViewTransform2}
    * @public
    */
   ModelViewTransform2.createRectangleMapping = function( modelBounds, viewBounds ) {
@@ -188,7 +188,7 @@ define( function( require ) {
    *
    * @param modelBounds {Bounds2} the reference rectangle in the model, must have area > 0
    * @param viewBounds  {Bounds2} the reference rectangle in the view, must have area > 0
-   * @return {ModelViewTransform2}
+   * @returns {ModelViewTransform2}
    * @public
    */
   ModelViewTransform2.createRectangleInvertedYMapping = function( modelBounds, viewBounds ) {

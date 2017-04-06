@@ -24,7 +24,7 @@ define( function( require ) {
      * Eg, StringUtils.format( '{0} + {1}', 2, 3 ) -> '2 + 3'
      *
      * @param {string} pattern pattern string, with N placeholders, where N is an integer
-     * @return {string}
+     * @returns {string}
      * @public
      */
     format: function( pattern ) {
