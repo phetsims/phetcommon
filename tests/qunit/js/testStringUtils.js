@@ -15,7 +15,7 @@
     equal( StringUtils.endsWith( '', 'he' ), false, 'empty string should not end with something' );
   } );
 
-  // // See https://github.com/phetsims/phetcommon/issues/36
+  // See https://github.com/phetsims/phetcommon/issues/36
   test( 'fillIn', function( assert ) {
     var StringUtils = phet.phetcommon.StringUtils;
 
