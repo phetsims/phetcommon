@@ -17,6 +17,8 @@ define( function( require ) {
   var StringUtils = {
 
     /**
+     * NOTE: Please use StringUtils.fillIn instead of this function.
+     *
      * http://mobzish.blogspot.com/2008/10/simple-messageformat-for-javascript.html
      * Similar to Java's MessageFormat, supports simple substitution, simple substitution only.
      * The full MessageFormat specification allows conditional formatting, for example to support pluralisation.
