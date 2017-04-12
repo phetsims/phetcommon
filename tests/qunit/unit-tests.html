@@ -35,6 +35,28 @@
   require( [ 'config' ], function() {
     require( [ 'main' ], function( phetcommon ) {
       window.phetcommon = phetcommon;
+
+      QUnit.log( function( details ) {
+        window.parent && window.parent.postMessage( JSON.stringify( {
+          type: 'qunit-test',
+          main: 'phetcommon',
+          result: details.result,
+          module: details.module,
+          name: details.name,
+          message: details.message,
+          source: details.source // TODO: consider expected/actual, or don't worry because we'll run finer tests once it fails.
+        } ), '*' );
+      } );
+
+      QUnit.done( function( details ) {
+        window.parent && window.parent.postMessage( JSON.stringify( {
+          type: 'qunit-done',
+          failed: details.failed,
+          passed: details.passed,
+          total: details.total
+        } ), '*' );
+      } );
+
       runTests( '.' );
 
       var $checkbox = $( '#qunit-filter-pass' );
