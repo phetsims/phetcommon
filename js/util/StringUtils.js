@@ -44,8 +44,8 @@ define( function( require ) {
      * "Fred is 23 years old"
      *
      * @param {string} template - the template, containing zero or more placeholders
-     * @param {*} values - a hash whose keys correspond to the placeholder names, e.g. { name: 'Fred', age: 23 }
-     *                     Unused keys are silently ignored.
+     * @param {Object} values - a hash whose keys correspond to the placeholder names, e.g. { name: 'Fred', age: 23 }
+     *                          Unused keys are silently ignored.
      * @returns {string}
      * @public
      */
@@ -57,14 +57,15 @@ define( function( require ) {
       var placeholders = template.match( /\{\{[^\{\}]+\}\}/g ) || [];
 
       // replace each placeholder with its corresponding value
-      placeholders.forEach( function( placeholder ) {
+      for ( var i = 0; i < placeholders.length; i++ ) {
+        var placeholder = placeholders[ i ];
 
         // key is the portion of the placeholder between the curly braces
         var key = placeholder.replace( '{{', '' ).replace( '}}', '' );
         assert && assert( values[ key ], 'missing value for ' + key );
 
         newString = newString.replace( placeholder, values[ key ] );
-      } );
+      }
 
       return newString;
     },

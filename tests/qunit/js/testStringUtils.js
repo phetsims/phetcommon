@@ -3,7 +3,7 @@
 (function() {
   'use strict';
 
-  module( 'phetcommon' );
+  module( 'Phetcommon' );
 
   test( 'endsWith', function() {
     var StringUtils = phet.phetcommon.StringUtils;
@@ -19,20 +19,15 @@
   test( 'fillIn', function( assert ) {
     var StringUtils = phet.phetcommon.StringUtils;
 
-    equal( StringUtils.fillIn( 'no placeholders here', { name: 'Fred' } ) === 'no placeholders here',
-      true, '0 placeholders' );
-    equal( StringUtils.fillIn( '{{name}} is smart', { name: 'Fred' } ) === 'Fred is smart',
-      true, '1 placeholder' );
-    equal( StringUtils.fillIn( '{{name}} is {{age}} years old', { name: 'Fred', age: 23 } ) === 'Fred is 23 years old',
-      true, '> 1 placeholders' );
+    equal( StringUtils.fillIn( 'no placeholders here', { name: 'Fred' } ), 'no placeholders here', '0 placeholders' );
+    equal( StringUtils.fillIn( '{{name}} is smart', { name: 'Fred' } ), 'Fred is smart', '1 placeholder' );
+    equal( StringUtils.fillIn( '{{name}} is {{age}} years old', { name: 'Fred', age: 23 } ), 'Fred is 23 years old', '> 1 placeholders' );
     equal( StringUtils.fillIn( '{{name}} is {{age}} years old', {
         name: 'Fred',
         age: 23,
         height: 60
-      } ) === 'Fred is 23 years old',
-      true, 'extra value in hash is ignored' );
-    equal( StringUtils.fillIn( '{{name}} is {{age}} years old {really}', { name: 'Fred', age: 23 } ) === 'Fred is 23 years old {really}',
-      true, 'OK to use of curly braces in the string' );
+      } ), 'Fred is 23 years old', 'extra value in hash is ignored' );
+    equal( StringUtils.fillIn( '{{name}} is {{age}} years old {really}', { name: 'Fred', age: 23 } ), 'Fred is 23 years old {really}', 'OK to use of curly braces in the string' );
 
     assert.throws( function() { StringUtils.fillIn( '{{name}} is {{age}} years old', { name: 'Fred' } ); },
       'missing value in hash fails' );
