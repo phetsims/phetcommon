@@ -35,6 +35,7 @@
       true, 'OK to use of curly braces in the string' );
 
     assert.throws( function() { StringUtils.fillIn( '{{name}} is {{age}} years old', { name: 'Fred' } ); },
-      'missing value in hash fails' ); } );
+      'missing value in hash fails' );
+  } );
 
 })();
