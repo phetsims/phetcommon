@@ -33,6 +33,36 @@ define( function( require ) {
     },
 
     /**
+     * Fills in a set of placeholders in a template.
+     * Placeholders are specified with pairs of curly braces, e.g. "{{name}} is {{age}} years old"
+     * See https://github.com/phetsims/phetcommon/issues/36
+     *
+     * @param {string} template - the template, containing zero or more placeholders
+     * @param {*} values - a hash whose keys correspond to the placeholder names, e.g. { name: 'Fred', age: 23 }
+     * @returns {string}
+     * @public
+     */
+    fillIn: function( template, values ) {
+
+      var newString = template;
+
+      // {string[]} parse out the set of placeholders
+      var placeholders = template.match( /\{\{[^\{\}]+\}\}/g ) || [];
+
+      // replace each placeholder with its corresponding value
+      placeholders.forEach( function( placeholder ) {
+
+        // key is the portion of the placeholder between the curly braces
+        var key = placeholder.replace( '{{', '' ).replace( '}}', '' );
+        assert && assert( values[ key ], 'missing value for ' + key );
+
+        newString = newString.replace( placeholder, values[ key ] );
+      } );
+
+      return newString;
+    },
+
+    /**
      * @public
      * @returns {boolean} - Whether this length-1 string is equal to one of the three directional embedding marks used.
      */
