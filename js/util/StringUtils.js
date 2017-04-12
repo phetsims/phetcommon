@@ -20,8 +20,10 @@ define( function( require ) {
      * http://mobzish.blogspot.com/2008/10/simple-messageformat-for-javascript.html
      * Similar to Java's MessageFormat, supports simple substitution, simple substitution only.
      * The full MessageFormat specification allows conditional formatting, for example to support pluralisation.
-     * <p>
-     * Eg, StringUtils.format( '{0} + {1}', 2, 3 ) -> '2 + 3'
+     *
+     * Example:
+     * > StringUtils.format( '{0} + {1}', 2, 3 )
+     * "2 + 3"
      *
      * @param {string} pattern pattern string, with N placeholders, where N is an integer
      * @returns {string}
@@ -34,11 +36,16 @@ define( function( require ) {
 
     /**
      * Fills in a set of placeholders in a template.
-     * Placeholders are specified with pairs of curly braces, e.g. "{{name}} is {{age}} years old"
+     * Placeholders are specified with pairs of curly braces, e.g. '{{name}} is {{age}} years old'
      * See https://github.com/phetsims/phetcommon/issues/36
+     *
+     * Example:
+     * > StringUtils.fillIn( '{{name}} is {{age}} years old', { name: 'Fred', age: 23 } )
+     * "Fred is 23 years old"
      *
      * @param {string} template - the template, containing zero or more placeholders
      * @param {*} values - a hash whose keys correspond to the placeholder names, e.g. { name: 'Fred', age: 23 }
+     *                     Unused keys are silently ignored.
      * @returns {string}
      * @public
      */
