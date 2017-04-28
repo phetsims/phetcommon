@@ -64,7 +64,7 @@ define( function( require ) {
 
         // key is the portion of the placeholder between the curly braces
         var key = placeholder.replace( '{{', '' ).replace( '}}', '' );
-        assert && assert( values[ key ] !== undefined, 'missing value for ' + key );
+        assert && assert( values[ key ] !== undefined, 'missing key ' + key );
 
         newString = newString.replace( placeholder, values[ key ] );
       }
