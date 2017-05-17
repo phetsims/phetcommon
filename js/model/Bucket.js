@@ -35,7 +35,7 @@ define( function( require ) {
       position: Vector2.ZERO,
       size: new Dimension2( 200, 50 ),
       baseColor: '#ff0000',
-      caption: '',
+      captionText: '',
       captionColor: 'white',
 
       // The following flag controls whether the bucket shape should be essentially upside down.  This allows it to be
@@ -50,7 +50,7 @@ define( function( require ) {
     this.baseColor = options.baseColor;
 
     // @public (read-only) - Caption to be shown on the bucket.
-    this.captionText = options.caption;
+    this.captionText = options.captionText;
 
     // @public (read-only) - Color for the caption.
     this.captionColor = options.captionColor;
