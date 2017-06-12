@@ -22,10 +22,10 @@ define( function( require ) {
    * @param {string} phetioID
    * @constructor
    */
-  var TSphereBucket = function( instance, phetioID ) {
+  function TSphereBucket( instance, phetioID ) {
     TObject.call( this, instance, phetioID );
     assertInstanceOf( instance, phet.phetcommon.SphereBucket );
-  };
+  }
 
   // helper function for retrieving the tandem for a particle
   function getParticleTandemID( particle ) {
