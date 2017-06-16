@@ -19,10 +19,6 @@ require.config( {
     REPOSITORY: '..',
     TANDEM: '../../tandem/js',
 
-    // Needs to be compatible in the sim, and also with scenery unit tests.
-    BRAND: '../../brand/' + (window.phet && phet.chipper && phet.chipper.brand ? phet.chipper.brand : 'adapted-from-phet') + '/js',
-
-
     // this repository
     PHETCOMMON: '.'
   },
