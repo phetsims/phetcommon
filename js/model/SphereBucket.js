@@ -71,10 +71,13 @@ define( function( require ) {
       }
       this._particles.push( particle );
       var self = this;
-      var particleRemovedListener = function( userControlled ) {
+
+      // add a listener that will remove this particle from the bucket if the user grabs it
+      var particleRemovedListener = function() {
         self.removeParticle( particle );
-        particle.userControlledProperty.unlink( particleRemovedListener );
-        delete particle.bucketRemovalListener;
+
+        // the process of removing the particle from the bucket should also disconnect removal listener
+        assert( !particle.bucketRemovalListener, 'listener still present after being removed from bucket' );
       };
       particle.userControlledProperty.lazyLink( particleRemovedListener );
       particle.bucketRemovalListener = particleRemovedListener; // Attach to the particle to aid unlinking in some cases.
