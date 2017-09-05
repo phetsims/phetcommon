@@ -77,7 +77,7 @@ define( function( require ) {
         self.removeParticle( particle );
 
         // the process of removing the particle from the bucket should also disconnect removal listener
-        assert( !particle.bucketRemovalListener, 'listener still present after being removed from bucket' );
+        assert && assert( !particle.bucketRemovalListener, 'listener still present after being removed from bucket' );
       };
       particle.userControlledProperty.lazyLink( particleRemovedListener );
       particle.bucketRemovalListener = particleRemovedListener; // Attach to the particle to aid unlinking in some cases.
