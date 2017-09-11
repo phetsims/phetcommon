@@ -17,10 +17,10 @@ define( function( require ) {
   'use strict';
 
   // modules
-  var Vector2 = require( 'DOT/Vector2' );
   var Dimension2 = require( 'DOT/Dimension2' );
-  var Shape = require( 'KITE/Shape' );
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
+  var Shape = require( 'KITE/Shape' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   // Proportion of the total height which the ellipse that represents the hole occupies.  It is assumed that the width
   // of the hole is the same as the width specified at construction.

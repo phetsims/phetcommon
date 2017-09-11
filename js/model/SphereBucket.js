@@ -18,8 +18,8 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var Vector2 = require( 'DOT/Vector2' );
   var TSphereBucket = require( 'PHETCOMMON/model/TSphereBucket' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param {Object} options

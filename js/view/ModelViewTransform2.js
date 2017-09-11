@@ -16,10 +16,10 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Vector2 = require( 'DOT/Vector2' );
   var Matrix3 = require( 'DOT/Matrix3' );
-  var Transform3 = require( 'DOT/Transform3' );
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
+  var Transform3 = require( 'DOT/Transform3' );
+  var Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param matrix

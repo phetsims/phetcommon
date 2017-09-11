@@ -16,8 +16,8 @@ define( function( require ) {
 
   // modules
   var inherit = require( 'PHET_CORE/inherit' );
-  var Util = require( 'DOT/Util' );
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
+  var Util = require( 'DOT/Util' );
 
   /**
    * @param {number} numerator must be an integer
