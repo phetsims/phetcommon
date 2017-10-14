@@ -44,7 +44,7 @@ define( function( require ) {
     this._particles = [];
 
     // phet-io support
-    options.tandem.addInstance( this, TSphereBucket );
+    options.tandem.addInstance( this, TSphereBucket, options );
   }
 
   phetcommon.register( 'SphereBucket', SphereBucket );
