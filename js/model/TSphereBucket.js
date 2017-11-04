@@ -23,8 +23,8 @@ define( function( require ) {
    * @constructor
    */
   function TSphereBucket( instance, phetioID ) {
-    TObject.call( this, instance, phetioID );
     assertInstanceOf( instance, phet.phetcommon.SphereBucket );
+    TObject.call( this, instance, phetioID );
   }
 
   // helper function for retrieving the tandem for a particle
