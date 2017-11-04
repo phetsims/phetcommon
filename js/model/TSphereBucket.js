@@ -23,7 +23,7 @@ define( function( require ) {
    * @constructor
    */
   function TSphereBucket( instance, phetioID ) {
-    assertInstanceOf( instance, phet.phetcommon.SphereBucket );
+    assert && assertInstanceOf( instance, phet.phetcommon.SphereBucket );
     TObject.call( this, instance, phetioID );
   }
 
