@@ -32,6 +32,8 @@ define( function( require ) {
       usableWidthProportion: 1.0,  // proportion of the bucket width that the spheres can occupy
       tandem: Tandem.tandemOptional()
     }, options );
+
+    // @private
     this.sphereBucketTandem = options.tandem;
 
     this._sphereRadius = options.sphereRadius;
@@ -51,6 +53,13 @@ define( function( require ) {
 
   // Inherit from base type.
   inherit( Bucket, SphereBucket, {
+
+    /**
+     * @public
+     */
+    dispose: function() {
+      this.sphereBucketTandem.removeInstance( this );
+    },
 
     // @public
     addParticleFirstOpen: function( particle, animate ) {
