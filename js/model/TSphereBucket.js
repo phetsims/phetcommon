@@ -15,7 +15,7 @@ define( function( require ) {
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
-  var TObject = require( 'ifphetio!PHET_IO/types/TObject' );
+  var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
 
   /**
    * @param {SphereBucket} instance
@@ -24,7 +24,7 @@ define( function( require ) {
    */
   function TSphereBucket( instance, phetioID ) {
     assert && assertInstanceOf( instance, phet.phetcommon.SphereBucket );
-    TObject.call( this, instance, phetioID );
+    ObjectIO.call( this, instance, phetioID );
   }
 
   // helper function for retrieving the tandem for a particle
@@ -32,7 +32,7 @@ define( function( require ) {
     return particle.particleTandem.id;
   }
 
-  phetioInherit( TObject, 'TSphereBucket', TSphereBucket, {}, {
+  phetioInherit( ObjectIO, 'TSphereBucket', TSphereBucket, {}, {
 
     /**
      * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
