@@ -22,7 +22,7 @@ define( function( require ) {
    * @param {string} phetioID
    * @constructor
    */
-  function TSphereBucket( instance, phetioID ) {
+  function SphereBucketIO( instance, phetioID ) {
     assert && assertInstanceOf( instance, phet.phetcommon.SphereBucket );
     ObjectIO.call( this, instance, phetioID );
   }
@@ -32,7 +32,7 @@ define( function( require ) {
     return particle.particleTandem.id;
   }
 
-  phetioInherit( ObjectIO, 'TSphereBucket', TSphereBucket, {}, {
+  phetioInherit( ObjectIO, 'SphereBucketIO', SphereBucketIO, {}, {
 
     /**
      * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
@@ -66,7 +66,7 @@ define( function( require ) {
     documentation: 'A model of a bucket into which spherical objects can be placed.'
   } );
 
-  phetcommon.register( 'TSphereBucket', TSphereBucket );
+  phetcommon.register( 'SphereBucketIO', SphereBucketIO );
 
-  return TSphereBucket;
+  return SphereBucketIO;
 } );

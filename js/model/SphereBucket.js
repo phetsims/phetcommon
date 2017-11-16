@@ -18,7 +18,7 @@ define( function( require ) {
   var inherit = require( 'PHET_CORE/inherit' );
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
   var Tandem = require( 'TANDEM/Tandem' );
-  var TSphereBucket = require( 'PHETCOMMON/model/TSphereBucket' );
+  var SphereBucketIO = require( 'PHETCOMMON/model/SphereBucketIO' );
   var Vector2 = require( 'DOT/Vector2' );
 
   /**
@@ -31,7 +31,7 @@ define( function( require ) {
       sphereRadius: 10,  // expected radius of the spheres that will be placed in this bucket
       usableWidthProportion: 1.0,  // proportion of the bucket width that the spheres can occupy
       tandem: Tandem.tandemOptional(),
-      phetioType: TSphereBucket
+      phetioType: SphereBucketIO
     }, options );
 
     // @private
