@@ -18,13 +18,13 @@ define( function( require ) {
   var ObjectIO = require( 'ifphetio!PHET_IO/types/ObjectIO' );
 
   /**
-   * @param {SphereBucket} instance
+   * @param {SphereBucket} sphereBucket
    * @param {string} phetioID
    * @constructor
    */
-  function SphereBucketIO( instance, phetioID ) {
-    assert && assertInstanceOf( instance, phet.phetcommon.SphereBucket );
-    ObjectIO.call( this, instance, phetioID );
+  function SphereBucketIO( sphereBucket, phetioID ) {
+    assert && assertInstanceOf( sphereBucket, phet.phetcommon.SphereBucket );
+    ObjectIO.call( this, sphereBucket, phetioID );
   }
 
   // helper function for retrieving the tandem for a particle
@@ -36,10 +36,11 @@ define( function( require ) {
 
     /**
      * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
-     * @param {SphereBucket} instance
+     * @param {SphereBucket} sphereBucket
      */
-    toStateObject: function( instance ) {
-      return instance._particles.map( getParticleTandemID );
+    toStateObject: function( sphereBucket ) {
+      assert && assertInstanceOf( sphereBucket, phet.phetcommon.SphereBucket );
+      return sphereBucket._particles.map( getParticleTandemID );
     },
 
     /**
@@ -51,16 +52,17 @@ define( function( require ) {
     },
 
     /**
-     * @param {SphereBucket} instance
+     * @param {SphereBucket} sphereBucket
      * @param {Particle[]} particleArray
      */
-    setValue: function( instance, particleArray ) {
+    setValue: function( sphereBucket, particleArray ) {
+      assert && assertInstanceOf( sphereBucket, phet.phetcommon.SphereBucket );
 
       // remove all the particles from the observable arrays
-      instance.reset();
+      sphereBucket.reset();
 
       // add back the particles
-      particleArray.forEach( function( particle ) { instance.addParticle( particle ); } );
+      particleArray.forEach( function( particle ) { sphereBucket.addParticle( particle ); } );
     },
 
     documentation: 'A model of a bucket into which spherical objects can be placed.'
