@@ -30,7 +30,7 @@ define( function( require ) {
     options = _.extend( {
       sphereRadius: 10,  // expected radius of the spheres that will be placed in this bucket
       usableWidthProportion: 1.0,  // proportion of the bucket width that the spheres can occupy
-      tandem: Tandem.tandemOptional(),
+      tandem: Tandem.optional,
       phetioType: SphereBucketIO
     }, options );
 
