@@ -26,13 +26,14 @@ define( function( require ) {
    * @constructor
    */
   function SphereBucket( options ) {
-    Bucket.call( this, options );
     options = _.extend( {
       sphereRadius: 10,  // expected radius of the spheres that will be placed in this bucket
       usableWidthProportion: 1.0,  // proportion of the bucket width that the spheres can occupy
       tandem: Tandem.optional,
       phetioType: SphereBucketIO
     }, options );
+
+    Bucket.call( this, options );
 
     // @private
     this.sphereBucketTandem = options.tandem;
@@ -45,22 +46,12 @@ define( function( require ) {
 
     // particles managed by this bucket
     this._particles = [];
-
-    // phet-io support
-    options.tandem.addInstance( this, options );
   }
 
   phetcommon.register( 'SphereBucket', SphereBucket );
 
   // Inherit from base type.
   inherit( Bucket, SphereBucket, {
-
-    /**
-     * @public
-     */
-    dispose: function() {
-      this.sphereBucketTandem.removeInstance( this );
-    },
 
     // @public
     addParticleFirstOpen: function( particle, animate ) {

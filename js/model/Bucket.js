@@ -18,7 +18,9 @@ define( function( require ) {
 
   // modules
   var Dimension2 = require( 'DOT/Dimension2' );
+  var inherit = require( 'PHET_CORE/inherit' );
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
+  var PhetioObject = require( 'TANDEM/PhetioObject' );
   var Shape = require( 'KITE/Shape' );
   var Vector2 = require( 'DOT/Vector2' );
 
@@ -42,6 +44,8 @@ define( function( require ) {
       // used in cases where the model uses the inverted-y scheme commonly associated with screen layouts.
       invertY: false
     }, options );
+
+    PhetioObject.call( this, options );
 
     // @public (read-only) - The position is defined to be where the center of the hole is.
     this.position = options.position;
@@ -84,5 +88,5 @@ define( function( require ) {
 
   phetcommon.register( 'Bucket', Bucket );
 
-  return Bucket;
+  return inherit( PhetioObject, Bucket );
 } );
