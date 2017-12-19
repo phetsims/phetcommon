@@ -29,7 +29,7 @@ define( function( require ) {
 
   // helper function for retrieving the tandem for a particle
   function getParticleTandemID( particle ) {
-    return particle.particleTandem.id;
+    return particle.phetioObjectTandem.id;
   }
 
   phetioInherit( ObjectIO, 'SphereBucketIO', SphereBucketIO, {}, {
