@@ -1,7 +1,7 @@
 // Copyright 2017, University of Colorado Boulder
 
 /**
- * wrapper type for SphereBucket
+ * IO type for SphereBucket
  * @author Sam Reid (PhET Interactive Simulations)
  * @author John Blanco
  */
