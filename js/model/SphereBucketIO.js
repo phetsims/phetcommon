@@ -2,8 +2,9 @@
 
 /**
  * IO type for SphereBucket
+ *
  * @author Sam Reid (PhET Interactive Simulations)
- * @author John Blanco
+ * @author John Blanco (PhET Interactive Simulations)
  */
 define( function( require ) {
   'use strict';
