@@ -54,16 +54,16 @@ define( function( require ) {
 
     /**
      * @param {SphereBucket} sphereBucket
-     * @param {Particle[]} particleArray
+     * @param {Particle[]} fromStateObject
      */
-    setValue: function( sphereBucket, particleArray ) {
+    setValue: function( sphereBucket, fromStateObject ) {
       assert && assertInstanceOf( sphereBucket, phet.phetcommon.SphereBucket );
 
       // remove all the particles from the observable arrays
       sphereBucket.reset();
 
       // add back the particles
-      particleArray.forEach( function( particle ) { sphereBucket.addParticle( particle ); } );
+      fromStateObject.forEach( function( particle ) { sphereBucket.addParticle( particle ); } );
     },
 
     documentation: 'A model of a bucket into which spherical objects can be placed.'
