@@ -98,7 +98,7 @@ define( function( require ) {
    * @public
    */
   ModelViewTransform2.createOffsetScaleMapping = function( offset, scale ) {
-    return new ModelViewTransform2( Matrix3.affine( scale, 0, 0, scale, offset.x, offset.y ) );
+    return new ModelViewTransform2( Matrix3.affine( scale, 0, offset.x, 0, scale, offset.y ) );
   };
 
   /**
@@ -113,7 +113,7 @@ define( function( require ) {
    * @public
    */
   ModelViewTransform2.createOffsetXYScaleMapping = function( offset, xScale, yScale ) {
-    return new ModelViewTransform2( Matrix3.affine( xScale, 0, 0, yScale, offset.x, offset.y ) );
+    return new ModelViewTransform2( Matrix3.affine( xScale, 0, offset.x, 0, yScale, offset.y ) );
   };
 
   /**
@@ -177,7 +177,7 @@ define( function( require ) {
     var m02 = viewBounds.x - m00 * modelBounds.x;
     var m11 = viewBounds.height / modelBounds.height;
     var m12 = viewBounds.y - m11 * modelBounds.y;
-    return new ModelViewTransform2( Matrix3.affine( m00, 0, 0, m11, m02, m12 ) );
+    return new ModelViewTransform2( Matrix3.affine( m00, 0, m02, 0, m11, m12 ) );
   };
 
   /**
@@ -197,7 +197,7 @@ define( function( require ) {
     var m11 = -viewBounds.height / modelBounds.height;
     // vY == (mY + mHeight) * m11 + m12
     var m12 = viewBounds.y - m11 * modelBounds.getMaxY();
-    return new ModelViewTransform2( Matrix3.affine( m00, 0, 0, m11, m02, m12 ) );
+    return new ModelViewTransform2( Matrix3.affine( m00, 0, m02, 0, m11, m12 ) );
   };
 
   return ModelViewTransform2;
