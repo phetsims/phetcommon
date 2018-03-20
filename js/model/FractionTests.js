@@ -31,12 +31,16 @@ define( function( require ) {
   } );
 
   QUnit.test( 'reduce, reduced, isReduced', function( assert ) {
-    var fraction = new Fraction( 4, 8 );
-    var reducedFraction = new Fraction( 1, 2 );
-    assert.equal( fraction.isReduced(), false, 'isReduced false' );
-    assert.equal( fraction.reduced().equals( reducedFraction ), true, 'reduced' );
-    assert.equal( fraction.reduce().equals( reducedFraction ), true, 'reduce' );
-    assert.equal( fraction.isReduced(), true, 'isReduced true' );
+    assert.equal( new Fraction( 1, 2 ).isReduced(), true, 'isReduced true' );
+    //TODO this fails due to problem with Util.gcd, see phetsims/phetcommon#41
+    // assert.equal( new Fraction( -1, 2 ).isReduced(), true, 'isReduced true' );
+    assert.equal( new Fraction( 1, -2 ).isReduced(), true, 'isReduced true' );
+    //TODO this fails due to problem with Util.gcd, see phetsims/phetcommon#41
+    // assert.equal( new Fraction( -1, -2 ).isReduced(), true, 'isReduced true' );
+    assert.equal( new Fraction( 4, 8 ).isReduced(), false, 'isReduced false' );
+    assert.equal( new Fraction( 4, 8 ).reduce().isReduced(), true, 'reduce' );
+    assert.equal( new Fraction( 4, 8 ).reduce().equals( new Fraction( 1, 2 ) ), true, 'reduce' );
+    assert.equal( new Fraction( 4, 8 ).reduced().equals( new Fraction( 1, 2 ) ), true, 'reduced' );
   } );
 
   QUnit.test( 'sign', function( assert ) {
