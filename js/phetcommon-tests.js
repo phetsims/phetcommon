@@ -9,6 +9,7 @@ define( function( require ) {
   'use strict';
 
   // modules
+  require( 'PHETCOMMON/model/FractionTests' );
   require( 'PHETCOMMON/util/StringUtilsTests' );
 
   // Since our tests are loaded asynchronously, we must direct QUnit to begin the tests
