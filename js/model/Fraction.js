@@ -34,20 +34,6 @@ define( function( require ) {
 
   phetcommon.register( 'Fraction', Fraction );
 
-  //TODO Trade-off between creating an object literal and computing gcd twice. https://github.com/phetsims/phetcommon/issues/41
-  /**
-   * Gets the reduced numerator and denominator for a Fraction.
-   * @param {Fraction} fraction
-   * @returns {{numerator: number, denominator: number}}
-   */
-  function getReducedParts( fraction ) {
-    var gcd = Util.gcd( fraction.numerator, fraction.denominator );
-    return {
-      numerator: ( gcd === 0 ) ? 0 : Util.roundSymmetric( fraction.numerator / gcd ),
-      denominator: ( gcd === 0 ) ? 0 : Util.roundSymmetric( fraction.denominator / gcd )
-    };
-  }
-
   return inherit( Object, Fraction, {
 
     // @public - Floating-point error is not an issue as long as numerator and denominator are integers < 2^53
@@ -65,14 +51,19 @@ define( function( require ) {
       return this.numerator + '/' + this.denominator;
     },
 
+    // @public
+    copy: function() {
+      return new Fraction( this.numerator, this.denominator );
+    },
+
     /**
      * Reduces this fraction, modifies the numerator and denominator.
      * @public
      */
     reduce: function() {
-      var parts = getReducedParts( this );
-      this.numerator = parts.numerator;
-      this.denominator = parts.denominator;
+      var gcd = Util.gcd( this.numerator, this.denominator );
+      this.numerator = ( gcd === 0 ) ? 0 : Util.roundSymmetric( this.numerator / gcd );
+      this.denominator = ( gcd === 0 ) ? 0 : Util.roundSymmetric( this.denominator / gcd );
     },
 
     /**
@@ -81,8 +72,7 @@ define( function( require ) {
      * @public
      */
     reduced: function() {
-      var parts = getReducedParts( this );
-      return new Fraction( parts.numerator, parts.denominator );
+      return this.copy().reduce();
     },
 
     /**
@@ -90,8 +80,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     isReduced: function() {
-      var parts = getReducedParts( this );
-      return this.numerator === parts.numerator && this.denominator === parts.denominator;
+      return Util.gcd( this.numerator, this.denominator ) === 1;
     },
 
     // @public
