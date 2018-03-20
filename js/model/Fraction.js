@@ -58,12 +58,14 @@ define( function( require ) {
 
     /**
      * Reduces this fraction, modifies the numerator and denominator.
+     * @returns {Fraction} returns this, to support chaining of operations
      * @public
      */
     reduce: function() {
       var gcd = Util.gcd( this.numerator, this.denominator );
       this.numerator = ( gcd === 0 ) ? 0 : Util.roundSymmetric( this.numerator / gcd );
       this.denominator = ( gcd === 0 ) ? 0 : Util.roundSymmetric( this.denominator / gcd );
+      return this;
     },
 
     /**
