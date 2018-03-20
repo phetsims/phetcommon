@@ -74,13 +74,25 @@ define( function( require ) {
     assert.equal( new Fraction( 2, 2 ).minus( new Fraction( 4, 2 ) ).equals( new Fraction( -2, 2 ) ), true, 'minus' );
   } );
 
-  // QUnit.test( 'times', function( assert ) {
-  //   //TODO
-  // } );
-  //
-  // QUnit.test( 'divided', function( assert ) {
-  //   //TODO
-  // } );
+  QUnit.test( 'times', function( assert ) {
+    assert.equal( new Fraction( 1, 6 ).times( new Fraction( 2, 4 ) ).equals( new Fraction( 2, 24 ) ), true, 'times' );
+    assert.equal( new Fraction( 2, 3 ).times( new Fraction( 1, 2 ) ).equals( new Fraction( 2, 6 ) ), true, 'times' );
+    assert.equal( new Fraction( -1, 5 ).times( new Fraction( 3, 2 ) ).equals( new Fraction( -3, 10 ) ), true, 'times' );
+    assert.equal( new Fraction( 1, -5 ).times( new Fraction( 3, 2 ) ).equals( new Fraction( 3, -10 ) ), true, 'times' );
+    assert.equal( new Fraction( 4, 9 ).times( new Fraction( 2, 3 ) ).equals( new Fraction( 8, 27 ) ), true, 'times' );
+    assert.equal( new Fraction( 2, 2 ).times( new Fraction( 4, 4 ) ).equals( new Fraction( 8, 8 ) ), true, 'times' );
+    assert.equal( new Fraction( 2, 2 ).times( new Fraction( 4, 2 ) ).equals( new Fraction( 8, 4 ) ), true, 'times' );
+  } );
+
+  QUnit.test( 'divided', function( assert ) {
+    assert.equal( new Fraction( 1, 6 ).divided( new Fraction( 2, 4 ) ).equals( new Fraction( 4, 12 ) ), true, 'divided' );
+    assert.equal( new Fraction( 2, 3 ).divided( new Fraction( 1, 2 ) ).equals( new Fraction( 4, 3 ) ), true, 'divided' );
+    assert.equal( new Fraction( -1, 5 ).divided( new Fraction( 3, 2 ) ).equals( new Fraction( -2, 15 ) ), true, 'divided' );
+    assert.equal( new Fraction( 1, -5 ).divided( new Fraction( 3, 2 ) ).equals( new Fraction( 2, -15 ) ), true, 'divided' );
+    assert.equal( new Fraction( 4, 9 ).divided( new Fraction( 2, 3 ) ).equals( new Fraction( 12, 18 ) ), true, 'divided' );
+    assert.equal( new Fraction( 2, 2 ).divided( new Fraction( 4, 4 ) ).equals( new Fraction( 8, 8 ) ), true, 'divided' );
+    assert.equal( new Fraction( 2, 2 ).divided( new Fraction( 4, 2 ) ).equals( new Fraction( 4, 8 ) ), true, 'divided' );
+  } );
 
   QUnit.test( 'plusInteger', function( assert ) {
     assert.equal( new Fraction( 1, 6 ).plusInteger( 2 ).equals( new Fraction( 13, 6 ) ), true, 'plusInteger' );
