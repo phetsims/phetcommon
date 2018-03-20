@@ -223,7 +223,7 @@ define( function( require ) {
      * @public
      * @static
      */
-    withInteger: function( value ) {
+    fromInteger: function( value ) {
       return new Fraction( value, 1 );
     }
   } );

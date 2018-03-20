@@ -25,7 +25,7 @@ define( function( require ) {
 
   QUnit.test( 'isInteger', function( assert ) {
     assert.equal( new Fraction( 3, 1 ).isInteger(), true, 'isInteger true' );
-    assert.equal( Fraction.withInteger( 3 ).isInteger(), true, 'isInteger true' );
+    assert.equal( Fraction.fromInteger( 3 ).isInteger(), true, 'isInteger true' );
     assert.equal( new Fraction( 1, 2 ).isInteger(), false, 'isInteger false' );
     assert.equal( new Fraction( 3, 2 ).isInteger(), false, 'isInteger false' );
   } );
