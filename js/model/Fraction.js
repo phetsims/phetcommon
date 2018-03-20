@@ -110,7 +110,7 @@ define( function( require ) {
 
     /**
      * Adds a fraction to this fraction to create a new fraction.
-     * The result has a denominator that is the least-common multiple of the 2 denominators.
+     * The result is not reduced, and has a denominator that is the least-common multiple of the 2 denominators.
      * @param {Fraction} value
      * @returns {Fraction}
      * @public
@@ -125,7 +125,7 @@ define( function( require ) {
 
     /**
      * Subtracts a fraction from this fraction to create a new fraction.
-     * The result has a denominator that is the least-common multiple of the 2 denominators.
+     * The result is not reduced, and has a denominator that is the least-common multiple of the 2 denominators.
      * @param {Fraction} value
      * @returns {Fraction}
      * @public
@@ -140,7 +140,7 @@ define( function( require ) {
 
     /**
      * Multiplies this fraction by another fraction to create a new fraction.
-     * The result has a denominator that is the least-common multiple of the 2 denominators.
+     * The result is not reduced.
      * @param {Fraction} value
      * @returns {Fraction}
      * @public
@@ -152,7 +152,7 @@ define( function( require ) {
 
     /**
      * Divides this fraction by another fraction to create a new fraction.
-     * The result has a denominator that is the least-common multiple of the 2 denominators.
+     * The result is not reduced.
      * @param {Fraction} value
      * @returns {Fraction}
      * @public
@@ -165,7 +165,7 @@ define( function( require ) {
     /**
      * Convenience method.
      * Adds an integer value to this fraction to create a new fraction.
-     * Denominator of the result is the same as the denominator of this fraction.
+     * The result is not reduced, and the denominator is the same as the denominator of this fraction.
      * @param {number} value - integer
      * @returns {Fraction}
      * @public
@@ -178,7 +178,7 @@ define( function( require ) {
     /**
      * Convenience method.
      * Subtracts an integer value from this fraction to create a new fraction.
-     * Denominator of the result is the same as the denominator of this fraction.
+     * The result is not reduced, and the denominator is the same as the denominator of this fraction.
      * @param {number} value - integer
      * @returns {Fraction}
      * @public
@@ -191,7 +191,7 @@ define( function( require ) {
     /**
      * Convenience method.
      * Multiplies this fraction by an integer to create a new fraction.
-     * Denominator of the result is the same as the denominator of this fraction.
+     * The result is not reduced, and the denominator is the same as the denominator of this fraction.
      * @param {number} value
      * @returns {Fraction}
      * @public
@@ -204,7 +204,7 @@ define( function( require ) {
     /**
      * Convenience method.
      * Divides this fraction by an integer to create a new fraction.
-     * Affects the value and sign of the denominator only.
+     * This operation affects the value and sign of the denominator only, and the result is not reduced.
      * Careful! Division by zero is allowed here.
      * @param {number} value - integer
      * @returns {Fraction}
