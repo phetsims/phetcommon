@@ -1,7 +1,7 @@
 // Copyright 2014-2018, University of Colorado Boulder
 
 /**
- * Data structure for a fraction (possibly improper).
+ * A fraction and associated operations.
  *
  * NOTE: The common version of this class in the PhET Java code base has a number of additional methods.  These methods
  * should be ported into this file as needed.  Please see edu.colorado.phet.fractions.common.math.Fraction.java in the
