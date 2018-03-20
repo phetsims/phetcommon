@@ -110,32 +110,37 @@ define( function( require ) {
 
     /**
      * Adds a fraction to this fraction to create a new fraction.
+     * The result has a denominator that is the least-common multiple of the 2 denominators.
      * @param {Fraction} value
      * @returns {Fraction}
      * @public
      */
     plus: function( value ) {
       assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
-      return new Fraction(
-        ( this.numerator * value.denominator ) + ( value.numerator * this.denominator ),
-        this.denominator * value.denominator );
+      var lcm = Util.lcm( this.denominator, value.denominator );
+      var numerator = Util.roundSymmetric( this.numerator * lcm / this.denominator ) +
+                      Util.roundSymmetric( value.numerator * lcm / value.denominator );
+      return new Fraction( numerator, lcm );
     },
 
     /**
      * Subtracts a fraction from this fraction to create a new fraction.
+     * The result has a denominator that is the least-common multiple of the 2 denominators.
      * @param {Fraction} value
      * @returns {Fraction}
      * @public
      */
     minus: function( value ) {
       assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
-      return new Fraction(
-        ( this.numerator * value.denominator ) - ( value.numerator * this.denominator ),
-        this.denominator * value.denominator );
+      var lcm = Util.lcm( this.denominator, value.denominator );
+      var numerator = Util.roundSymmetric( this.numerator * lcm / this.denominator ) -
+                      Util.roundSymmetric( value.numerator * lcm / value.denominator );
+      return new Fraction( numerator, lcm );
     },
 
     /**
      * Multiplies this fraction by another fraction to create a new fraction.
+     * The result has a denominator that is the least-common multiple of the 2 denominators.
      * @param {Fraction} value
      * @returns {Fraction}
      * @public
@@ -147,6 +152,7 @@ define( function( require ) {
 
     /**
      * Divides this fraction by another fraction to create a new fraction.
+     * The result has a denominator that is the least-common multiple of the 2 denominators.
      * @param {Fraction} value
      * @returns {Fraction}
      * @public
@@ -159,6 +165,7 @@ define( function( require ) {
     /**
      * Convenience method.
      * Adds an integer value to this fraction to create a new fraction.
+     * Denominator of the result is the same as the denominator of this fraction.
      * @param {number} value - integer
      * @returns {Fraction}
      * @public
@@ -171,6 +178,7 @@ define( function( require ) {
     /**
      * Convenience method.
      * Subtracts an integer value from this fraction to create a new fraction.
+     * Denominator of the result is the same as the denominator of this fraction.
      * @param {number} value - integer
      * @returns {Fraction}
      * @public
@@ -183,6 +191,7 @@ define( function( require ) {
     /**
      * Convenience method.
      * Multiplies this fraction by an integer to create a new fraction.
+     * Denominator of the result is the same as the denominator of this fraction.
      * @param {number} value
      * @returns {Fraction}
      * @public
@@ -195,6 +204,7 @@ define( function( require ) {
     /**
      * Convenience method.
      * Divides this fraction by an integer to create a new fraction.
+     * Affects the value and sign of the denominator only.
      * Careful! Division by zero is allowed here.
      * @param {number} value - integer
      * @returns {Fraction}
