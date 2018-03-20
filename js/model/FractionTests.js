@@ -32,11 +32,9 @@ define( function( require ) {
 
   QUnit.test( 'reduce, reduced, isReduced', function( assert ) {
     assert.equal( new Fraction( 1, 2 ).isReduced(), true, 'isReduced true' );
-    //TODO this fails due to problem with Util.gcd, see phetsims/phetcommon#41
-    // assert.equal( new Fraction( -1, 2 ).isReduced(), true, 'isReduced true' );
+    assert.equal( new Fraction( -1, 2 ).isReduced(), true, 'isReduced true' );
     assert.equal( new Fraction( 1, -2 ).isReduced(), true, 'isReduced true' );
-    //TODO this fails due to problem with Util.gcd, see phetsims/phetcommon#41
-    // assert.equal( new Fraction( -1, -2 ).isReduced(), true, 'isReduced true' );
+    assert.equal( new Fraction( -1, -2 ).isReduced(), true, 'isReduced true' );
     assert.equal( new Fraction( 4, 8 ).isReduced(), false, 'isReduced false' );
     assert.equal( new Fraction( 4, 8 ).reduce().isReduced(), true, 'reduce' );
     assert.equal( new Fraction( 4, 8 ).reduce().equals( new Fraction( 1, 2 ) ), true, 'reduce' );
