@@ -34,7 +34,7 @@ define( function( require ) {
 
   phetcommon.register( 'Fraction', Fraction );
 
-  return inherit( Object, Fraction, {
+  inherit( Object, Fraction, {
 
     // @public - Floating-point error is not an issue as long as numerator and denominator are integers < 2^53
     getValue: function() {
@@ -85,9 +85,28 @@ define( function( require ) {
       return Util.gcd( this.numerator, this.denominator ) === 1;
     },
 
-    // @public
-    equals: function( that ) {
-      return this.numerator === that.numerator && this.denominator === that.denominator;
+    /**
+     * Returns whether the two fractions are equal (not whether their reduced values are equal).
+     * @public
+     *
+     * @param {Fraction} fraction
+     * @returns {boolean}
+     */
+    equals: function( fraction ) {
+      return this.numerator === fraction.numerator && this.denominator === fraction.denominator;
+    },
+
+    /**
+     * Returns whether this fraction has a value that is less than the provided fraction.
+     * @public
+     *
+     * @param {Fraction} fraction
+     * @returns {boolean}
+     */
+    isLessThan: function( fraction ) {
+      assert && assert( fraction instanceof Fraction, 'fraction is not a Fraction: ' + fraction );
+
+      return scratchFraction.set( this ).subtract( fraction ).sign === -1;
     },
 
     /**
@@ -109,6 +128,54 @@ define( function( require ) {
     },
 
     /**
+     * Sets the value of this fraction to the provided fraction.
+     * @param {Fraction} value
+     * @returns {Fraction} - Reference to this for chaining
+     * @public
+     */
+    set: function( value ) {
+      this.numerator = value.numerator;
+      this.denominator = value.denominator;
+      return this;
+    },
+
+    /**
+     * Sets the value of this fraction to the sum of the two fractions:
+     * numerator1 / denominator1 + numerator2 / denominator2
+     * @param {number} numerator1
+     * @param {number} denominator1
+     * @param {number} numerator2
+     * @param {number} denominator2
+     * @returns {Fraction} - Reference to this
+     * @public
+     */
+    setToSum: function( numerator1, denominator1, numerator2, denominator2 ) {
+      assert && assert( Util.isInteger( numerator1 ), 'numerator1 must be an integer' );
+      assert && assert( Util.isInteger( denominator1 ), 'denominator1 must be an integer' );
+      assert && assert( Util.isInteger( numerator2 ), 'numerator2 must be an integer' );
+      assert && assert( Util.isInteger( denominator2 ), 'denominator2 must be an integer' );
+
+      var lcm = Util.lcm( denominator1, denominator2 );
+      this.numerator = Util.roundSymmetric( numerator1 * lcm / denominator1 ) +
+                       Util.roundSymmetric( numerator2 * lcm / denominator2 );
+      this.denominator = lcm;
+      return this;
+    },
+
+    /**
+     * Adds the provided fraction into this fraction (mutates this fraction). The result is NOT reduced,
+     * and has a denominator that is the least-common multiple of the 2 denominators.
+     * @param {Fraction} value
+     * @returns {Fraction} - Reference to this (for chaining)
+     * @public
+     */
+    add: function( value ) {
+      assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
+
+      return this.setToSum( this.numerator, this.denominator, value.numerator, value.denominator );
+    },
+
+    /**
      * Adds a fraction to this fraction to create a new fraction.
      * The result is not reduced, and has a denominator that is the least-common multiple of the 2 denominators.
      * @param {Fraction} value
@@ -116,11 +183,20 @@ define( function( require ) {
      * @public
      */
     plus: function( value ) {
+      return this.copy().add( value );
+    },
+
+    /**
+     * Subtracts the provided fraction from this fraction (mutates this fraction). The result is NOT reduced,
+     * and has a denominator that is the least-common multiple of the 2 denominators.
+     * @param {Fraction} value
+     * @returns {Fraction} - Reference to this (for chaining)
+     * @public
+     */
+    subtract: function( value ) {
       assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
-      var lcm = Util.lcm( this.denominator, value.denominator );
-      var numerator = Util.roundSymmetric( this.numerator * lcm / this.denominator ) +
-                      Util.roundSymmetric( value.numerator * lcm / value.denominator );
-      return new Fraction( numerator, lcm );
+
+      return this.setToSum( this.numerator, this.denominator, -value.numerator, value.denominator );
     },
 
     /**
@@ -131,11 +207,22 @@ define( function( require ) {
      * @public
      */
     minus: function( value ) {
+      return this.copy().subtract( value );
+    },
+
+    /**
+     * Multiplies the provided fraction and this fraction, setting the result into this fraction (mutates).
+     * The value is not reduced.
+     * @param {Fraction} value
+     * @returns {Fraction} - Reference to this (for chaining)
+     * @public
+     */
+    multiply: function( value ) {
       assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
-      var lcm = Util.lcm( this.denominator, value.denominator );
-      var numerator = Util.roundSymmetric( this.numerator * lcm / this.denominator ) -
-                      Util.roundSymmetric( value.numerator * lcm / value.denominator );
-      return new Fraction( numerator, lcm );
+
+      this.numerator *= value.numerator;
+      this.denominator *= value.denominator;
+      return this;
     },
 
     /**
@@ -146,8 +233,22 @@ define( function( require ) {
      * @public
      */
     times: function( value ) {
+      return this.copy().multiply( value );
+    },
+
+    /**
+     * Divides this fraction by the provided fraction, setting the result into this fraction (mutates).
+     * The value is not reduced.
+     * @param {Fraction} value
+     * @returns {Fraction} - Reference to this (for chaining)
+     * @public
+     */
+    divide: function( value ) {
       assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
-      return new Fraction( this.numerator * value.numerator, this.denominator * value.denominator );
+
+      this.numerator *= value.denominator;
+      this.denominator *= value.numerator;
+      return this;
     },
 
     /**
@@ -158,8 +259,7 @@ define( function( require ) {
      * @public
      */
     divided: function( value ) {
-      assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
-      return new Fraction( this.numerator * value.denominator, this.denominator * value.numerator );
+      return this.copy().divide( value );
     },
 
     /**
@@ -227,4 +327,8 @@ define( function( require ) {
       return new Fraction( value, 1 );
     }
   } );
+
+  var scratchFraction = new Fraction( 1, 1 );
+
+  return Fraction;
 } );

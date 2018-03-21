@@ -140,4 +140,59 @@ define( function( require ) {
     assert.equal( new Fraction( -1, -6 ).dividedInteger( -2 ).equals( new Fraction( -1, 12 ) ), true, 'dividedInteger' );
   } );
 
+  QUnit.test( 'set', function( assert ) {
+    var a = new Fraction( 1, 3 );
+    var b = new Fraction( 5, 6 );
+    a.set( b );
+    assert.equal( a.numerator, 5 );
+    assert.equal( a.denominator, 6 );
+  } );
+
+  QUnit.test( 'lessThan', function( assert ) {
+    function differentCheck( smallerFraction, largerFraction ) {
+      assert.ok( smallerFraction.isLessThan( largerFraction ), smallerFraction.toString() + ' < ' + largerFraction.toString() );
+      assert.ok( !largerFraction.isLessThan( smallerFraction ), largerFraction.toString() + ' >= ' + smallerFraction.toString() );
+    }
+
+    differentCheck( new Fraction( 1, 3 ), new Fraction( 1, 2 ) );
+    differentCheck( new Fraction( 3, 8 ), new Fraction( 2, 3 ) );
+    differentCheck( new Fraction( 0, 3 ), new Fraction( 1, 5 ) );
+    differentCheck( new Fraction( -1, 5 ), new Fraction( 0, 3 ) );
+    differentCheck( new Fraction( -1, 3 ), new Fraction( 1, 4 ) );
+    differentCheck( new Fraction( 1, -3 ), new Fraction( 1, 4 ) );
+    differentCheck( new Fraction( -1, 4 ), new Fraction( 1, 3 ) );
+    differentCheck( new Fraction( 1, -4 ), new Fraction( 1, 3 ) );
+
+    function sameCheck( fraction1, fraction2 ) {
+      assert.ok( !fraction1.isLessThan( fraction2 ), 'f1 not less than f2' );
+      assert.ok( !fraction2.isLessThan( fraction1 ), 'f2 not less than f1' );
+    }
+
+    sameCheck( new Fraction( 0, 2 ), new Fraction( 0, 1 ) );
+    sameCheck( new Fraction( 1, 2 ), new Fraction( 1, 2 ) );
+    sameCheck( new Fraction( 2, 2 ), new Fraction( 2, 2 ) );
+    sameCheck( new Fraction( -2, 2 ), new Fraction( 2, -2 ) );
+  } );
+
+  QUnit.test( 'mutable variants', function( assert ) {
+    var a = new Fraction( 1, 3 );
+    var b = new Fraction( 5, 6 );
+
+    assert.equal( b.subtract( a ), b, 'Chaining' );
+    assert.ok( b.equals( new Fraction( 3, 6 ) ), 'Mutated b' );
+    assert.ok( a.equals( new Fraction( 1, 3 ) ), 'Did not mutate a' );
+
+    assert.equal( b.add( a ), b, 'Chaining' );
+    assert.ok( b.equals( new Fraction( 5, 6 ) ), 'Mutated b' );
+    assert.ok( a.equals( new Fraction( 1, 3 ) ), 'Did not mutate a' );
+
+    assert.equal( b.multiply( a ), b, 'Chaining' );
+    assert.ok( b.equals( new Fraction( 5, 18 ) ), 'Mutated b' );
+    assert.ok( a.equals( new Fraction( 1, 3 ) ), 'Did not mutate a' );
+
+    assert.equal( b.divide( a ), b, 'Chaining' );
+    assert.ok( b.equals( new Fraction( 15, 18 ) ), 'Mutated b' );
+    assert.ok( a.equals( new Fraction( 1, 3 ) ), 'Did not mutate a' );
+  } );
+
 } );
