@@ -82,7 +82,9 @@ define( function( require ) {
         size.width * 0.3, multiplier * ( containerHeight * 0.8 + size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6 ),
         size.width * 0.4, multiplier * containerHeight * 0.8 )
       .lineTo( size.width * 0.5, 0 )
-      .ellipticalArc( 0, 0, holeRadiusX, holeRadiusY, 0, -0.1 * Math.PI, -0.9 * Math.PI, !options.invertY )
+      // Does not go to the exact endpoints, so there will be small lines at the endpoints.
+      // See https://github.com/phetsims/build-an-atom/issues/173
+      .ellipticalArc( 0, 0, holeRadiusX, holeRadiusY, 0, -0.01 * Math.PI, -0.99 * Math.PI, !options.invertY )
       .close();
   }
 
