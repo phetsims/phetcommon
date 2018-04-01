@@ -20,7 +20,7 @@ define( function( require ) {
   var Util = require( 'DOT/Util' );
 
   // constants
-  var SCRATCH_FRACTION = new Fraction( 1, 1 );
+  var SCRATCH_FRACTION = new Fraction( 1, 1 ); // used for operations, to avoid creating instances where possible
 
   /**
    * @param {number} numerator must be an integer
