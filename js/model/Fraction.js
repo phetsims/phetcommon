@@ -19,6 +19,9 @@ define( function( require ) {
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
   var Util = require( 'DOT/Util' );
 
+  // constants
+  var SCRATCH_FRACTION = new Fraction( 1, 1 );
+
   /**
    * @param {number} numerator must be an integer
    * @param {number} denominator must be an integer
@@ -106,7 +109,7 @@ define( function( require ) {
     isLessThan: function( fraction ) {
       assert && assert( fraction instanceof Fraction, 'fraction is not a Fraction: ' + fraction );
 
-      return scratchFraction.set( this ).subtract( fraction ).sign === -1;
+      return SCRATCH_FRACTION.set( this ).subtract( fraction ).sign === -1;
     },
 
     /**
@@ -327,8 +330,6 @@ define( function( require ) {
       return new Fraction( value, 1 );
     }
   } );
-
-  var scratchFraction = new Fraction( 1, 1 );
 
   return Fraction;
 } );
