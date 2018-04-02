@@ -19,9 +19,6 @@ define( function( require ) {
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
   var Util = require( 'DOT/Util' );
 
-  // constants
-  var SCRATCH_FRACTION = new Fraction( 1, 1 ); // used for operations, to avoid creating instances where possible
-
   /**
    * @param {number} numerator must be an integer
    * @param {number} denominator must be an integer
@@ -330,6 +327,10 @@ define( function( require ) {
       return new Fraction( value, 1 );
     }
   } );
+
+  // Used to avoid GC - NOTE: Do NOT move in front of the constructor/inherit, as it is creating a copy of the type
+  // defined.
+  var SCRATCH_FRACTION = new Fraction( 1, 1 );
 
   return Fraction;
 } );
