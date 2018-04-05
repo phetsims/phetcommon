@@ -106,6 +106,9 @@ define( function( require ) {
     isLessThan: function( fraction ) {
       assert && assert( fraction instanceof Fraction, 'fraction is not a Fraction: ' + fraction );
 
+      // The more straightforward approach would be: this.getValue() < fraction.getValue().
+      // But that uses floating-point operations and comparisons, which could result in a loss of precision.
+      // https://github.com/phetsims/phetcommon/issues/43
       return SCRATCH_FRACTION.set( this ).subtract( fraction ).sign === -1;
     },
 
