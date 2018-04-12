@@ -335,5 +335,9 @@ define( function( require ) {
   // defined.
   var SCRATCH_FRACTION = new Fraction( 1, 1 );
 
+  // Useful constants
+  Fraction.ZERO = new Fraction( 0, 1 );
+  Fraction.ONE = new Fraction( 1, 1 );
+
   return Fraction;
 } );
