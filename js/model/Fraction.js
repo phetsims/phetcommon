@@ -25,16 +25,52 @@ define( function( require ) {
    * @constructor
    */
   function Fraction( numerator, denominator ) {
+
     assert && assert( Util.isInteger( numerator ), 'numerator must be an integer: ' + numerator );
     assert && assert( Util.isInteger( denominator ), 'denominator must be an integer: ' + denominator );
 
-    this.numerator = numerator;     // @public (read-only)
-    this.denominator = denominator; // @public (read-only)
+    // @private use set/get so that values are verified to be integers
+    this._numerator = numerator;
+    this._denominator = denominator;
   }
 
   phetcommon.register( 'Fraction', Fraction );
 
   inherit( Object, Fraction, {
+
+    /**
+     * Sets the numerator, which must be an integer.
+     * @param {number} value
+     * @public
+     */
+    set numerator( value ) {
+      assert && assert( Util.isInteger( value ), 'numerator must be an integer: ' + value );
+      this._numerator = value;
+    },
+
+    /**
+     * Gets the numerator.
+     * @returns {number}
+     * @public
+     */
+    get numerator() { return this._numerator; },
+
+    /**
+     * Sets the denominator, which must be an integer.
+     * @param {number} value
+     * @public
+     */
+    set denominator( value ) {
+      assert && assert( Util.isInteger( value ), 'denominator must be an integer: ' + value );
+      this._denominator = value;
+    },
+
+    /**
+     * Gets the denominator.
+     * @returns {number}
+     * @public
+     */
+    get denominator() { return this._denominator; },
 
     // @public - Floating-point error is not an issue as long as numerator and denominator are integers < 2^53
     getValue: function() {
@@ -97,7 +133,7 @@ define( function( require ) {
      * @returns {boolean}
      */
     equals: function( fraction ) {
-      return this.numerator === fraction.numerator && this.denominator === fraction.denominator;
+      return ( this.numerator === fraction.numerator ) && ( this.denominator === fraction.denominator );
     },
 
     /**
