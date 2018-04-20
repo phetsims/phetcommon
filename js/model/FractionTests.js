@@ -28,6 +28,18 @@ define( function( require ) {
     assert.equal( Fraction.fromInteger( 3 ).isInteger(), true, 'isInteger true' );
     assert.equal( new Fraction( 1, 2 ).isInteger(), false, 'isInteger false' );
     assert.equal( new Fraction( 3, 2 ).isInteger(), false, 'isInteger false' );
+
+    // see https://github.com/phetsims/phetcommon/issues/44
+    assert.equal( new Fraction( 6, 3 ).isInteger(), true, 'isInteger true' );
+    assert.equal( new Fraction( 6, -3 ).isInteger(), true, 'isInteger true' );
+    assert.equal( new Fraction( -6, 3 ).isInteger(), true, 'isInteger true' );
+    assert.equal( new Fraction( -6, -3 ).isInteger(), true, 'isInteger true' );
+    assert.equal( new Fraction( 5, 3 ).isInteger(), false, 'isInteger false' );
+    assert.equal( new Fraction( 5, -3 ).isInteger(), false, 'isInteger false' );
+    assert.equal( new Fraction( -5, 3 ).isInteger(), false, 'isInteger false' );
+    assert.equal( new Fraction( -5, -3 ).isInteger(), false, 'isInteger false' );
+    assert.equal( new Fraction( 0, 3 ).isInteger(), true, 'isInteger true with 0 numerator' );
+    assert.equal( new Fraction( 5, 0 ).isInteger(), false, 'isInteger false with 0 denominator' );
   } );
 
   QUnit.test( 'reduce, reduced, isReduced', function( assert ) {

@@ -41,9 +41,13 @@ define( function( require ) {
       return this.numerator / this.denominator;
     },
 
-    // @public
+    /**
+     * Does this fraction reduce to an integer value?
+     * @returns {boolean}
+     * @public
+     */
     isInteger: function() {
-      return Util.isInteger( this.getValue() );
+      return ( this.numerator % this.denominator === 0 );
     },
 
     // @public
