@@ -201,7 +201,7 @@ define( function( require ) {
       var lcm = Util.lcm( denominator1, denominator2 );
       this.numerator = Util.roundSymmetric( numerator1 * lcm / denominator1 ) +
                        Util.roundSymmetric( numerator2 * lcm / denominator2 );
-      this.denominator = Util.roundSymmetric( lcm );
+      this.denominator = lcm;
       return this;
     },
 
