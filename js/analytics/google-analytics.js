@@ -176,4 +176,13 @@
   } );
   window.googleAnalytics( 'hewlett.send', 'pageview' );
 
+  // External tracker
+  if ( phet.chipper.queryParameters.ga ) {
+    window.googleAnalytics( 'create', {
+      trackingId: phet.chipper.queryParameters.ga,
+      cookieDomain: 'none', // don't require the tracking from our site
+      name: 'external'
+    } );
+    window.googleAnalytics( 'external.send', 'pageview' );
+  }
 } )();
