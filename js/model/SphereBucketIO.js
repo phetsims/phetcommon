@@ -12,7 +12,7 @@ define( function( require ) {
   // modules
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
 
-  // phet-io modules
+  // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
   var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
