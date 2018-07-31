@@ -183,6 +183,6 @@
       cookieDomain: 'none', // don't require the tracking from our site
       name: 'external'
     } );
-    window.googleAnalytics( 'external.send', 'pageview' );
+    window.googleAnalytics( 'external.send', 'pageview', phet.chipper.queryParameters.gaPage || undefined );
   }
 } )();
