@@ -125,4 +125,13 @@
   } );
   window.googleAnalytics( 'hewlett.send', 'pageview' );
 
+  // External tracker
+  if ( phet.chipper.getQueryParameter( 'ga' ) ) {
+    window.googleAnalytics( 'create', {
+      trackingId: phet.chipper.getQueryParameter( 'ga' ),
+      cookieDomain: 'none', // don't require the tracking from our site
+      name: 'external'
+    } );
+    window.googleAnalytics( 'external.send', 'pageview', phet.chipper.getQueryParameter( 'gaPage' ) || undefined );
+  }
 } )();
