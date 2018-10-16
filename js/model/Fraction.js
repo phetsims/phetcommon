@@ -76,6 +76,7 @@ define( function( require ) {
     getValue: function() {
       return this.numerator / this.denominator;
     },
+    get value() { return this.getValue(); },
 
     /**
      * Does this fraction reduce to an integer value?
