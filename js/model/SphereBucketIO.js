@@ -12,11 +12,11 @@ define( function( require ) {
   // modules
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
+  var phetioInherit = require( 'TANDEM/phetioInherit' );
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetio = require( 'ifphetio!PHET_IO/phetio' );
-  var phetioInherit = require( 'ifphetio!PHET_IO/phetioInherit' );
 
   /**
    * @param {SphereBucket} sphereBucket
