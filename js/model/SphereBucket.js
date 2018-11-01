@@ -17,8 +17,8 @@ define( function( require ) {
   var cleanArray = require( 'PHET_CORE/cleanArray' );
   var inherit = require( 'PHET_CORE/inherit' );
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
-  var Tandem = require( 'TANDEM/Tandem' );
   var SphereBucketIO = require( 'PHETCOMMON/model/SphereBucketIO' );
+  var Tandem = require( 'TANDEM/Tandem' );
   var Vector2 = require( 'DOT/Vector2' );
 
   /**
