@@ -16,7 +16,7 @@ define( function( require ) {
 
   // ifphetio
   var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
-  var phetio = require( 'ifphetio!PHET_IO/phetio' );
+  var phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
 
   /**
    * @param {SphereBucket} sphereBucket
@@ -49,7 +49,7 @@ define( function( require ) {
      * @returns {Particle[]}
      */
     fromStateObject: function( stateArray ) {
-      return stateArray.map( function( tandemID ) { return phetio.getInstance( tandemID ); } );
+      return stateArray.map( function( tandemID ) { return phetioEngine.getInstance( tandemID ); } );
     },
 
     /**
