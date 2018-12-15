@@ -12,5 +12,8 @@
   "phet": {
     "generatedUnitTests": true,
     "requirejsNamespace": "PHETCOMMON"
+  },
+  "eslintConfig": {
+    "extends": "../chipper/eslint/.eslintrc.js"
   }
 }
