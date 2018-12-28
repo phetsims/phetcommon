@@ -40,7 +40,7 @@ define( function( require ) {
     assert.equal( StringUtils.fillIn( '{{name}} is {{age}} years old {really}', {
       name: 'Fred',
       age: 23
-    } ), 'Fred is 23 years old {really}', 'OK to use of curly braces in the string' );
+    } ), 'Fred is 23 years old {really}', 'OK to use curly braces in the string' );
     assert.equal( StringUtils.fillIn( '{{value}} {{units}}', { units: 'm' } ),
       '{{value}} m', 'OK to omit placeholder values' );
   } );
