@@ -47,11 +47,14 @@ define( function( require ) {
      *
      * @param {string} template - the template, containing zero or more placeholders
      * @param {Object} values - a hash whose keys correspond to the placeholder names, e.g. { name: 'Fred', age: 23 }
-     *                          Unused keys are silently ignored.
+     *                          Unused keys are silently ignored. All placeholders do not need to be filled.
      * @returns {string}
      * @public
      */
     fillIn: function( template, values ) {
+
+      // To catch attempts to use StringUtils.fillIn like StringUtils.format
+      assert && assert( values && typeof value === 'object', 'invalid values: ' + values );
 
       var newString = template;
 
@@ -64,9 +67,9 @@ define( function( require ) {
 
         // key is the portion of the placeholder between the curly braces
         var key = placeholder.replace( '{{', '' ).replace( '}}', '' );
-        assert && assert( values[ key ] !== undefined, 'missing key ' + key );
-
-        newString = newString.replace( placeholder, values[ key ] );
+        if ( values[ key ] !== undefined ) {
+          newString = newString.replace( placeholder, values[ key ] );
+        }
       }
 
       return newString;
