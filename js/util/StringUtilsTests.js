@@ -26,8 +26,10 @@ define( function( require ) {
   // See https://github.com/phetsims/phetcommon/issues/36
   QUnit.test( 'fillIn', function( assert ) {
 
-    assert.equal( StringUtils.fillIn( 'no placeholders here', { name: 'Fred' } ), 'no placeholders here', '0 placeholders' );
-    assert.equal( StringUtils.fillIn( '{{name}} is smart', { name: 'Fred' } ), 'Fred is smart', '1 placeholder' );
+    assert.equal( StringUtils.fillIn( 'no placeholders here', { name: 'Fred' } ),
+      'no placeholders here', '0 placeholders' );
+    assert.equal( StringUtils.fillIn( '{{name}} is smart', { name: 'Fred' } ),
+      'Fred is smart', '1 placeholder' );
     assert.equal( StringUtils.fillIn( '{{name}} is {{age}} years old', {
       name: 'Fred',
       age: 23
