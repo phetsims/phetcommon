@@ -42,7 +42,7 @@ define( function( require ) {
       age: 23
     } ), 'Fred is 23 years old {really}', 'OK to use curly braces in the string' );
     assert.equal( StringUtils.fillIn( '{{value}} {{units}}', { units: 'm' } ),
-      '{{value}} m', 'OK to omit placeholder values' );
+      '{{value}} m', 'OK to omit a placeholder value' );
   } );
 
 } );
