@@ -54,7 +54,7 @@ define( function( require ) {
     fillIn: function( template, values ) {
 
       // To catch attempts to use StringUtils.fillIn like StringUtils.format
-      assert && assert( values && typeof value === 'object', 'invalid values: ' + values );
+      assert && assert( values && typeof values === 'object', 'invalid values: ' + values );
 
       var newString = template;
 
