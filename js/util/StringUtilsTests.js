@@ -41,11 +41,8 @@ define( function( require ) {
       name: 'Fred',
       age: 23
     } ), 'Fred is 23 years old {really}', 'OK to use of curly braces in the string' );
-
-    // Throws an assertion but only if assertions are enabled
-    window.assert && assert.throws( function() {
-      StringUtils.fillIn( '{{name}} is {{age}} years old', { name: 'Fred' } );
-    }, 'missing value in hash fails' );
+    assert.equal( StringUtils.fillIn( '{{value}} {{units}}', { units: 'm' } ),
+      '{{value}} m', 'OK to omit placeholder values' );
   } );
 
 } );
