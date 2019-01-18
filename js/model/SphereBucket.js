@@ -20,6 +20,7 @@ define( function( require ) {
   var SphereBucketIO = require( 'PHETCOMMON/model/SphereBucketIO' );
   var Tandem = require( 'TANDEM/Tandem' );
   var Vector2 = require( 'DOT/Vector2' );
+  var Util = require( 'DOT/Util' );
 
   /**
    * @param {Object} options
@@ -133,7 +134,7 @@ define( function( require ) {
     reset: function() {
       this._particles.forEach( function( particle ) {
         // Remove listeners that are watching for removal from bucket.
-        if ( typeof( particle.bucketRemovalListener ) === 'function' ) {
+        if ( typeof ( particle.bucketRemovalListener ) === 'function' ) {
           particle.userControlledProperty.unlink( particle.bucketRemovalListener );
           delete particle.bucketRemovalListener;
         }
@@ -196,7 +197,7 @@ define( function( require ) {
 
     // @private
     getLayerForYPosition: function( yPosition ) {
-      return Math.abs( Math.round( ( yPosition - ( this.position.y + this._verticalParticleOffset ) ) / ( this._sphereRadius * 2 * 0.866 ) ) );
+      return Math.abs( Util.roundSymmetric( ( yPosition - ( this.position.y + this._verticalParticleOffset ) ) / ( this._sphereRadius * 2 * 0.866 ) ) );
     },
 
     /*
