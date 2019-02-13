@@ -314,6 +314,17 @@ define( function( require ) {
       position -= searchString.length;
       var lastIndex = subjectString.indexOf( searchString, position );
       return lastIndex !== -1 && lastIndex === position;
+    },
+
+    /**
+     * Assert that a template var is in a string. Useful for translated strings with a template var pattern like
+     * "Hello {{meanName}}" --> "Hello goofball". See StringUtils.fillIn() for base usages of template var pattern.
+     *
+     * @param {string} string
+     * @param {string} key
+     */
+    assertContainsKey( string, key ) {
+      assert && assert( string.indexOf( `{{${key}}}` ) >= 0, 'key not' );
     }
   };
 
