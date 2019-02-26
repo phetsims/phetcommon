@@ -13,9 +13,9 @@ define( function( require ) {
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
   var phetioInherit = require( 'TANDEM/phetioInherit' );
+  var validate = require( 'AXON/validate' );
 
   // ifphetio
-  var assertInstanceOf = require( 'ifphetio!PHET_IO/assertInstanceOf' );
   var phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
 
   /**
@@ -24,7 +24,6 @@ define( function( require ) {
    * @constructor
    */
   function SphereBucketIO( sphereBucket, phetioID ) {
-    assert && assertInstanceOf( sphereBucket, phet.phetcommon.SphereBucket );
     ObjectIO.call( this, sphereBucket, phetioID );
   }
 
@@ -34,13 +33,14 @@ define( function( require ) {
   }
 
   phetioInherit( ObjectIO, 'SphereBucketIO', SphereBucketIO, {}, {
+    validator: { isValidValue: v => v instanceof phet.phetcommon.SphereBucket },
 
     /**
      * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
      * @param {SphereBucket} sphereBucket
      */
     toStateObject: function( sphereBucket ) {
-      assert && assertInstanceOf( sphereBucket, phet.phetcommon.SphereBucket );
+      validate( sphereBucket, this.validator );
       return sphereBucket._particles.map( getParticleTandemID );
     },
 
@@ -57,7 +57,7 @@ define( function( require ) {
      * @param {Particle[]} fromStateObject
      */
     setValue: function( sphereBucket, fromStateObject ) {
-      assert && assertInstanceOf( sphereBucket, phet.phetcommon.SphereBucket );
+      validate( sphereBucket, this.validator );
 
       // remove all the particles from the observable arrays
       sphereBucket.reset();
