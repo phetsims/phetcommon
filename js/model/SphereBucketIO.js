@@ -49,7 +49,7 @@ define( function( require ) {
      * @returns {Particle[]}
      */
     fromStateObject: function( stateArray ) {
-      return stateArray.map( function( tandemID ) { return phetioEngine.getInstance( tandemID ); } );
+      return stateArray.map( function( tandemID ) { return phetioEngine.getPhetioObject( tandemID ); } );
     },
 
     /**
