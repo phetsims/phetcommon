@@ -77,8 +77,16 @@
                    'ref=' + encodeURIComponent( document.referrer );
 
   function pingURL( url ) {
-    var img = document.createElement( 'img' );
-    img.src = url;
+    if ( phet.chipper.queryParameters.yottaDeliver ) {
+      var img = document.createElement( 'img' );
+      img.src = url;
+
+      if ( phet.chipper.queryParameters.yottaTimeout ) {
+        setTimeout( () => {
+          img.src = '#';
+        }, phet.chipper.queryParameters.yottaTimeout );
+      }
+    }
   }
 
   pingURL( 'https://phet.colorado.edu/yotta/immediate.gif?' + pingParams );
@@ -89,17 +97,24 @@
              'gaLoaded=' + encodeURIComponent( googleAnalyticsLoaded ) );
   }, false );
 
-  // Google Analytics snippet for loading the API
-  (function( i, s, o, g, r, a, m ) {
-    i.GoogleAnalyticsObject = r;
-    i[ r ] = i[ r ] || function() {
-      (i[ r ].q = i[ r ].q || []).push( arguments );
-    }, i[ r ].l = 1 * new Date();
-    a = s.createElement( o ), m = s.getElementsByTagName( o )[ 0 ];
-    a.async = 1;
-    a.src = g;
-    m.parentNode.insertBefore( a, m );
-  })( window, document, 'script', ( 'https:' === document.location.protocol ? 'https:' : 'http:' ) + '//www.google-analytics.com/analytics.js', 'googleAnalytics' );
+  if ( phet.chipper.queryParameters.gaLoad ) {
+    // Google Analytics snippet for loading the API
+    (function( i, s, o, g, r, a, m ) {
+      i.GoogleAnalyticsObject = r;
+      i[ r ] = i[ r ] || function() {
+        (i[ r ].q = i[ r ].q || []).push( arguments );
+      }, i[ r ].l = 1 * new Date();
+      a = s.createElement( o ), m = s.getElementsByTagName( o )[ 0 ];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore( a, m );
+      if ( phet.chipper.queryParameters.gaTimeout ) {
+        setTimeout( () => {
+          m.parentNode.removeChild( a );
+        }, phet.chipper.queryParameters.gaTimeout );
+      }
+    })( window, document, 'script', ( 'https:' === document.location.protocol ? 'https:' : 'http:' ) + '//www.google-analytics.com/analytics.js', 'googleAnalytics' );
+  }
 
   // Applies custom dimensions that are common for our main, third-party, and phet-io tracker
   var phetPageviewOptions = {};
@@ -126,63 +141,66 @@
 
   var offlineSimLocation = 'offline/html/' + phet.chipper.project + '_' + phet.chipper.locale;
 
-  // Put our function in the queue, to be invoked when the analytics.js has fully loaded.
-  // See https://github.com/phetsims/yotta/issues/30
-  window.googleAnalytics( onGoogleAnalyticsLoad );
+  if ( phet.chipper.queryParameters.gaLoad && phet.chipper.queryParameters.gaDeliver ) {
 
-  // Main PhET tracker
-  window.googleAnalytics( 'create', {
-    trackingId: 'UA-5033201-1',
-    cookieDomain: 'none'
-  } );
-  if ( window.location.protocol === 'file:' ) {
-    window.googleAnalytics( 'set', 'checkProtocolTask', null );
-    window.googleAnalytics( 'set', 'checkStorageTask', null );
-    window.googleAnalytics( 'set', 'location', offlineSimLocation );
-  }
-  window.googleAnalytics( 'send', 'pageview', phetPageviewOptions );
+    // Put our function in the queue, to be invoked when the analytics.js has fully loaded.
+    // See https://github.com/phetsims/yotta/issues/30
+    window.googleAnalytics( onGoogleAnalyticsLoad );
 
-  // PhET iO tracker (see https://github.com/phetsims/phetcommon/issues/26)
-  if ( phet.chipper.brand === 'phet-io' ) {
+    // Main PhET tracker
     window.googleAnalytics( 'create', {
-      trackingId: 'UA-37615182-3',
-      cookieDomain: 'none',
-      name: 'io'
+      trackingId: 'UA-5033201-1',
+      cookieDomain: 'none'
     } );
     if ( window.location.protocol === 'file:' ) {
-      window.googleAnalytics( 'io.set', 'checkProtocolTask', null );
-      window.googleAnalytics( 'io.set', 'checkStorageTask', null );
-      window.googleAnalytics( 'io.set', 'location', offlineSimLocation );
+      window.googleAnalytics( 'set', 'checkProtocolTask', null );
+      window.googleAnalytics( 'set', 'checkStorageTask', null );
+      window.googleAnalytics( 'set', 'location', offlineSimLocation );
     }
-    window.googleAnalytics( 'io.send', 'pageview', phetPageviewOptions );
-  }
+    window.googleAnalytics( 'send', 'pageview', phetPageviewOptions );
 
-  // Third-party PhET tracker (excludes non-third-party usage, see https://github.com/phetsims/yotta/issues/12)
-  if ( window.location.protocol !== 'file:' &&
-       !document.domain.match( /(.*\.colorado\.edu\.?$)|(^localhost$)|(^127\.0\.0\.1$)/ ) ) {
+    // PhET iO tracker (see https://github.com/phetsims/phetcommon/issues/26)
+    if ( phet.chipper.brand === 'phet-io' ) {
+      window.googleAnalytics( 'create', {
+        trackingId: 'UA-37615182-3',
+        cookieDomain: 'none',
+        name: 'io'
+      } );
+      if ( window.location.protocol === 'file:' ) {
+        window.googleAnalytics( 'io.set', 'checkProtocolTask', null );
+        window.googleAnalytics( 'io.set', 'checkStorageTask', null );
+        window.googleAnalytics( 'io.set', 'location', offlineSimLocation );
+      }
+      window.googleAnalytics( 'io.send', 'pageview', phetPageviewOptions );
+    }
+
+    // Third-party PhET tracker (excludes non-third-party usage, see https://github.com/phetsims/yotta/issues/12)
+    if ( window.location.protocol !== 'file:' &&
+         !document.domain.match( /(.*\.colorado\.edu\.?$)|(^localhost$)|(^127\.0\.0\.1$)/ ) ) {
+      window.googleAnalytics( 'create', {
+        trackingId: 'UA-37615182-2',
+        cookieDomain: 'none',
+        name: 'thirdParty'
+      } );
+      window.googleAnalytics( 'thirdParty.send', 'pageview', phetPageviewOptions );
+    }
+
+    // Hewlett tracker
     window.googleAnalytics( 'create', {
-      trackingId: 'UA-37615182-2',
-      cookieDomain: 'none',
-      name: 'thirdParty'
+      trackingId: 'UA-5033010-35',
+      cookieDomain: 'phet.colorado.edu',
+      name: 'hewlett'
     } );
-    window.googleAnalytics( 'thirdParty.send', 'pageview', phetPageviewOptions );
-  }
+    window.googleAnalytics( 'hewlett.send', 'pageview' );
 
-  // Hewlett tracker
-  window.googleAnalytics( 'create', {
-    trackingId: 'UA-5033010-35',
-    cookieDomain: 'phet.colorado.edu',
-    name: 'hewlett'
-  } );
-  window.googleAnalytics( 'hewlett.send', 'pageview' );
-
-  // External tracker
-  if ( phet.chipper.queryParameters.ga ) {
-    window.googleAnalytics( 'create', {
-      trackingId: phet.chipper.queryParameters.ga,
-      cookieDomain: 'none', // don't require the tracking from our site
-      name: 'external'
-    } );
-    window.googleAnalytics( 'external.send', 'pageview', phet.chipper.queryParameters.gaPage || undefined );
+    // External tracker
+    if ( phet.chipper.queryParameters.ga ) {
+      window.googleAnalytics( 'create', {
+        trackingId: phet.chipper.queryParameters.ga,
+        cookieDomain: 'none', // don't require the tracking from our site
+        name: 'external'
+      } );
+      window.googleAnalytics( 'external.send', 'pageview', phet.chipper.queryParameters.gaPage || undefined );
+    }
   }
 } )();
