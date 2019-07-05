@@ -184,7 +184,7 @@
   }
 
   if ( loadType === 'phet-app' ) {
-    window.addEventListener( 'load', () => {
+    window.addEventListener( 'load', function() {
       setTimeout( sendMessages, 0 );
     }, false );
   }
