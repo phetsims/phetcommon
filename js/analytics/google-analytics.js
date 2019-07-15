@@ -141,6 +141,7 @@
       window.googleAnalytics( 'set', 'checkStorageTask', null );
       window.googleAnalytics( 'set', 'location', offlineSimLocation );
     }
+    window.googleAnalytics( 'set', 'anonymizeIp', true );
     window.googleAnalytics( 'send', 'pageview', phetPageviewOptions );
 
     // PhET iO tracker (see https://github.com/phetsims/phetcommon/issues/26)
@@ -155,6 +156,7 @@
         window.googleAnalytics( 'io.set', 'checkStorageTask', null );
         window.googleAnalytics( 'io.set', 'location', offlineSimLocation );
       }
+      window.googleAnalytics( 'io.set', 'anonymizeIp', true );
       window.googleAnalytics( 'io.send', 'pageview', phetPageviewOptions );
     }
 
@@ -166,6 +168,7 @@
         cookieDomain: 'none',
         name: 'thirdParty'
       } );
+      window.googleAnalytics( 'thirdParty.set', 'anonymizeIp', true );
       window.googleAnalytics( 'thirdParty.send', 'pageview', phetPageviewOptions );
     }
 
@@ -175,6 +178,7 @@
       cookieDomain: 'phet.colorado.edu',
       name: 'hewlett'
     } );
+    window.googleAnalytics( 'hewlett.set', 'anonymizeIp', true );
     window.googleAnalytics( 'hewlett.send', 'pageview' );
 
     // External tracker
@@ -184,6 +188,7 @@
         cookieDomain: 'none', // don't require the tracking from our site
         name: 'external'
       } );
+      window.googleAnalytics( 'external.set', 'anonymizeIp', true );
       window.googleAnalytics( 'external.send', 'pageview', phet.chipper.queryParameters.gaPage || undefined );
     }
   }
