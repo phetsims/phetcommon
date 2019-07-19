@@ -1,4 +1,4 @@
-// Copyright 2013-2015, University of Colorado Boulder
+// Copyright 2013-2018, University of Colorado Boulder
 
 /**
  * Class that defines the shape and common functionality for a 'bucket', which is a container into which some sort of

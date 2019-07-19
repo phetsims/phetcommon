@@ -1,4 +1,4 @@
-// Copyright 2013-2015, University of Colorado Boulder
+// Copyright 2013-2019, University of Colorado Boulder
 
 /*
  * A bucket that can be used to store spherical objects.  Manages the addition and removal of the spheres, stacks them
