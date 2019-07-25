@@ -325,6 +325,17 @@ define( function( require ) {
      */
     assertContainsKey( string, key ) {
       assert && assert( string.indexOf( `{{${key}}}` ) >= 0, 'key not' );
+    },
+
+    /**
+     * Capitalize the first letter of the given string.
+     * @param {string} string
+     * @returns {string}
+     * @public
+     */
+    capitalize( string ) {
+      assert && assert( string.length > 0, 'expected a non-zero string' );
+      return string[ 0 ].toUpperCase() + string.slice( 1 );
     }
   };
 

@@ -23,6 +23,10 @@ define( function( require ) {
     assert.equal( StringUtils.endsWith( '', 'he' ), false, 'empty string should not end with something' );
   } );
 
+  QUnit.test( 'capitalize', function( assert ) {
+    assert.equal( StringUtils.capitalize( 'hello' ), 'Hello', 'word should be capitalized' );
+  } );
+
   // See https://github.com/phetsims/phetcommon/issues/36
   QUnit.test( 'fillIn', function( assert ) {
 
