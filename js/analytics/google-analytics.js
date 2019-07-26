@@ -137,6 +137,7 @@
     // Main PhET tracker
     window.googleAnalytics( 'create', {
       trackingId: 'UA-5033201-1',
+      storage: 'none',
       cookieDomain: 'none'
     } );
     if ( window.location.protocol === 'file:' ) {
@@ -150,6 +151,7 @@
     if ( phet.chipper.brand === 'phet-io' ) {
       window.googleAnalytics( 'create', {
         trackingId: 'UA-37615182-3',
+        storage: 'none',
         cookieDomain: 'none',
         name: 'io'
       } );
@@ -166,6 +168,7 @@
          !document.domain.match( /(.*\.colorado\.edu\.?$)|(^localhost$)|(^127\.0\.0\.1$)/ ) ) {
       window.googleAnalytics( 'create', {
         trackingId: 'UA-37615182-2',
+        storage: 'none',
         cookieDomain: 'none',
         name: 'thirdParty'
       } );
@@ -175,6 +178,7 @@
     // Hewlett tracker
     window.googleAnalytics( 'create', {
       trackingId: 'UA-5033010-35',
+      storage: 'none',
       cookieDomain: 'phet.colorado.edu',
       name: 'hewlett'
     } );
@@ -184,6 +188,7 @@
     if ( phet.chipper.getQueryParameter( 'ga' ) ) {
       window.googleAnalytics( 'create', {
         trackingId: phet.chipper.getQueryParameter( 'ga' ),
+        storage: 'none',
         cookieDomain: 'none', // don't require the tracking from our site
         name: 'external'
       } );
