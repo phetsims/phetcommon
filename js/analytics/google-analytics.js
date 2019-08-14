@@ -12,6 +12,14 @@
 ( function() {
   'use strict';
 
+  assert && assert( window.phet && phet.chipper, 'We will require multiple things from the chipper preload namespace' );
+  assert && assert( !!phet.chipper.brand, 'A brand is required, since some messages depend on the brand' );
+  assert && assert( !!phet.chipper.queryParameters, 'We will need query parameters to be parsed for multiple purposes' );
+  assert && assert( !!phet.chipper.buildTimestamp, 'buildTimestamp is required for GA messages' );
+  assert && assert( !!phet.chipper.project, 'project is required for GA messages' );
+  assert && assert( !!phet.chipper.version, 'version is required for GA messages' );
+  assert && assert( !!phet.chipper.locale, 'locale is required for GA messages' );
+
   var ua = navigator.userAgent;
   var hasIESecurityRestrictions = !!( ua.match( /MSIE/ ) || ua.match( /Trident\// ) || ua.match( /Edge\// ) );
 
@@ -104,26 +112,21 @@
 
     // Applies custom dimensions that are common for our main, third-party, and phet-io tracker
     var phetPageviewOptions = {};
-    if ( phet.chipper ) {
-      assert && assert( !phet.chipper.buildTimestamp ||
-                        ( !!phet.chipper.project && !!phet.chipper.version && !!phet.chipper.locale ),
-        'Missing Google Analytics variable in' );
 
-      if ( phet.chipper.project ) {
-        phetPageviewOptions.dimension1 = phet.chipper.project; // simName custom dimension
-      }
-      if ( phet.chipper.version ) {
-        phetPageviewOptions.dimension2 = phet.chipper.version; // simVersion custom dimension
-      }
-      if ( phet.chipper.locale ) {
-        phetPageviewOptions.dimension3 = phet.chipper.locale; // simLocale custom dimension
-      }
-      if ( phet.chipper.buildTimestamp ) {
-        phetPageviewOptions.dimension4 = phet.chipper.buildTimestamp; // simBuildTimestamp custom dimension
-      }
-      phetPageviewOptions.dimension5 = loadType;
-      phetPageviewOptions.dimension6 = document.referrer;
+    if ( phet.chipper.project ) {
+      phetPageviewOptions.dimension1 = phet.chipper.project; // simName custom dimension
     }
+    if ( phet.chipper.version ) {
+      phetPageviewOptions.dimension2 = phet.chipper.version; // simVersion custom dimension
+    }
+    if ( phet.chipper.locale ) {
+      phetPageviewOptions.dimension3 = phet.chipper.locale; // simLocale custom dimension
+    }
+    if ( phet.chipper.buildTimestamp ) {
+      phetPageviewOptions.dimension4 = phet.chipper.buildTimestamp; // simBuildTimestamp custom dimension
+    }
+    phetPageviewOptions.dimension5 = loadType;
+    phetPageviewOptions.dimension6 = document.referrer;
 
     var offlineSimLocation = 'offline/html/' + phet.chipper.project + '_' + phet.chipper.locale;
 
