@@ -14,15 +14,6 @@ define( function( require ) {
 
   QUnit.module( 'StringUtils' );
 
-  QUnit.test( 'endsWith', function( assert ) {
-
-    assert.equal( StringUtils.endsWith( 'hello', 'o' ), true, 'hello should end with o' );
-    assert.equal( StringUtils.endsWith( 'hello', 'x' ), false, 'hello should not end with x' );
-    assert.equal( StringUtils.endsWith( 'hello', 'hello' ), true, 'hello should end with itself' );
-    assert.equal( StringUtils.endsWith( 'hello', 'he' ), false, 'hello should not end with he' );
-    assert.equal( StringUtils.endsWith( '', 'he' ), false, 'empty string should not end with something' );
-  } );
-
   QUnit.test( 'capitalize', function( assert ) {
     assert.equal( StringUtils.capitalize( 'hello' ), 'Hello', 'word should be capitalized' );
   } );

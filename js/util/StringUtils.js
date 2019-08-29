@@ -298,25 +298,6 @@ define( function( require ) {
     },
 
     /**
-     * Determine whether one string ends with another.  Implementation is from the MDN polyfill at
-     *   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith
-     * @param {string} string - the string to test
-     * @param {string} searchString - is this string at the end?
-     * @param {number} [position] - Search within this string as if this string were only this long; defaults to
-     *                        this string's actual length, clamped within the range established by this string's length.
-     * @returns {boolean}
-     */
-    endsWith: function( string, searchString, position ) {
-      var subjectString = string.toString();
-      if ( typeof position !== 'number' || !isFinite( position ) || Math.floor( position ) !== position || position > subjectString.length ) {
-        position = subjectString.length;
-      }
-      position -= searchString.length;
-      var lastIndex = subjectString.indexOf( searchString, position );
-      return lastIndex !== -1 && lastIndex === position;
-    },
-
-    /**
      * Assert that a template var is in a string. Useful for translated strings with a template var pattern like
      * "Hello {{meanName}}" --> "Hello goofball". See StringUtils.fillIn() for base usages of template var pattern.
      *
