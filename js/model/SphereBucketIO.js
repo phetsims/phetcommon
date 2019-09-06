@@ -12,51 +12,35 @@ define( function( require ) {
   // modules
   var ObjectIO = require( 'TANDEM/types/ObjectIO' );
   var phetcommon = require( 'PHETCOMMON/phetcommon' );
-  var phetioInherit = require( 'TANDEM/phetioInherit' );
   var validate = require( 'AXON/validate' );
 
   // ifphetio
   var phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
 
-  /**
-   * @param {SphereBucket} sphereBucket
-   * @param {string} phetioID
-   * @constructor
-   */
-  function SphereBucketIO( sphereBucket, phetioID ) {
-    ObjectIO.call( this, sphereBucket, phetioID );
-  }
-
-  // helper function for retrieving the tandem for a particle
-  function getParticleTandemID( particle ) {
-    return particle.tandem.phetioID;
-  }
-
-  phetioInherit( ObjectIO, 'SphereBucketIO', SphereBucketIO, {}, {
-    validator: { isValidValue: v => v instanceof phet.phetcommon.SphereBucket },
+  class SphereBucketIO extends ObjectIO {
 
     /**
      * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
      * @param {SphereBucket} sphereBucket
      */
-    toStateObject: function( sphereBucket ) {
+    static toStateObject( sphereBucket ) {
       validate( sphereBucket, this.validator );
       return sphereBucket._particles.map( getParticleTandemID );
-    },
+    }
 
     /**
      * @param {string[]} stateArray
      * @returns {Particle[]}
      */
-    fromStateObject: function( stateArray ) {
+    static fromStateObject( stateArray ) {
       return stateArray.map( function( tandemID ) { return phetioEngine.getPhetioObject( tandemID ); } );
-    },
+    }
 
     /**
      * @param {SphereBucket} sphereBucket
      * @param {Particle[]} fromStateObject
      */
-    setValue: function( sphereBucket, fromStateObject ) {
+    static setValue( sphereBucket, fromStateObject ) {
       validate( sphereBucket, this.validator );
 
       // remove all the particles from the observable arrays
@@ -64,12 +48,18 @@ define( function( require ) {
 
       // add back the particles
       fromStateObject.forEach( function( particle ) { sphereBucket.addParticle( particle ); } );
-    },
+    }
+  }
 
-    documentation: 'A model of a bucket into which spherical objects can be placed.'
-  } );
+  SphereBucketIO.validator = { isValidValue: v => v instanceof phet.phetcommon.SphereBucket };
+  SphereBucketIO.typeName = 'SphereBucketIO';
+  SphereBucketIO.documentation = 'A model of a bucket into which spherical objects can be placed.';
+  ObjectIO.validateSubtype( SphereBucketIO );
 
-  phetcommon.register( 'SphereBucketIO', SphereBucketIO );
+  // helper function for retrieving the tandem for a particle
+  function getParticleTandemID( particle ) {
+    return particle.tandem.phetioID;
+  }
 
-  return SphereBucketIO;
+  return phetcommon.register( 'SphereBucketIO', SphereBucketIO );
 } );
