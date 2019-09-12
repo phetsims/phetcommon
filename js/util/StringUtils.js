@@ -59,7 +59,7 @@ define( function( require ) {
       var newString = template;
 
       // {string[]} parse out the set of placeholders
-      var placeholders = template.match( /\{\{[^\{\}]+\}\}/g ) || [];
+      var placeholders = template.match( /\{\{[^{}]+\}\}/g ) || [];
 
       // replace each placeholder with its corresponding value
       for ( var i = 0; i < placeholders.length; i++ ) {
