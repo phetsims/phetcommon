@@ -72,10 +72,10 @@ define( require => {
         particle.positionProperty.set( particle.destinationProperty.get() );
       }
       this._particles.push( particle );
-      var self = this;
+      const self = this;
 
       // add a listener that will remove this particle from the bucket if the user grabs it
-      var particleRemovedListener = function() {
+      const particleRemovedListener = function() {
         self.removeParticle( particle );
 
         // the process of removing the particle from the bucket should also disconnect removal listener
@@ -111,7 +111,7 @@ define( require => {
 
     // @public
     extractClosestParticle: function( location ) {
-      var closestParticle = null;
+      let closestParticle = null;
       this._particles.forEach( function( particle ) {
         if ( closestParticle === null ||
              closestParticle.positionProperty.get().distance( location ) > particle.positionProperty.get().distance( location ) ) {
@@ -144,9 +144,9 @@ define( require => {
 
     // @private
     isPositionOpen: function( position ) {
-      var positionOpen = true;
-      for ( var i = 0; i < this._particles.length; i++ ) {
-        var particle = this._particles[ i ];
+      let positionOpen = true;
+      for ( let i = 0; i < this._particles.length; i++ ) {
+        const particle = this._particles[ i ];
         if ( particle.destinationProperty.get().equals( position ) ) {
           positionOpen = false;
           break;
@@ -157,15 +157,15 @@ define( require => {
 
     // @private
     getFirstOpenLocation: function() {
-      var openLocation = Vector2.ZERO;
-      var usableWidth = this.size.width * this._usableWidthProportion - 2 * this._sphereRadius;
-      var offsetFromBucketEdge = ( this.size.width - usableWidth ) / 2 + this._sphereRadius;
-      var numParticlesInLayer = Math.floor( usableWidth / ( this._sphereRadius * 2 ) );
-      var row = 0;
-      var positionInLayer = 0;
-      var found = false;
+      let openLocation = Vector2.ZERO;
+      const usableWidth = this.size.width * this._usableWidthProportion - 2 * this._sphereRadius;
+      let offsetFromBucketEdge = ( this.size.width - usableWidth ) / 2 + this._sphereRadius;
+      let numParticlesInLayer = Math.floor( usableWidth / ( this._sphereRadius * 2 ) );
+      let row = 0;
+      let positionInLayer = 0;
+      let found = false;
       while ( !found ) {
-        var testLocation = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this._sphereRadius,
+        const testLocation = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this._sphereRadius,
           this.getYPositionForLayer( row ) );
         if ( this.isPositionOpen( testLocation ) ) {
           // We found a location that is open.
@@ -209,27 +209,27 @@ define( require => {
      */
     getNearestOpenLocation: function( position ) {
       // Determine the highest occupied layer.  The bottom layer is 0.
-      var highestOccupiedLayer = 0;
-      var self = this;
+      let highestOccupiedLayer = 0;
+      const self = this;
       _.each( this._particles, function( particle ) {
-        var layer = self.getLayerForYPosition( particle.destinationProperty.get().y );
+        const layer = self.getLayerForYPosition( particle.destinationProperty.get().y );
         if ( layer > highestOccupiedLayer ) {
           highestOccupiedLayer = layer;
         }
       } );
 
       // Make a list of all open locations in the occupied layers.
-      var openLocations = [];
-      var usableWidth = this.size.width * this._usableWidthProportion - 2 * this._sphereRadius;
-      var offsetFromBucketEdge = ( this.size.width - usableWidth ) / 2 + this._sphereRadius;
-      var numParticlesInLayer = Math.floor( usableWidth / ( this._sphereRadius * 2 ) );
+      const openLocations = [];
+      const usableWidth = this.size.width * this._usableWidthProportion - 2 * this._sphereRadius;
+      let offsetFromBucketEdge = ( this.size.width - usableWidth ) / 2 + this._sphereRadius;
+      let numParticlesInLayer = Math.floor( usableWidth / ( this._sphereRadius * 2 ) );
 
       // Loop, searching for open positions in the particle stack.
-      for ( var layer = 0; layer <= highestOccupiedLayer + 1; layer++ ) {
+      for ( let layer = 0; layer <= highestOccupiedLayer + 1; layer++ ) {
 
         // Add all open locations in the current layer.
-        for ( var positionInLayer = 0; positionInLayer < numParticlesInLayer; positionInLayer++ ) {
-          var testPosition = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this._sphereRadius,
+        for ( let positionInLayer = 0; positionInLayer < numParticlesInLayer; positionInLayer++ ) {
+          const testPosition = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this._sphereRadius,
             this.getYPositionForLayer( layer ) );
           if ( this.isPositionOpen( testPosition ) ) {
 
@@ -261,7 +261,7 @@ define( require => {
       // Only the X-component is used for this determination, because if
       // the Y-component is used the particles often appear to fall sideways
       // when released above the bucket, which just looks weird.
-      var closestOpenLocation = openLocations[ 0 ] || Vector2.ZERO;
+      let closestOpenLocation = openLocations[ 0 ] || Vector2.ZERO;
 
       _.each( openLocations, function( location ) {
         if ( location.distance( position ) < closestOpenLocation.distance( position ) ) {
@@ -283,15 +283,15 @@ define( require => {
      * @private
      */
     isDangling: function( particle ) {
-      var onBottomRow = particle.destinationProperty.get().y === this.position.y + this._verticalParticleOffset;
+      const onBottomRow = particle.destinationProperty.get().y === this.position.y + this._verticalParticleOffset;
       return !onBottomRow && this.countSupportingParticles( particle.destinationProperty.get() ) < 2;
     },
 
     // @private
     countSupportingParticles: function( position ) {
-      var count = 0;
-      for ( var i = 0; i < this._particles.length; i++ ) {
-        var p = this._particles[ i ];
+      let count = 0;
+      for ( let i = 0; i < this._particles.length; i++ ) {
+        const p = this._particles[ i ];
         if ( p.destinationProperty.get().y < position.y && // Must be in a lower layer
              p.destinationProperty.get().distance( position ) < this._sphereRadius * 3 ) {
           // Must be a supporting particle.
@@ -303,11 +303,11 @@ define( require => {
 
     // @private
     relayoutBucketParticles: function() {
-      var particleMoved;
+      let particleMoved;
       do {
-        for ( var i = 0; i < this._particles.length; i++ ) {
+        for ( let i = 0; i < this._particles.length; i++ ) {
           particleMoved = false;
-          var particle = this._particles[ i ];
+          const particle = this._particles[ i ];
           if ( this.isDangling( particle ) ) {
             particle.destinationProperty.set( this.getNearestOpenLocation( particle.destinationProperty.get() ) );
             particleMoved = true;

@@ -60,7 +60,7 @@ define( require => {
   } );
 
   QUnit.test( 'abs', function( assert ) {
-    var fraction = new Fraction( 1, 2 );
+    const fraction = new Fraction( 1, 2 );
     assert.equal( fraction.abs().equals( fraction ), true, 'abs test' );
     assert.equal( new Fraction( -1, 2 ).abs().equals( fraction ), true, 'abs test' );
     assert.equal( new Fraction( 1, -2 ).abs().equals( fraction ), true, 'abs test' );
@@ -153,8 +153,8 @@ define( require => {
   } );
 
   QUnit.test( 'set', function( assert ) {
-    var a = new Fraction( 1, 3 );
-    var b = new Fraction( 5, 6 );
+    const a = new Fraction( 1, 3 );
+    const b = new Fraction( 5, 6 );
     a.set( b );
     assert.equal( a.numerator, 5 );
     assert.equal( a.denominator, 6 );
@@ -187,8 +187,8 @@ define( require => {
   } );
 
   QUnit.test( 'mutable variants', function( assert ) {
-    var a = new Fraction( 1, 3 );
-    var b = new Fraction( 5, 6 );
+    const a = new Fraction( 1, 3 );
+    const b = new Fraction( 5, 6 );
 
     assert.equal( b.subtract( a ), b, 'Chaining' );
     assert.ok( b.equals( new Fraction( 3, 6 ) ), 'Mutated b' );

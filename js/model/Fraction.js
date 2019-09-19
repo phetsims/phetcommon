@@ -103,7 +103,7 @@ define( require => {
      * @public
      */
     reduce: function() {
-      var gcd = Util.gcd( this.numerator, this.denominator );
+      const gcd = Util.gcd( this.numerator, this.denominator );
       this.numerator = ( gcd === 0 ) ? 0 : Util.roundSymmetric( this.numerator / gcd );
       this.denominator = ( gcd === 0 ) ? 0 : Util.roundSymmetric( this.denominator / gcd );
       return this;
@@ -199,7 +199,7 @@ define( require => {
       assert && assert( Util.isInteger( numerator2 ), 'numerator2 must be an integer' );
       assert && assert( Util.isInteger( denominator2 ), 'denominator2 must be an integer' );
 
-      var lcm = Util.lcm( denominator1, denominator2 );
+      const lcm = Util.lcm( denominator1, denominator2 );
       this.numerator = Util.roundSymmetric( numerator1 * lcm / denominator1 ) +
                        Util.roundSymmetric( numerator2 * lcm / denominator2 );
       this.denominator = lcm;

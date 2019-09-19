@@ -26,7 +26,7 @@ define( require => {
 
   // Proportion of the total height which the ellipse that represents the hole occupies.  It is assumed that the width
   // of the hole is the same as the width specified at construction.
-  var HOLE_ELLIPSE_HEIGHT_PROPORTION = 0.25;
+  const HOLE_ELLIPSE_HEIGHT_PROPORTION = 0.25;
 
   /**
    * @param {Object} [options]
@@ -61,10 +61,10 @@ define( require => {
 
     // @public (read-only) - The {Dimension2} size of the bucket
     this.size = options.size;
-    var size = this.size;
+    const size = this.size;
 
-    var holeRadiusX = size.width / 2;
-    var holeRadiusY = size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2;
+    const holeRadiusX = size.width / 2;
+    const holeRadiusY = size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2;
 
     // @public (read-only) - Create the shape of the bucket's hole.
     this.holeShape = Shape.ellipse( 0, 0, holeRadiusX, holeRadiusY );
@@ -72,8 +72,8 @@ define( require => {
     // Create the shape of the container.  This code is a bit 'tweaky', meaning that there are a lot of fractional
     // multipliers in here to try to achieve the desired pseudo-3D look.  The intent is that the 'tilt' of the bucket
     // can be changed without needing to rework this code.
-    var containerHeight = size.height * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
-    var multiplier = options.invertY ? 1 : -1;
+    const containerHeight = size.height * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
+    const multiplier = options.invertY ? 1 : -1;
 
     // @public (read-only) - The shape of the front portion of the bucket.
     this.containerShape = new Shape().moveTo( -size.width * 0.5, 0 )

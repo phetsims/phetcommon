@@ -50,11 +50,11 @@ define( require => {
     viewToModelPosition: function( point ) { return this.inversePosition2( point ); },
     viewToModelXY: function( x, y ) { return new Vector2( this.viewToModelX( x ), this.viewToModelY( y ) ); },
     viewToModelX: function( x ) {
-      var inverse = this.getInverse();
+      const inverse = this.getInverse();
       return inverse.m00() * x + inverse.m02();
     },
     viewToModelY: function( y ) {
-      var inverse = this.getInverse();
+      const inverse = this.getInverse();
       return inverse.m11() * y + inverse.m12();
     },
     viewToModelDelta: function( vector ) { return this.inverseDelta2( vector ); },
@@ -129,8 +129,8 @@ define( require => {
   ModelViewTransform2.createSinglePointXYScaleMapping = function( modelPoint, viewPoint, xScale, yScale ) {
     // mx * scale + ox = vx
     // my * scale + oy = vy
-    var offsetX = viewPoint.x - modelPoint.x * xScale;
-    var offsetY = viewPoint.y - modelPoint.y * yScale;
+    const offsetX = viewPoint.x - modelPoint.x * xScale;
+    const offsetY = viewPoint.y - modelPoint.y * yScale;
     return this.createOffsetXYScaleMapping( new Vector2( offsetX, offsetY ), xScale, yScale );
   };
 
@@ -173,10 +173,10 @@ define( require => {
    * @public
    */
   ModelViewTransform2.createRectangleMapping = function( modelBounds, viewBounds ) {
-    var m00 = viewBounds.width / modelBounds.width;
-    var m02 = viewBounds.x - m00 * modelBounds.x;
-    var m11 = viewBounds.height / modelBounds.height;
-    var m12 = viewBounds.y - m11 * modelBounds.y;
+    const m00 = viewBounds.width / modelBounds.width;
+    const m02 = viewBounds.x - m00 * modelBounds.x;
+    const m11 = viewBounds.height / modelBounds.height;
+    const m12 = viewBounds.y - m11 * modelBounds.y;
     return new ModelViewTransform2( Matrix3.affine( m00, 0, m02, 0, m11, m12 ) );
   };
 
@@ -192,11 +192,11 @@ define( require => {
    * @public
    */
   ModelViewTransform2.createRectangleInvertedYMapping = function( modelBounds, viewBounds ) {
-    var m00 = viewBounds.width / modelBounds.width;
-    var m02 = viewBounds.x - m00 * modelBounds.x;
-    var m11 = -viewBounds.height / modelBounds.height;
+    const m00 = viewBounds.width / modelBounds.width;
+    const m02 = viewBounds.x - m00 * modelBounds.x;
+    const m11 = -viewBounds.height / modelBounds.height;
     // vY == (mY + mHeight) * m11 + m12
-    var m12 = viewBounds.y - m11 * modelBounds.getMaxY();
+    const m12 = viewBounds.y - m11 * modelBounds.getMaxY();
     return new ModelViewTransform2( Matrix3.affine( m00, 0, m02, 0, m11, m12 ) );
   };
 

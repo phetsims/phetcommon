@@ -20,8 +20,8 @@
   assert && assert( !!phet.chipper.version, 'version is required for GA messages' );
   assert && assert( !!phet.chipper.locale, 'locale is required for GA messages' );
 
-  var ua = navigator.userAgent;
-  var hasIESecurityRestrictions = !!( ua.match( /MSIE/ ) || ua.match( /Trident\// ) || ua.match( /Edge\// ) );
+  const ua = navigator.userAgent;
+  const hasIESecurityRestrictions = !!( ua.match( /MSIE/ ) || ua.match( /Trident\// ) || ua.match( /Edge\// ) );
 
   // If we're in some form of IE running offline, don't attempt to make a cross-origin request.
   // See https://github.com/phetsims/joist/issues/164
@@ -34,7 +34,7 @@
     return;
   }
 
-  var loadType;
+  let loadType;
   // This is the iOS app
   if ( phet.chipper.queryParameters[ 'phet-app' ] ) {
     loadType = 'phet-app';
@@ -55,7 +55,7 @@
   function sendMessages() {
     // {boolean} - Whether an error was detected with anything relating to google analytics.
     // See https://github.com/phetsims/yotta/issues/30
-    var googleAnalyticsErrored = false;
+    let googleAnalyticsErrored = false;
     window.addEventListener( 'error', function( event ) {
       if ( event &&
            event.target &&
@@ -67,12 +67,12 @@
     }, true );
 
     // {boolean} - Whether analytics.js successfully loaded, see https://github.com/phetsims/yotta/issues/30
-    var googleAnalyticsLoaded = false;
+    let googleAnalyticsLoaded = false;
     function onGoogleAnalyticsLoad() {
       googleAnalyticsLoaded = true;
     }
 
-    var pingParams = 'pingver=3&' +
+    const pingParams = 'pingver=3&' +
                      'project=' + encodeURIComponent( phet.chipper.project ) + '&' +
                      'brand=' + encodeURIComponent( phet.chipper.brand ) + '&' +
                      'version=' + encodeURIComponent( phet.chipper.version ) + '&' +
@@ -86,7 +86,7 @@
                      'ref=' + encodeURIComponent( document.referrer );
 
     function pingURL( url ) {
-      var img = document.createElement( 'img' );
+      const img = document.createElement( 'img' );
       img.src = url;
     }
 
@@ -111,7 +111,7 @@
     })( window, document, 'script', ( 'https:' === document.location.protocol ? 'https:' : 'http:' ) + '//www.google-analytics.com/analytics.js', 'googleAnalytics' );
 
     // Applies custom dimensions that are common for our main, third-party, and phet-io tracker
-    var phetPageviewOptions = {};
+    const phetPageviewOptions = {};
 
     if ( phet.chipper.project ) {
       phetPageviewOptions.dimension1 = phet.chipper.project; // simName custom dimension
@@ -128,7 +128,7 @@
     phetPageviewOptions.dimension5 = loadType;
     phetPageviewOptions.dimension6 = document.referrer;
 
-    var offlineSimLocation = 'offline/html/' + phet.chipper.project + '_' + phet.chipper.locale;
+    const offlineSimLocation = 'offline/html/' + phet.chipper.project + '_' + phet.chipper.locale;
 
     // Put our function in the queue, to be invoked when the analytics.js has fully loaded.
     // See https://github.com/phetsims/yotta/issues/30

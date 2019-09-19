@@ -10,9 +10,9 @@ define( require => {
   const phetcommon = require( 'PHETCOMMON/phetcommon' );
 
   // Unicode embedding marks that we use.
-  var LTR = '\u202a';
-  var RTL = '\u202b';
-  var POP = '\u202c';
+  const LTR = '\u202a';
+  const RTL = '\u202b';
+  const POP = '\u202c';
 
   var StringUtils = {
 
@@ -32,7 +32,7 @@ define( require => {
      * @public
      */
     format: function( pattern ) {
-      var args = arguments;
+      const args = arguments;
       return pattern.replace( /{(\d)}/g, function( r, n ) { return args[ +n + 1 ];} );
     },
 
@@ -56,17 +56,17 @@ define( require => {
       // To catch attempts to use StringUtils.fillIn like StringUtils.format
       assert && assert( values && typeof values === 'object', 'invalid values: ' + values );
 
-      var newString = template;
+      let newString = template;
 
       // {string[]} parse out the set of placeholders
-      var placeholders = template.match( /\{\{[^{}]+\}\}/g ) || [];
+      const placeholders = template.match( /\{\{[^{}]+\}\}/g ) || [];
 
       // replace each placeholder with its corresponding value
-      for ( var i = 0; i < placeholders.length; i++ ) {
-        var placeholder = placeholders[ i ];
+      for ( let i = 0; i < placeholders.length; i++ ) {
+        const placeholder = placeholders[ i ];
 
         // key is the portion of the placeholder between the curly braces
-        var key = placeholder.replace( '{{', '' ).replace( '}}', '' );
+        const key = placeholder.replace( '{{', '' ).replace( '}}', '' );
         if ( values[ key ] !== undefined ) {
           newString = newString.replace( placeholder, values[ key ] );
         }
@@ -112,8 +112,8 @@ define( require => {
      */
     embeddedSlice: function( string, startIndex, endIndex ) {
       // {Array.<string>} - array of LTR/RTL embedding marks that are currently on the stack for the current location.
-      var stack = [];
-      var chr;
+      const stack = [];
+      let chr;
 
       if ( endIndex === undefined ) {
         endIndex = string.length;
@@ -137,7 +137,7 @@ define( require => {
       }
 
       // Walk up to the start of the string
-      for ( var i = 0; i < startIndex; i++ ) {
+      for ( let i = 0; i < startIndex; i++ ) {
         chr = string.charAt( i );
         if ( chr === LTR || chr === RTL ) {
           stack.push( chr );
@@ -149,16 +149,16 @@ define( require => {
 
       // Will store the minimum stack size during our slice. This allows us to turn [LTR][RTL]boo[POP][POP] into
       // [RTL]boo[POP] by skipping the "outer" layers.
-      var minimumStackSize = stack.length;
+      let minimumStackSize = stack.length;
 
       // Save our initial stack for prefix computation
-      var startStack = stack.slice();
+      let startStack = stack.slice();
 
       // A normal string slice
-      var slice = string.slice( startIndex, endIndex );
+      const slice = string.slice( startIndex, endIndex );
 
       // Walk through the sliced string, to determine what we need for the suffix
-      for ( var j = 0; j < slice.length; j++ ) {
+      for ( let j = 0; j < slice.length; j++ ) {
         chr = slice.charAt( j );
         if ( chr === LTR || chr === RTL ) {
           stack.push( chr );
@@ -170,18 +170,18 @@ define( require => {
       }
 
       // Our ending stack for suffix computation
-      var endStack = stack;
+      let endStack = stack;
 
       // Always leave one stack level on top
-      var numSkippedStackLevels = Math.max( 0, minimumStackSize - 1 );
+      const numSkippedStackLevels = Math.max( 0, minimumStackSize - 1 );
       startStack = startStack.slice( numSkippedStackLevels );
       endStack = endStack.slice( numSkippedStackLevels );
 
       // Our prefix will be the embedding marks that have been skipped and not popped.
-      var prefix = startStack.join( '' );
+      const prefix = startStack.join( '' );
 
       // Our suffix includes one POP for each embedding mark currently on the stack
-      var suffix = endStack.join( '' ).replace( /./g, POP );
+      const suffix = endStack.join( '' ).replace( /./g, POP );
 
       return prefix + slice + suffix;
     },
@@ -212,22 +212,22 @@ define( require => {
       }
 
       // {Array.<string>} - What we will push to and return.
-      var result = [];
+      let result = [];
 
       // { index: {number}, length: {number} } - Last result of findSeparatorMatch()
-      var separatorMatch;
+      let separatorMatch;
 
       // Remaining part of the string to split up. Will have substrings removed from the start.
-      var stringToSplit = string;
+      let stringToSplit = string;
 
       // Finds the index and length of the first substring of stringToSplit that matches the separator (string or regex)
       // and returns an object with the type  { index: {number}, length: {number} }.
       // If index === -1, there was no match for the separator.
       function findSeparatorMatch() {
-        var index;
-        var length;
+        let index;
+        let length;
         if ( separator instanceof window.RegExp ) {
-          var match = stringToSplit.match( separator );
+          const match = stringToSplit.match( separator );
           if ( match ) {
             index = match.index;
             length = match[ 0 ].length;
@@ -251,13 +251,13 @@ define( require => {
       // Loop until we run out of matches for the separator. For each separator match, stringToSplit for the next
       // iteration will have everything up to the end of the separator match chopped off. The indexOffset variable
       // stores how many characters we have chopped off in this fashion, so that we can index into the original string.
-      var indexOffset = 0;
+      let indexOffset = 0;
       while ( ( separatorMatch = findSeparatorMatch() ).index >= 0 ) {
         // Extract embedded slice from the original, up until the separator match
         result.push( StringUtils.embeddedSlice( string, indexOffset, indexOffset + separatorMatch.index ) );
 
         // Handle chopping off the section of stringToSplit, so we can do simple matching in findSeparatorMatch()
-        var offset = separatorMatch.index + separatorMatch.length;
+        const offset = separatorMatch.index + separatorMatch.length;
         stringToSplit = stringToSplit.slice( offset );
         indexOffset += offset;
       }
