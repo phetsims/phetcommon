@@ -6,11 +6,11 @@
  * @author Jonathan Olson (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var StringUtils = require( 'PHETCOMMON/util/StringUtils' );
+  const StringUtils = require( 'PHETCOMMON/util/StringUtils' );
 
   QUnit.module( 'StringUtils' );
 

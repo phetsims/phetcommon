@@ -11,15 +11,15 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  * @author Sam Reid
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var Matrix3 = require( 'DOT/Matrix3' );
-  var phetcommon = require( 'PHETCOMMON/phetcommon' );
-  var Transform3 = require( 'DOT/Transform3' );
-  var Vector2 = require( 'DOT/Vector2' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const Matrix3 = require( 'DOT/Matrix3' );
+  const phetcommon = require( 'PHETCOMMON/phetcommon' );
+  const Transform3 = require( 'DOT/Transform3' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param matrix

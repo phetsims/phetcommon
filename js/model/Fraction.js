@@ -11,13 +11,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  * @author Sam Reid
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var inherit = require( 'PHET_CORE/inherit' );
-  var phetcommon = require( 'PHETCOMMON/phetcommon' );
-  var Util = require( 'DOT/Util' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const phetcommon = require( 'PHETCOMMON/phetcommon' );
+  const Util = require( 'DOT/Util' );
 
   /**
    * @param {number} numerator - must be an integer

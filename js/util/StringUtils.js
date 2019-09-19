@@ -3,11 +3,11 @@
 /**
  * Collection of utility functions related to Strings.
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var phetcommon = require( 'PHETCOMMON/phetcommon' );
+  const phetcommon = require( 'PHETCOMMON/phetcommon' );
 
   // Unicode embedding marks that we use.
   var LTR = '\u202a';

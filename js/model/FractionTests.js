@@ -5,11 +5,11 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Fraction = require( 'PHETCOMMON/model/Fraction' );
+  const Fraction = require( 'PHETCOMMON/model/Fraction' );
 
   QUnit.module( 'Fraction' );
 

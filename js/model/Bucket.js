@@ -13,16 +13,16 @@
  * @author John Blanco
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Dimension2 = require( 'DOT/Dimension2' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var phetcommon = require( 'PHETCOMMON/phetcommon' );
-  var PhetioObject = require( 'TANDEM/PhetioObject' );
-  var Shape = require( 'KITE/Shape' );
-  var Vector2 = require( 'DOT/Vector2' );
+  const Dimension2 = require( 'DOT/Dimension2' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const phetcommon = require( 'PHETCOMMON/phetcommon' );
+  const PhetioObject = require( 'TANDEM/PhetioObject' );
+  const Shape = require( 'KITE/Shape' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   // Proportion of the total height which the ellipse that represents the hole occupies.  It is assumed that the width
   // of the hole is the same as the width specified at construction.

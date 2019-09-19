@@ -6,16 +6,16 @@
  * @author Sam Reid (PhET Interactive Simulations)
  * @author John Blanco (PhET Interactive Simulations)
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var ObjectIO = require( 'TANDEM/types/ObjectIO' );
-  var phetcommon = require( 'PHETCOMMON/phetcommon' );
-  var validate = require( 'AXON/validate' );
+  const ObjectIO = require( 'TANDEM/types/ObjectIO' );
+  const phetcommon = require( 'PHETCOMMON/phetcommon' );
+  const validate = require( 'AXON/validate' );
 
   // ifphetio
-  var phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
+  const phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
 
   class SphereBucketIO extends ObjectIO {
 

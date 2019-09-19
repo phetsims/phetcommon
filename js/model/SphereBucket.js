@@ -9,18 +9,18 @@
  *
  * @author John Blanco
  */
-define( function( require ) {
+define( require => {
   'use strict';
 
   // modules
-  var Bucket = require( 'PHETCOMMON/model/Bucket' );
-  var cleanArray = require( 'PHET_CORE/cleanArray' );
-  var inherit = require( 'PHET_CORE/inherit' );
-  var phetcommon = require( 'PHETCOMMON/phetcommon' );
-  var SphereBucketIO = require( 'PHETCOMMON/model/SphereBucketIO' );
-  var Tandem = require( 'TANDEM/Tandem' );
-  var Vector2 = require( 'DOT/Vector2' );
-  var Util = require( 'DOT/Util' );
+  const Bucket = require( 'PHETCOMMON/model/Bucket' );
+  const cleanArray = require( 'PHET_CORE/cleanArray' );
+  const inherit = require( 'PHET_CORE/inherit' );
+  const phetcommon = require( 'PHETCOMMON/phetcommon' );
+  const SphereBucketIO = require( 'PHETCOMMON/model/SphereBucketIO' );
+  const Tandem = require( 'TANDEM/Tandem' );
+  const Vector2 = require( 'DOT/Vector2' );
+  const Util = require( 'DOT/Util' );
 
   /**
    * @param {Object} options
