@@ -16,18 +16,19 @@ define( require => {
   const Bucket = require( 'PHETCOMMON/model/Bucket' );
   const cleanArray = require( 'PHET_CORE/cleanArray' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const phetcommon = require( 'PHETCOMMON/phetcommon' );
   const SphereBucketIO = require( 'PHETCOMMON/model/SphereBucketIO' );
   const Tandem = require( 'TANDEM/Tandem' );
-  const Vector2 = require( 'DOT/Vector2' );
   const Util = require( 'DOT/Util' );
+  const Vector2 = require( 'DOT/Vector2' );
 
   /**
    * @param {Object} options
    * @constructor
    */
   function SphereBucket( options ) {
-    options = _.extend( {
+    options = merge( {
       sphereRadius: 10,  // expected radius of the spheres that will be placed in this bucket
       usableWidthProportion: 1.0,  // proportion of the bucket width that the spheres can occupy
       tandem: Tandem.optional,

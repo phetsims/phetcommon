@@ -19,6 +19,7 @@ define( require => {
   // modules
   const Dimension2 = require( 'DOT/Dimension2' );
   const inherit = require( 'PHET_CORE/inherit' );
+  const merge = require( 'PHET_CORE/merge' );
   const phetcommon = require( 'PHETCOMMON/phetcommon' );
   const PhetioObject = require( 'TANDEM/PhetioObject' );
   const Shape = require( 'KITE/Shape' );
@@ -33,7 +34,7 @@ define( require => {
    * @constructor
    */
   function Bucket( options ) {
-    options = _.extend( {
+    options = merge( {
       position: Vector2.ZERO,
       size: new Dimension2( 200, 50 ),
       baseColor: '#ff0000',
