@@ -203,7 +203,7 @@
 
   if ( loadType === 'phet-app' ) {
     window.addEventListener( 'load', function() {
-      setTimeout( sendMessages, 0 );
+      setTimeout( sendMessages, 0 ); // eslint-disable-line bad-sim-text
     }, false );
   }
   else {
