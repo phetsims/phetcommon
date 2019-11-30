@@ -1,15 +1,14 @@
 // Copyright 2013-2019, University of Colorado Boulder
 
 /**
- * Transform between model and view coordinate frames,
- * and provides convenience methods over an actual dot.Transform3
+ * Transform between model and view coordinate frames, and provides convenience methods beyond dot.Transform3
  *
  * Requires that the transform is "aligned", i.e., it can be built only from component-wise translation and scaling.
  * Equivalently, the output x coordinate should not depend on the input y, and the output y shouldn't depend on the
  * input x.
  *
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 define( require => {
   'use strict';
