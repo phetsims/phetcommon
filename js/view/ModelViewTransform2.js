@@ -75,10 +75,16 @@ define( require => {
 
     viewToModelRay( ray ) { return this.inverseRay2( ray ); }
 
-    // @public @overrides Transform3.invalidate
-    invalidate() {
-      assert && assert( this.matrix.isAligned(), 'ModelViewTransform2 does not support arbitrary rotations.' );
-      super.invalidate();
+    /**
+     * ModelViewTransform2 does not support arbitrary rotations.
+     * @param {Matrix} matrix
+     * @returns {boolean}
+     * @protected
+     * @override
+     */
+    validateMatrix( matrix ) {
+      assert && super.validateMatrix( matrix );
+      assert && assert( matrix.isAligned(), 'matrix must be aligned' );
     }
 
     /*---------------------------------------------------------------------------*
