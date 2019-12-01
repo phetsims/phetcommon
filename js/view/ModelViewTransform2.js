@@ -75,16 +75,28 @@ define( require => {
 
     viewToModelRay( ray ) { return this.inverseRay2( ray ); }
 
-    /**
-     * ModelViewTransform2 does not support arbitrary rotations.
-     * @param {Matrix} matrix
-     * @returns {boolean}
-     * @protected
-     * @override
-     */
+    // @overrides ModelViewTransform2 does not support arbitrary rotations.
     validateMatrix( matrix ) {
-      assert && super.validateMatrix( matrix );
+      super.validateMatrix( matrix );
       assert && assert( matrix.isAligned(), 'matrix must be aligned' );
+    }
+
+    /*---------------------------------------------------------------------------*
+     * Mutators
+     *----------------------------------------------------------------------------*/
+
+    /**
+     * See ModelViewTransform2.createRectangleMapping
+     * @param {Bounds2} modelBounds
+     * @param {Bounds2} viewBounds
+     */
+    setToRectangleMapping( modelBounds, viewBounds ) {
+      const m00 = viewBounds.width / modelBounds.width;
+      const m02 = viewBounds.x - m00 * modelBounds.x;
+      const m11 = viewBounds.height / modelBounds.height;
+      const m12 = viewBounds.y - m11 * modelBounds.y;
+      this.setMatrix( Matrix3.affine( m00, 0, m02, 0, m11, m12 ) );
+      return this; // for chaining
     }
 
     /*---------------------------------------------------------------------------*
@@ -186,11 +198,7 @@ define( require => {
      * @public
      */
     static createRectangleMapping( modelBounds, viewBounds ) {
-      const m00 = viewBounds.width / modelBounds.width;
-      const m02 = viewBounds.x - m00 * modelBounds.x;
-      const m11 = viewBounds.height / modelBounds.height;
-      const m12 = viewBounds.y - m11 * modelBounds.y;
-      return new ModelViewTransform2( Matrix3.affine( m00, 0, m02, 0, m11, m12 ) );
+      return new ModelViewTransform2().setToRectangleMapping( modelBounds, viewBounds );
     }
 
     /**
