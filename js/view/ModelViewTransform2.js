@@ -82,7 +82,8 @@ define( require => {
     }
 
     /*---------------------------------------------------------------------------*
-     * Mutators
+     * Mutators.  Like its parent class, ModelViewTransform2 is mutable, and
+     * sends out notifications when changed.
      *----------------------------------------------------------------------------*/
 
     /**
