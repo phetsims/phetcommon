@@ -89,12 +89,30 @@ define( require => {
      * See ModelViewTransform2.createRectangleMapping
      * @param {Bounds2} modelBounds
      * @param {Bounds2} viewBounds
+     * @public
      */
     setToRectangleMapping( modelBounds, viewBounds ) {
       const m00 = viewBounds.width / modelBounds.width;
       const m02 = viewBounds.x - m00 * modelBounds.x;
       const m11 = viewBounds.height / modelBounds.height;
       const m12 = viewBounds.y - m11 * modelBounds.y;
+      this.setMatrix( Matrix3.affine( m00, 0, m02, 0, m11, m12 ) );
+      return this; // for chaining
+    }
+
+    /**
+     * See ModelViewTransform2.createRectangleInvertedYMapping
+     * @param {Bounds2} modelBounds
+     * @param {Bounds2} viewBounds
+     * @public
+     */
+    setToRectangleInvertedYMapping( modelBounds, viewBounds ) {
+      const m00 = viewBounds.width / modelBounds.width;
+      const m02 = viewBounds.x - m00 * modelBounds.x;
+      const m11 = -viewBounds.height / modelBounds.height;
+
+      // vY == (mY + mHeight) * m11 + m12
+      const m12 = viewBounds.y - m11 * modelBounds.getMaxY();
       this.setMatrix( Matrix3.affine( m00, 0, m02, 0, m11, m12 ) );
       return this; // for chaining
     }
@@ -213,13 +231,7 @@ define( require => {
      * @public
      */
     static createRectangleInvertedYMapping( modelBounds, viewBounds ) {
-      const m00 = viewBounds.width / modelBounds.width;
-      const m02 = viewBounds.x - m00 * modelBounds.x;
-      const m11 = -viewBounds.height / modelBounds.height;
-
-      // vY == (mY + mHeight) * m11 + m12
-      const m12 = viewBounds.y - m11 * modelBounds.getMaxY();
-      return new ModelViewTransform2( Matrix3.affine( m00, 0, m02, 0, m11, m12 ) );
+      return new ModelViewTransform2().setToRectangleInvertedYMapping( modelBounds, viewBounds );
     }
   }
 
