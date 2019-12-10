@@ -47,7 +47,7 @@
     // Checks to see if this sim is embedded - phetsims/chipper#50
     loadType = 'embedded';
   }
-  // TODO Add additional conditions for tracking hits from the installer, etc.
+  // TODO Add additional conditions for tracking hits from the installer, etc. See https://github.com/phetsims/phetcommon/issues/49
   else {
     loadType = 'default';
   }
