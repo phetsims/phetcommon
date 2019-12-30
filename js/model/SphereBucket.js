@@ -20,7 +20,7 @@ define( require => {
   const phetcommon = require( 'PHETCOMMON/phetcommon' );
   const SphereBucketIO = require( 'PHETCOMMON/model/SphereBucketIO' );
   const Tandem = require( 'TANDEM/Tandem' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
   const Vector2 = require( 'DOT/Vector2' );
 
   /**
@@ -198,7 +198,7 @@ define( require => {
 
     // @private
     getLayerForYPosition: function( yPosition ) {
-      return Math.abs( Util.roundSymmetric( ( yPosition - ( this.position.y + this._verticalParticleOffset ) ) / ( this._sphereRadius * 2 * 0.866 ) ) );
+      return Math.abs( Utils.roundSymmetric( ( yPosition - ( this.position.y + this._verticalParticleOffset ) ) / ( this._sphereRadius * 2 * 0.866 ) ) );
     },
 
     /*

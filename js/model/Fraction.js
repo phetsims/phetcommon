@@ -17,7 +17,7 @@ define( require => {
   // modules
   const inherit = require( 'PHET_CORE/inherit' );
   const phetcommon = require( 'PHETCOMMON/phetcommon' );
-  const Util = require( 'DOT/Util' );
+  const Utils = require( 'DOT/Utils' );
 
   /**
    * @param {number} numerator - must be an integer
@@ -26,8 +26,8 @@ define( require => {
    */
   function Fraction( numerator, denominator ) {
 
-    assert && assert( Util.isInteger( numerator ), 'numerator must be an integer: ' + numerator );
-    assert && assert( Util.isInteger( denominator ), 'denominator must be an integer: ' + denominator );
+    assert && assert( Utils.isInteger( numerator ), 'numerator must be an integer: ' + numerator );
+    assert && assert( Utils.isInteger( denominator ), 'denominator must be an integer: ' + denominator );
 
     // @private use set/get so that values are verified to be integers
     this._numerator = numerator;
@@ -44,7 +44,7 @@ define( require => {
      * @public
      */
     set numerator( value ) {
-      assert && assert( Util.isInteger( value ), 'numerator must be an integer: ' + value );
+      assert && assert( Utils.isInteger( value ), 'numerator must be an integer: ' + value );
       this._numerator = value;
     },
 
@@ -61,7 +61,7 @@ define( require => {
      * @public
      */
     set denominator( value ) {
-      assert && assert( Util.isInteger( value ), 'denominator must be an integer: ' + value );
+      assert && assert( Utils.isInteger( value ), 'denominator must be an integer: ' + value );
       this._denominator = value;
     },
 
@@ -103,9 +103,9 @@ define( require => {
      * @public
      */
     reduce: function() {
-      const gcd = Util.gcd( this.numerator, this.denominator );
-      this.numerator = ( gcd === 0 ) ? 0 : Util.roundSymmetric( this.numerator / gcd );
-      this.denominator = ( gcd === 0 ) ? 0 : Util.roundSymmetric( this.denominator / gcd );
+      const gcd = Utils.gcd( this.numerator, this.denominator );
+      this.numerator = ( gcd === 0 ) ? 0 : Utils.roundSymmetric( this.numerator / gcd );
+      this.denominator = ( gcd === 0 ) ? 0 : Utils.roundSymmetric( this.denominator / gcd );
       return this;
     },
 
@@ -123,7 +123,7 @@ define( require => {
      * @returns {boolean}
      */
     isReduced: function() {
-      return Util.gcd( this.numerator, this.denominator ) === 1;
+      return Utils.gcd( this.numerator, this.denominator ) === 1;
     },
 
     /**
@@ -155,11 +155,11 @@ define( require => {
 
     /**
      * Gets the sign of the value.
-     * @returns {number} see Util.sign
+     * @returns {number} see Utils.sign
      * @public
      */
     get sign() {
-      return Util.sign( this.getValue() );
+      return Utils.sign( this.getValue() );
     },
 
     /**
@@ -194,14 +194,14 @@ define( require => {
      * @public
      */
     setToSum: function( numerator1, denominator1, numerator2, denominator2 ) {
-      assert && assert( Util.isInteger( numerator1 ), 'numerator1 must be an integer' );
-      assert && assert( Util.isInteger( denominator1 ), 'denominator1 must be an integer' );
-      assert && assert( Util.isInteger( numerator2 ), 'numerator2 must be an integer' );
-      assert && assert( Util.isInteger( denominator2 ), 'denominator2 must be an integer' );
+      assert && assert( Utils.isInteger( numerator1 ), 'numerator1 must be an integer' );
+      assert && assert( Utils.isInteger( denominator1 ), 'denominator1 must be an integer' );
+      assert && assert( Utils.isInteger( numerator2 ), 'numerator2 must be an integer' );
+      assert && assert( Utils.isInteger( denominator2 ), 'denominator2 must be an integer' );
 
-      const lcm = Util.lcm( denominator1, denominator2 );
-      this.numerator = Util.roundSymmetric( numerator1 * lcm / denominator1 ) +
-                       Util.roundSymmetric( numerator2 * lcm / denominator2 );
+      const lcm = Utils.lcm( denominator1, denominator2 );
+      this.numerator = Utils.roundSymmetric( numerator1 * lcm / denominator1 ) +
+                       Utils.roundSymmetric( numerator2 * lcm / denominator2 );
       this.denominator = lcm;
       return this;
     },
@@ -315,7 +315,7 @@ define( require => {
      * @public
      */
     plusInteger: function( value ) {
-      assert && assert( Util.isInteger( value ), 'value is not an integer: ' + value );
+      assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
       return new Fraction( this.numerator + ( value * this.denominator ), this.denominator );
     },
 
@@ -328,7 +328,7 @@ define( require => {
      * @public
      */
     minusInteger: function( value ) {
-      assert && assert( Util.isInteger( value ), 'value is not an integer: ' + value );
+      assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
       return new Fraction( this.numerator - ( value * this.denominator ), this.denominator );
     },
 
@@ -341,7 +341,7 @@ define( require => {
      * @public
      */
     timesInteger: function( value ) {
-      assert && assert( Util.isInteger( value ), 'value is not an integer: ' + value );
+      assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
       return new Fraction( this.numerator * value, this.denominator );
     },
 
@@ -355,7 +355,7 @@ define( require => {
      * @public
      */
     dividedInteger: function( value ) {
-      assert && assert( Util.isInteger( value ), 'value is not an integer: ' + value );
+      assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
       return new Fraction( this.numerator, this.denominator * value );
     }
   }, {
