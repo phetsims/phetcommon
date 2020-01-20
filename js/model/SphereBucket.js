@@ -57,13 +57,13 @@ define( require => {
 
     // @public
     addParticleFirstOpen: function( particle, animate ) {
-      particle.destinationProperty.set( this.getFirstOpenLocation() );
+      particle.destinationProperty.set( this.getFirstOpenPosition() );
       this.addParticle( particle, animate );
     },
 
     // @public
     addParticleNearestOpen: function( particle, animate ) {
-      particle.destinationProperty.set( this.getNearestOpenLocation( particle.destinationProperty.get() ) );
+      particle.destinationProperty.set( this.getNearestOpenPosition() );
       this.addParticle( particle, animate );
     },
 
@@ -111,11 +111,11 @@ define( require => {
     },
 
     // @public
-    extractClosestParticle: function( location ) {
+    extractClosestParticle: function( position ) {
       let closestParticle = null;
       this._particles.forEach( function( particle ) {
         if ( closestParticle === null ||
-             closestParticle.positionProperty.get().distance( location ) > particle.positionProperty.get().distance( location ) ) {
+             closestParticle.positionProperty.get().distance( position ) > particle.positionProperty.get().distance( position ) ) {
           closestParticle = particle;
         }
       } );
@@ -157,8 +157,8 @@ define( require => {
     },
 
     // @private
-    getFirstOpenLocation: function() {
-      let openLocation = Vector2.ZERO;
+    getFirstOpenPosition: function() {
+      let openPosition = Vector2.ZERO;
       const usableWidth = this.size.width * this._usableWidthProportion - 2 * this._sphereRadius;
       let offsetFromBucketEdge = ( this.size.width - usableWidth ) / 2 + this._sphereRadius;
       let numParticlesInLayer = Math.floor( usableWidth / ( this._sphereRadius * 2 ) );
@@ -166,11 +166,11 @@ define( require => {
       let positionInLayer = 0;
       let found = false;
       while ( !found ) {
-        const testLocation = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this._sphereRadius,
+        const testPosition = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this._sphereRadius,
           this.getYPositionForLayer( row ) );
-        if ( this.isPositionOpen( testLocation ) ) {
-          // We found a location that is open.
-          openLocation = testLocation;
+        if ( this.isPositionOpen( testPosition ) ) {
+          // We found a position that is open.
+          openPosition = testPosition;
           found = true;
         }
         else {
@@ -193,7 +193,7 @@ define( require => {
           }
         }
       }
-      return openLocation;
+      return openPosition;
     },
 
     // @private
@@ -202,13 +202,12 @@ define( require => {
     },
 
     /*
-     * Get the nearest open location to the provided current location.  This is used for particle stacking.
+     * Get the nearest open position to the highest occupied layer.  This is used for particle stacking.
      *
-     * @param {Vector2} position
      * @returns {Vector2}
      * @private
      */
-    getNearestOpenLocation: function( position ) {
+    getNearestOpenPosition: function() {
       // Determine the highest occupied layer.  The bottom layer is 0.
       let highestOccupiedLayer = 0;
       const self = this;
@@ -219,8 +218,8 @@ define( require => {
         }
       } );
 
-      // Make a list of all open locations in the occupied layers.
-      const openLocations = [];
+      // Make a list of all open positions in the occupied layers.
+      const openPositions = [];
       const usableWidth = this.size.width * this._usableWidthProportion - 2 * this._sphereRadius;
       let offsetFromBucketEdge = ( this.size.width - usableWidth ) / 2 + this._sphereRadius;
       let numParticlesInLayer = Math.floor( usableWidth / ( this._sphereRadius * 2 ) );
@@ -228,16 +227,16 @@ define( require => {
       // Loop, searching for open positions in the particle stack.
       for ( let layer = 0; layer <= highestOccupiedLayer + 1; layer++ ) {
 
-        // Add all open locations in the current layer.
+        // Add all open positions in the current layer.
         for ( let positionInLayer = 0; positionInLayer < numParticlesInLayer; positionInLayer++ ) {
           const testPosition = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this._sphereRadius,
             this.getYPositionForLayer( layer ) );
           if ( this.isPositionOpen( testPosition ) ) {
 
-            // We found a location that is unoccupied.
+            // We found a position that is unoccupied.
             if ( layer === 0 || this.countSupportingParticles( testPosition ) === 2 ) {
-              // This is a valid open location.
-              openLocations.push( testPosition );
+              // This is a valid open position.
+              openPositions.push( testPosition );
             }
           }
         }
@@ -247,8 +246,8 @@ define( require => {
         offsetFromBucketEdge += this._sphereRadius;
         if ( numParticlesInLayer === 0 ) {
           // If the stacking pyramid is full, meaning that there are
-          // no locations that are open within it, this algorithm
-          // classifies the locations directly above the top of the
+          // no positions that are open within it, this algorithm
+          // classifies the positions directly above the top of the
           // pyramid as being open.  This would result in a stack
           // of particles with a pyramid base.  So far, this hasn't
           // been a problem, but this limitation may limit
@@ -258,19 +257,19 @@ define( require => {
         }
       }
 
-      // Find the closest open location to the provided current location.
+      // Find the closest open position to the provided current position.
       // Only the X-component is used for this determination, because if
       // the Y-component is used the particles often appear to fall sideways
       // when released above the bucket, which just looks weird.
-      let closestOpenLocation = openLocations[ 0 ] || Vector2.ZERO;
+      let closestOpenPosition = openPositions[ 0 ] || Vector2.ZERO;
 
-      _.each( openLocations, function( location ) {
-        if ( location.distance( position ) < closestOpenLocation.distance( position ) ) {
-          // This location is closer.
-          closestOpenLocation = location;
+      _.each( openPositions, function( position ) {
+        if ( position.distance( position ) < closestOpenPosition.distance( position ) ) {
+          // This position is closer.
+          closestOpenPosition = position;
         }
       } );
-      return closestOpenLocation;
+      return closestOpenPosition;
     },
 
     // @private
@@ -310,7 +309,7 @@ define( require => {
           particleMoved = false;
           const particle = this._particles[ i ];
           if ( this.isDangling( particle ) ) {
-            particle.destinationProperty.set( this.getNearestOpenLocation( particle.destinationProperty.get() ) );
+            particle.destinationProperty.set( this.getNearestOpenPosition() );
             particleMoved = true;
             break;
           }
