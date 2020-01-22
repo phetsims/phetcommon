@@ -1,4 +1,4 @@
-// Copyright 2016, University of Colorado Boulder
+// Copyright 2016-2020, University of Colorado Boulder
 
 define( require => {
 
