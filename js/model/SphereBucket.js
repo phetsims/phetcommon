@@ -24,7 +24,7 @@ define( require => {
   const Vector2 = require( 'DOT/Vector2' );
 
   /**
-   * @param {Object} options
+   * @param {Object} [options]
    * @constructor
    */
   function SphereBucket( options ) {
