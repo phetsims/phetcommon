@@ -14,9 +14,6 @@ define( require => {
   const phetcommon = require( 'PHETCOMMON/phetcommon' );
   const validate = require( 'AXON/validate' );
 
-  // ifphetio
-  const phetioEngine = require( 'ifphetio!PHET_IO/phetioEngine' );
-
   class SphereBucketIO extends ObjectIO {
 
     /**
@@ -33,7 +30,7 @@ define( require => {
      * @returns {Particle[]}
      */
     static fromStateObject( stateArray ) {
-      return stateArray.map( function( tandemID ) { return phetioEngine.getPhetioObject( tandemID ); } );
+      return stateArray.map( function( tandemID ) { return phet.phetIo.phetioEngine.getPhetioObject( tandemID ); } );
     }
 
     /**
