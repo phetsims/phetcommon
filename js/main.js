@@ -1,15 +1,11 @@
 // Copyright 2016-2020, University of Colorado Boulder
 
-define( require => {
 
-  'use strict';
+import './model/Bucket.js';
+import './model/Fraction.js';
+import './model/SphereBucket.js';
+import phetcommon from './phetcommon.js';
+import './util/StringUtils.js';
+import './view/ModelViewTransform2.js';
 
-  const phetcommon = require( 'PHETCOMMON/phetcommon' );
-
-  require( 'PHETCOMMON/model/Bucket' );
-  require( 'PHETCOMMON/model/Fraction' );
-  require( 'PHETCOMMON/model/SphereBucket' );
-  require( 'PHETCOMMON/util/StringUtils' );
-  require( 'PHETCOMMON/view/ModelViewTransform2' );
-  return phetcommon;
-} );
+export default phetcommon;

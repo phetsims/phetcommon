@@ -1,3 +1,4 @@
+
 // Copyright 2016-2019, University of Colorado Boulder
 
 require.config( {
