@@ -60,7 +60,7 @@ inherit( Bucket, SphereBucket, {
 
   // @public
   addParticleNearestOpen: function( particle, animate ) {
-    particle.destinationProperty.set( this.getNearestOpenPosition() );
+    particle.destinationProperty.set( this.getNearestOpenPosition( particle.destinationProperty.get() ) );
     this.addParticle( particle, animate );
   },
 
@@ -201,10 +201,11 @@ inherit( Bucket, SphereBucket, {
   /*
    * Get the nearest open position to the highest occupied layer.  This is used for particle stacking.
    *
+   * @param {Vector2} position
    * @returns {Vector2}
    * @private
    */
-  getNearestOpenPosition: function() {
+  getNearestOpenPosition: function( position ) {
     // Determine the highest occupied layer.  The bottom layer is 0.
     let highestOccupiedLayer = 0;
     const self = this;
@@ -260,10 +261,10 @@ inherit( Bucket, SphereBucket, {
     // when released above the bucket, which just looks weird.
     let closestOpenPosition = openPositions[ 0 ] || Vector2.ZERO;
 
-    _.each( openPositions, function( position ) {
-      if ( position.distance( position ) < closestOpenPosition.distance( position ) ) {
-        // This position is closer.
-        closestOpenPosition = position;
+    _.each( openPositions, function( openPosition ) {
+      if ( openPosition.distance( position ) < closestOpenPosition.distance( position ) ) {
+        // This openPosition is closer.
+        closestOpenPosition = openPosition;
       }
     } );
     return closestOpenPosition;
@@ -306,15 +307,13 @@ inherit( Bucket, SphereBucket, {
         particleMoved = false;
         const particle = this._particles[ i ];
         if ( this.isDangling( particle ) ) {
-          particle.destinationProperty.set( this.getNearestOpenPosition() );
+          particle.destinationProperty.set( this.getNearestOpenPosition( particle.destinationProperty.get() ) );
           particleMoved = true;
           break;
         }
       }
     } while ( particleMoved );
   }
-
 } );
-
 
 export default SphereBucket;
