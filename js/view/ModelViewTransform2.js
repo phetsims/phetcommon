@@ -120,7 +120,7 @@ class ModelViewTransform2 extends Transform3 {
    *----------------------------------------------------------------------------*/
 
   /**
-   * Creates a ModelViewTransform that uses the identity transform (i.e. model coordinates are the same as view coordinates)
+   * Creates a ModelViewTransform2 that uses the identity transform (i.e. model coordinates are the same as view coordinates)
    * @returns {ModelViewTransform2}
    * @public
    */
@@ -129,7 +129,7 @@ class ModelViewTransform2 extends Transform3 {
   }
 
   /**
-   * Creates a ModelViewTransform that has the specified scale and offset such that
+   * Creates a ModelViewTransform2 that has the specified scale and offset such that
    * view = model * scale + offset
    *
    * @param offset {Vector2} the offset in view coordinates
@@ -142,7 +142,7 @@ class ModelViewTransform2 extends Transform3 {
   }
 
   /**
-   * Creates a shearless ModelViewTransform that has the specified scale and offset such that
+   * Creates a shearless ModelViewTransform2 that has the specified scale and offset such that
    * view.x = model.x * xScale + offset.x
    * view.y = model.y * yScale + offset.y
    *
@@ -157,7 +157,7 @@ class ModelViewTransform2 extends Transform3 {
   }
 
   /**
-   * Creates a shearless ModelViewTransform that maps the specified model point to the specified view point, with the given x and y scales.
+   * Creates a shearless ModelViewTransform2 that maps the specified model point to the specified view point, with the given x and y scales.
    *
    * @param modelPoint {Vector2} the reference point in the model which maps to the specified view point
    * @param viewPoint  {Vector2} the reference point in the view
@@ -176,7 +176,7 @@ class ModelViewTransform2 extends Transform3 {
   }
 
   /**
-   * Creates a shearless ModelViewTransform that maps the specified model point to the specified view point, with the given scale factor for both x and y dimensions.
+   * Creates a shearless ModelViewTransform2 that maps the specified model point to the specified view point, with the given scale factor for both x and y dimensions.
    *
    * @param modelPoint {Vector2} the reference point in the model which maps to the specified view point
    * @param viewPoint  {Vector2} the reference point in the view
@@ -189,7 +189,7 @@ class ModelViewTransform2 extends Transform3 {
   }
 
   /**
-   * Creates a shearless ModelViewTransform that maps the specified model point to the specified view point, with the given scale factor for both x and y dimensions,
+   * Creates a shearless ModelViewTransform2 that maps the specified model point to the specified view point, with the given scale factor for both x and y dimensions,
    * but inverting the y axis so that +y in the model corresponds to -y in the view.
    * Inverting the y axis is commonly necessary since +y is usually up in textbooks and -y is down in pixel coordinates.
    *
@@ -204,7 +204,7 @@ class ModelViewTransform2 extends Transform3 {
   }
 
   /**
-   * Creates a shearless ModelViewTransform that maps the specified rectangle in the model to the specified rectangle in the view,
+   * Creates a shearless ModelViewTransform2 that maps the specified rectangle in the model to the specified rectangle in the view,
    * so that any point x% of the way across and y% down in the model rectangle will be mapped to the corresponding point x% across and y% down in the view rectangle.
    * Linear extrapolation is performed outside of the rectangle bounds.
    *
@@ -218,7 +218,7 @@ class ModelViewTransform2 extends Transform3 {
   }
 
   /**
-   * Creates a shearless ModelViewTransform that maps the specified rectangle in the model to the specified rectangle in the view,
+   * Creates a shearless ModelViewTransform2 that maps the specified rectangle in the model to the specified rectangle in the view,
    * so that any point x% of the way across and y% down in the model rectangle will be mapped to the corresponding point x% across and (100-y)% down in the view rectangle.
    * Linear extrapolation is performed outside of the rectangle bounds.
    * Inverting the y axis is commonly necessary since +y is usually up in textbooks and -y is down in pixel coordinates.
