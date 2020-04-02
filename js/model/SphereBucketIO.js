@@ -27,7 +27,7 @@ class SphereBucketIO extends ObjectIO {
    * @returns {Particle[]}
    */
   static fromStateObject( stateArray ) {
-    return stateArray.map( function( tandemID ) { return phet.phetIo.phetioEngine.getPhetioObject( tandemID ); } );
+    return stateArray.map( function( tandemID ) { return phet.phetio.phetioEngine.getPhetioObject( tandemID ); } );
   }
 
   /**
