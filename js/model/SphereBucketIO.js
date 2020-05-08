@@ -16,6 +16,7 @@ class SphereBucketIO extends ObjectIO {
   /**
    * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
    * @param {SphereBucket} sphereBucket
+   * @public
    */
   static toStateObject( sphereBucket ) {
     validate( sphereBucket, this.validator );
@@ -25,6 +26,7 @@ class SphereBucketIO extends ObjectIO {
   /**
    * @param {string[]} stateArray
    * @returns {Particle[]}
+   * @public
    */
   static fromStateObject( stateArray ) {
     return stateArray.map( function( tandemID ) { return phet.phetio.phetioEngine.getPhetioObject( tandemID ); } );
@@ -33,6 +35,7 @@ class SphereBucketIO extends ObjectIO {
   /**
    * @param {SphereBucket} sphereBucket
    * @param {Particle[]} fromStateObject
+   * @public
    */
   static setValue( sphereBucket, fromStateObject ) {
     validate( sphereBucket, this.validator );

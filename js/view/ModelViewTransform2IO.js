@@ -18,6 +18,8 @@ class ModelViewTransform2IO extends ObjectIO {
    * Encodes a ModelViewTransform2 instance to a state.
    * @param {ModelViewTransform2} modelViewTransform2
    * @returns {Object}
+   * @override
+   * @public
    */
   static toStateObject( modelViewTransform2 ) {
     validate( modelViewTransform2, this.validator );
@@ -30,6 +32,8 @@ class ModelViewTransform2IO extends ObjectIO {
    * Decodes a state into a ModelViewTransform2.
    * @param {Object} stateObject
    * @returns {ModelViewTransform2}
+   * @override
+   * @public
    */
   static fromStateObject( stateObject ) {
     const matrix = Matrix3IO.fromStateObject( stateObject.matrix );

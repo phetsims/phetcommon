@@ -21,58 +21,79 @@ class ModelViewTransform2 extends Transform3 {
   // @public convenience model => view
   modelToViewPosition( point ) { return this.transformPosition2( point ); }
 
+  // @public
   modelToViewXY( x, y ) { return new Vector2( this.modelToViewX( x ), this.modelToViewY( y ) ); }
 
+  // @public
   modelToViewX( x ) { return this.matrix.m00() * x + this.matrix.m02();}
 
+  // @public
   modelToViewY( y ) { return this.matrix.m11() * y + this.matrix.m12();}
 
+  // @public
   modelToViewDelta( vector ) { return this.transformDelta2( vector ); }
 
+  // @public
   modelToViewNormal( normal ) { return this.transformNormal2( normal ); }
 
+  // @public
   modelToViewDeltaX( x ) { return this.transformDeltaX( x ); }
 
+  // @public
   modelToViewDeltaY( y ) { return this.transformDeltaY( y ); }
 
+  // @public
   modelToViewBounds( bounds ) { return this.transformBounds2( bounds ); }
 
+  // @public
   modelToViewShape( shape ) { return this.transformShape( shape ); }
 
+  // @public
   modelToViewRay( ray ) { return this.transformRay2( ray ); }
 
   // @public convenience view => model
   viewToModelPosition( point ) { return this.inversePosition2( point ); }
 
+  // @public
   viewToModelXY( x, y ) { return new Vector2( this.viewToModelX( x ), this.viewToModelY( y ) ); }
 
+  // @public
   viewToModelX( x ) {
     const inverse = this.getInverse();
     return inverse.m00() * x + inverse.m02();
   }
 
+  // @public
   viewToModelY( y ) {
     const inverse = this.getInverse();
     return inverse.m11() * y + inverse.m12();
   }
 
+  // @public
   viewToModelDelta( vector ) { return this.inverseDelta2( vector ); }
 
+  // @public
   viewToModelDeltaXY( x, y ) { return new Vector2( this.viewToModelDeltaX( x ), this.viewToModelDeltaY( y ) ); }
 
+  // @public
   viewToModelNormal( normal ) { return this.inverseNormal2( normal ); }
 
+  // @public
   viewToModelDeltaX( x ) { return this.inverseDeltaX( x ); }
 
+  // @public
   viewToModelDeltaY( y ) { return this.inverseDeltaY( y ); }
 
+  // @public
   viewToModelBounds( bounds ) { return this.inverseBounds2( bounds ); }
 
+  // @public
   viewToModelShape( shape ) { return this.inverseShape( shape ); }
 
+  // @public
   viewToModelRay( ray ) { return this.inverseRay2( ray ); }
 
-  // @overrides ModelViewTransform2 does not support arbitrary rotations.
+  // @public @overrides ModelViewTransform2 does not support arbitrary rotations.
   validateMatrix( matrix ) {
     super.validateMatrix( matrix );
     assert && assert( matrix.isAligned(), 'matrix must be aligned' );
