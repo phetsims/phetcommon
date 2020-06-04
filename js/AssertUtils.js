@@ -31,7 +31,7 @@ const AssertUtils = {
   /**
    * Asserts that a value is a Property, whose value is a specified type.
    * @param {Property} property
-   * @param {constructor|string} type - object type (constructor) or primitive type (string)
+   * @param {string|constructor} type - primitive type (string) or object type (constructor)
    * @public
    */
   assertPropertyOf( property, type ) {
@@ -95,7 +95,7 @@ const AssertUtils = {
   /**
    * Asserts that a value is an Array, with elements of a specific type.
    * @param {Array} array
-   * @param {constructor|string} type
+   * @param {string|constructor} type - primitive type (string) or object type (constructor)
    */
   assertArrayOf( array, type ) {
     if ( typeof type === 'string' ) {
@@ -109,7 +109,7 @@ const AssertUtils = {
   /**
    * Asserts that a value is an ObservableArray, with elements of a specific type.
    * @param {ObservableArray} observableArray
-   * @param {constructor|string} type
+   * @param {string|constructor} type - primitive type (string) or object type (constructor)
    */
   assertObservableArrayOf( observableArray, type ) {
     assert && assert( observableArray instanceof ObservableArray, 'array is not an ObservableArray' );
