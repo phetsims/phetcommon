@@ -76,7 +76,7 @@ const AssertUtils = {
    */
   assertRangeBetween( range, min, max ) {
     assert && assert( range instanceof Range, 'invalid range' );
-    assert && assert( range.min >= min && range.max <= max, `invalid range: ${range}` );
+    assert && assert( range.min >= min && range.max <= max, `range exceeds limits: ${range}` );
   },
 
   /**
