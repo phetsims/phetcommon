@@ -5,7 +5,7 @@
  * type-checking, useful in a weakly-typed language like JavaScript.
  *
  * To minimize performance impact, these methods should generally be called after testing for the presence of assert,
- * for example: assert && assertPropertyOf( someProperty, 'number' );
+ * for example: assert && AssertUtils.assertPropertyOf( someProperty, 'number' );
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
