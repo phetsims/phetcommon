@@ -4,6 +4,9 @@
  * AssertUtils is a collection of utility functions for common assertions. Many of these assertions are related to
  * type-checking, useful in a weakly-typed language like JavaScript.
  *
+ * To minimize performance impact, these methods should generally be called after testing for the presence of assert,
+ * for example: assert && assertPropertyOf( someProperty, 'number' );
+ *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
@@ -22,9 +25,9 @@ const AssertUtils = {
    * @public
    */
   assertProperty( property, predicate ) {
-    assert( property instanceof Property, 'property is not a Property' );
+    assert && assert( property instanceof Property, 'property is not a Property' );
     if ( predicate ) {
-      assert( predicate( property.value ), 'Property.value failed predicate' );
+      assert && assert( predicate( property.value ), 'Property.value failed predicate' );
     }
   },
 
@@ -36,10 +39,10 @@ const AssertUtils = {
    */
   assertPropertyOf( property, type ) {
     if ( typeof type === 'string' ) {
-      AssertUtils.assertProperty( property, value => typeof value === type );
+      assert && AssertUtils.assertProperty( property, value => typeof value === type );
     }
     else {
-      AssertUtils.assertProperty( property, value => value instanceof type );
+      assert && AssertUtils.assertProperty( property, value => value instanceof type );
     }
   },
 
@@ -64,7 +67,7 @@ const AssertUtils = {
    * @public
    */
   assertPositiveInteger( value ) {
-    AssertUtils.assertInteger( value, value => value > 0 );
+    assert && AssertUtils.assertInteger( value, value => value > 0 );
   },
 
   /**
@@ -88,7 +91,7 @@ const AssertUtils = {
   assertArray( array, predicate ) {
     assert && assert( Array.isArray( array ), 'array is not an Array' );
     if ( predicate ) {
-      assert( predicate( array ), 'array failed predicate' );
+      assert && assert( predicate( array ), 'array failed predicate' );
     }
   },
 
@@ -96,6 +99,7 @@ const AssertUtils = {
    * Asserts that a value is an Array, with elements of a specific type.
    * @param {Array} array
    * @param {string|constructor} type - primitive type (string) or object type (constructor)
+   * @public
    */
   assertArrayOf( array, type ) {
     if ( typeof type === 'string' ) {
@@ -110,6 +114,7 @@ const AssertUtils = {
    * Asserts that a value is an ObservableArray, with elements of a specific type.
    * @param {ObservableArray} observableArray
    * @param {string|constructor} type - primitive type (string) or object type (constructor)
+   * @public
    */
   assertObservableArrayOf( observableArray, type ) {
     assert && assert( observableArray instanceof ObservableArray, 'array is not an ObservableArray' );
