@@ -71,7 +71,7 @@ const AssertUtils = {
   },
 
   /**
-   * Asserts that a value is a Range, whose value is between min and max, inclusive.
+   * Asserts that a value is a Range, whose value is between min and max inclusive.
    * @param {Range} range
    * @param {number} min
    * @param {number} max
