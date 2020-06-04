@@ -11,7 +11,7 @@ import ObservableArray from '../../axon/js/ObservableArray.js';
 import Property from '../../axon/js/Property.js';
 import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
-import naturalSelection from '../../natural-selection/js/naturalSelection.js';
+import phetcommon from '../../phetcommon/js/phetcommon.js';
 
 const AssertUtils = {
 
@@ -107,5 +107,5 @@ const AssertUtils = {
   }
 };
 
-naturalSelection.register( 'AssertUtils', AssertUtils );
+phetcommon.register( 'AssertUtils', AssertUtils );
 export default AssertUtils;
