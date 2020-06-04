@@ -29,7 +29,7 @@ const AssertUtils = {
   },
 
   /**
-   * Asserts that a value is a Property, whose value is a specified primitive type.
+   * Asserts that a value is a Property, whose value is a specified type.
    * @param {Property} property
    * @param {constructor|string} type
    * @public
