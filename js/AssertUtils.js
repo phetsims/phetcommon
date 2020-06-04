@@ -46,7 +46,7 @@ const AssertUtils = {
   /**
    * Asserts that a value is an integer that satisfies an optional predicate.
    * @param {number} value
-   * @param {function(number):boolean} [predicate]
+   * @param {function(value:number):boolean} [predicate]
    * @returns {boolean}
    * @public
    */
@@ -80,19 +80,29 @@ const AssertUtils = {
   },
 
   /**
+   * Asserts that a value is an Array, whose elements satisfy an optional predicate.
+   * @param {Array} array
+   * @param {function(array:Array):boolean} [predicate]
+   * @public
+   */
+  assertArray( array, predicate ) {
+    assert && assert( Array.isArray( array ), 'array is not an Array' );
+    if ( predicate ) {
+      assert( predicate( array ), 'array failed predicate' );
+    }
+  },
+
+  /**
    * Asserts that a value is an Array, with elements of a specific type.
    * @param {Array} array
    * @param {constructor|string} type
    */
   assertArrayOf( array, type ) {
-    assert && assert( Array.isArray( array ), 'array is not an Array' );
-    if ( assert ) {
-      if ( typeof type === 'string' ) {
-        assert && assert( _.every( array, element => typeof element === type ), 'array contains an invalid element' );
-      }
-      else {
-        assert && assert( _.every( array, element => element instanceof type ), 'array contains an invalid element' );
-      }
+    if ( typeof type === 'string' ) {
+      assert && AssertUtils.assertArray( array, array => _.every( array, element => typeof element === type ) );
+    }
+    else {
+      assert && AssertUtils.assertArray( array, array => _.every( array, element => element instanceof type ) );
     }
   },
 
