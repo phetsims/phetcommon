@@ -10,6 +10,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
+import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import ObservableArray from '../../axon/js/ObservableArray.js';
 import Property from '../../axon/js/Property.js';
 import Range from '../../dot/js/Range.js';
@@ -119,6 +120,16 @@ const AssertUtils = {
   assertObservableArrayOf( observableArray, type ) {
     assert && assert( observableArray instanceof ObservableArray, 'array is not an ObservableArray' );
     assert && AssertUtils.assertArrayOf( observableArray.getArray(), type );
+  },
+
+  /**
+   * Asserts that a value is an EnumerationProperty, whose values are a specific type of Enumeration.
+   * @param {EnumerationProperty} enumerationProperty
+   * @param {Enumeration} enumeration
+   */
+  assertEnumerationPropertyOf( enumerationProperty, enumeration ) {
+    assert && assert( enumerationProperty instanceof EnumerationProperty, 'invalid enumerationProperty' );
+    assert && assert( enumerationProperty.enumeration === enumeration, 'invalid enumeration' );
   }
 };
 
