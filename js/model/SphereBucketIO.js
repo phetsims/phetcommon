@@ -37,7 +37,7 @@ class SphereBucketIO extends ObjectIO {
    * @param {Particle[]} fromStateObject
    * @public
    */
-  static setValue( sphereBucket, fromStateObject ) {
+  static applyState( sphereBucket, fromStateObject ) {
     validate( sphereBucket, this.validator );
 
     // remove all the particles from the observable arrays
