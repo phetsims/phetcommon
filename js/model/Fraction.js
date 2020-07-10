@@ -152,11 +152,11 @@ inherit( Object, Fraction, {
 
   /**
    * Gets the sign of the value.
-   * @returns {number} see Utils.sign
+   * @returns {number} see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sign
    * @public
    */
   get sign() {
-    return Utils.sign( this.getValue() );
+    return Math.sign( this.getValue() );
   },
 
   /**
