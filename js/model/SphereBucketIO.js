@@ -24,12 +24,12 @@ class SphereBucketIO extends ObjectIO {
   }
 
   /**
-   * @param {string[]} stateArray
+   * @param {string[]} stateObject
    * @returns {Particle[]}
    * @public
    */
-  static fromStateObject( stateArray ) {
-    return stateArray.map( function( tandemID ) { return phet.phetio.phetioEngine.getPhetioObject( tandemID ); } );
+  static fromStateObject( stateObject ) {
+    return stateObject.map( tandemID => phet.phetio.phetioEngine.getPhetioObject( tandemID ) );
   }
 
   /**
