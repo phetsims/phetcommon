@@ -27,6 +27,7 @@ var StringUtils = {
    * @param {string} pattern pattern string, with N placeholders, where N is an integer
    * @returns {string}
    * @public
+   * @deprecated - please use StringUtils.fillIn
    */
   format: function( pattern ) {
     const args = arguments;
