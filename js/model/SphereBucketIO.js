@@ -24,27 +24,20 @@ class SphereBucketIO extends ObjectIO {
   }
 
   /**
-   * @param {string[]} stateObject
-   * @returns {Particle[]}
-   * @public
-   */
-  static fromStateObject( stateObject ) {
-    return stateObject.map( tandemID => phet.phetio.phetioEngine.getPhetioObject( tandemID ) );
-  }
-
-  /**
    * @param {SphereBucket} sphereBucket
-   * @param {Particle[]} fromStateObject
+   * @param {Object} stateObject
    * @public
    */
-  static applyState( sphereBucket, fromStateObject ) {
+  static applyState( sphereBucket, stateObject ) {
     validate( sphereBucket, this.validator );
 
     // remove all the particles from the observable arrays
     sphereBucket.reset();
 
+    const particles = stateObject.map( tandemID => phet.phetio.phetioEngine.getPhetioObject( tandemID ) );
+
     // add back the particles
-    fromStateObject.forEach( function( particle ) { sphereBucket.addParticle( particle ); } );
+    particles.forEach( particle => { sphereBucket.addParticle( particle ); } );
   }
 }
 
