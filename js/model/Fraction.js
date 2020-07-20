@@ -13,27 +13,22 @@
  */
 
 import Utils from '../../../dot/js/Utils.js';
-import inherit from '../../../phet-core/js/inherit.js';
-import phetcommon from '../phetcommon.js';
 
-/**
- * @param {number} numerator - must be an integer
- * @param {number} denominator - must be an integer
- * @constructor
- */
-function Fraction( numerator, denominator ) {
+class Fraction {
 
-  assert && assert( Utils.isInteger( numerator ), 'numerator must be an integer: ' + numerator );
-  assert && assert( Utils.isInteger( denominator ), 'denominator must be an integer: ' + denominator );
+  /**
+   * @param {number} numerator - must be an integer
+   * @param {number} denominator - must be an integer
+   */
+  constructor( numerator, denominator ) {
 
-  // @private use set/get so that values are verified to be integers
-  this._numerator = numerator;
-  this._denominator = denominator;
-}
+    assert && assert( Utils.isInteger( numerator ), 'numerator must be an integer: ' + numerator );
+    assert && assert( Utils.isInteger( denominator ), 'denominator must be an integer: ' + denominator );
 
-phetcommon.register( 'Fraction', Fraction );
-
-inherit( Object, Fraction, {
+    // @private use set/get so that values are verified to be integers
+    this._numerator = numerator;
+    this._denominator = denominator;
+  }
 
   /**
    * Sets the numerator, which must be an integer.
@@ -43,14 +38,14 @@ inherit( Object, Fraction, {
   set numerator( value ) {
     assert && assert( Utils.isInteger( value ), 'numerator must be an integer: ' + value );
     this._numerator = value;
-  },
+  }
 
   /**
    * Gets the numerator.
    * @returns {number}
    * @public
    */
-  get numerator() { return this._numerator; },
+  get numerator() { return this._numerator; }
 
   /**
    * Sets the denominator, which must be an integer.
@@ -60,68 +55,70 @@ inherit( Object, Fraction, {
   set denominator( value ) {
     assert && assert( Utils.isInteger( value ), 'denominator must be an integer: ' + value );
     this._denominator = value;
-  },
+  }
 
   /**
    * Gets the denominator.
    * @returns {number}
    * @public
    */
-  get denominator() { return this._denominator; },
+  get denominator() { return this._denominator; }
 
   // @public - Floating-point error is not an issue as long as numerator and denominator are integers < 2^53
-  getValue: function() {
+  getValue() {
     return this.numerator / this.denominator;
-  },
-  get value() { return this.getValue(); },
+  }
+
+  get value() { return this.getValue(); }
 
   /**
    * Does this fraction reduce to an integer value?
    * @returns {boolean}
    * @public
    */
-  isInteger: function() {
+  isInteger() {
     return ( this.numerator % this.denominator === 0 );
-  },
+  }
 
   // @public
-  toString: function() {
+  toString() {
     return this.numerator + '/' + this.denominator;
-  },
+  }
 
   // @public
-  copy: function() {
+  copy() {
     return new Fraction( this.numerator, this.denominator );
-  },
+  }
 
   /**
    * Reduces this fraction, modifies the numerator and denominator.
    * @returns {Fraction} returns this, to support chaining of operations
    * @public
    */
-  reduce: function() {
+  reduce() {
     const gcd = Utils.gcd( this.numerator, this.denominator );
     this.numerator = ( gcd === 0 ) ? 0 : Utils.roundSymmetric( this.numerator / gcd );
     this.denominator = ( gcd === 0 ) ? 0 : Utils.roundSymmetric( this.denominator / gcd );
     return this;
-  },
+  }
 
   /**
    * Creates a reduced instance of this fraction.
    * @returns {Fraction}
    * @public
    */
-  reduced: function() {
+  reduced() {
     return this.copy().reduce();
-  },
+  }
 
   /**
    * Is this fraction reduced?
+   * @public
    * @returns {boolean}
    */
-  isReduced: function() {
+  isReduced() {
     return Utils.gcd( this.numerator, this.denominator ) === 1;
-  },
+  }
 
   /**
    * Returns whether the two fractions are equal (not whether their reduced values are equal).
@@ -130,9 +127,9 @@ inherit( Object, Fraction, {
    * @param {Fraction} fraction
    * @returns {boolean}
    */
-  equals: function( fraction ) {
+  equals( fraction ) {
     return ( this.numerator === fraction.numerator ) && ( this.denominator === fraction.denominator );
-  },
+  }
 
   /**
    * Returns whether this fraction has a value that is less than the provided fraction.
@@ -141,14 +138,14 @@ inherit( Object, Fraction, {
    * @param {Fraction} fraction
    * @returns {boolean}
    */
-  isLessThan: function( fraction ) {
+  isLessThan( fraction ) {
     assert && assert( fraction instanceof Fraction, 'fraction is not a Fraction: ' + fraction );
 
     // The more straightforward approach would be: this.getValue() < fraction.getValue().
     // But that uses floating-point operations and comparisons, which could result in a loss of precision.
     // https://github.com/phetsims/phetcommon/issues/43
     return SCRATCH_FRACTION.set( this ).subtract( fraction ).sign === -1;
-  },
+  }
 
   /**
    * Gets the sign of the value.
@@ -157,16 +154,16 @@ inherit( Object, Fraction, {
    */
   get sign() {
     return Math.sign( this.getValue() );
-  },
+  }
 
   /**
    * Returns the absolute value of this fraction.
    * @returns {Fraction}
    * @public
    */
-  abs: function() {
+  abs() {
     return new Fraction( Math.abs( this.numerator ), Math.abs( this.denominator ) );
-  },
+  }
 
   /**
    * Sets the value of this fraction to the provided fraction.
@@ -174,11 +171,11 @@ inherit( Object, Fraction, {
    * @returns {Fraction} - Reference to this for chaining
    * @public
    */
-  set: function( value ) {
+  set( value ) {
     this.numerator = value.numerator;
     this.denominator = value.denominator;
     return this;
-  },
+  }
 
   /**
    * Sets the value of this fraction to the sum of the two fractions:
@@ -190,7 +187,7 @@ inherit( Object, Fraction, {
    * @returns {Fraction} - Reference to this
    * @public
    */
-  setToSum: function( numerator1, denominator1, numerator2, denominator2 ) {
+  setToSum( numerator1, denominator1, numerator2, denominator2 ) {
     assert && assert( Utils.isInteger( numerator1 ), 'numerator1 must be an integer' );
     assert && assert( Utils.isInteger( denominator1 ), 'denominator1 must be an integer' );
     assert && assert( Utils.isInteger( numerator2 ), 'numerator2 must be an integer' );
@@ -201,7 +198,7 @@ inherit( Object, Fraction, {
                      Utils.roundSymmetric( numerator2 * lcm / denominator2 );
     this.denominator = lcm;
     return this;
-  },
+  }
 
   /**
    * Adds the provided fraction into this fraction (mutates this fraction). The result is NOT reduced,
@@ -210,11 +207,11 @@ inherit( Object, Fraction, {
    * @returns {Fraction} - Reference to this (for chaining)
    * @public
    */
-  add: function( value ) {
+  add( value ) {
     assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
 
     return this.setToSum( this.numerator, this.denominator, value.numerator, value.denominator );
-  },
+  }
 
   /**
    * Adds a fraction to this fraction to create a new fraction.
@@ -223,9 +220,9 @@ inherit( Object, Fraction, {
    * @returns {Fraction}
    * @public
    */
-  plus: function( value ) {
+  plus( value ) {
     return this.copy().add( value );
-  },
+  }
 
   /**
    * Subtracts the provided fraction from this fraction (mutates this fraction). The result is NOT reduced,
@@ -234,11 +231,11 @@ inherit( Object, Fraction, {
    * @returns {Fraction} - Reference to this (for chaining)
    * @public
    */
-  subtract: function( value ) {
+  subtract( value ) {
     assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
 
     return this.setToSum( this.numerator, this.denominator, -value.numerator, value.denominator );
-  },
+  }
 
   /**
    * Subtracts a fraction from this fraction to create a new fraction.
@@ -247,9 +244,9 @@ inherit( Object, Fraction, {
    * @returns {Fraction}
    * @public
    */
-  minus: function( value ) {
+  minus( value ) {
     return this.copy().subtract( value );
-  },
+  }
 
   /**
    * Multiplies the provided fraction and this fraction, setting the result into this fraction (mutates).
@@ -258,13 +255,13 @@ inherit( Object, Fraction, {
    * @returns {Fraction} - Reference to this (for chaining)
    * @public
    */
-  multiply: function( value ) {
+  multiply( value ) {
     assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
 
     this.numerator *= value.numerator;
     this.denominator *= value.denominator;
     return this;
-  },
+  }
 
   /**
    * Multiplies this fraction by another fraction to create a new fraction.
@@ -273,9 +270,9 @@ inherit( Object, Fraction, {
    * @returns {Fraction}
    * @public
    */
-  times: function( value ) {
+  times( value ) {
     return this.copy().multiply( value );
-  },
+  }
 
   /**
    * Divides this fraction by the provided fraction, setting the result into this fraction (mutates).
@@ -284,13 +281,13 @@ inherit( Object, Fraction, {
    * @returns {Fraction} - Reference to this (for chaining)
    * @public
    */
-  divide: function( value ) {
+  divide( value ) {
     assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
 
     this.numerator *= value.denominator;
     this.denominator *= value.numerator;
     return this;
-  },
+  }
 
   /**
    * Divides this fraction by another fraction to create a new fraction.
@@ -299,9 +296,9 @@ inherit( Object, Fraction, {
    * @returns {Fraction}
    * @public
    */
-  divided: function( value ) {
+  divided( value ) {
     return this.copy().divide( value );
-  },
+  }
 
   /**
    * Convenience method.
@@ -311,10 +308,10 @@ inherit( Object, Fraction, {
    * @returns {Fraction}
    * @public
    */
-  plusInteger: function( value ) {
+  plusInteger( value ) {
     assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
     return new Fraction( this.numerator + ( value * this.denominator ), this.denominator );
-  },
+  }
 
   /**
    * Convenience method.
@@ -324,10 +321,10 @@ inherit( Object, Fraction, {
    * @returns {Fraction}
    * @public
    */
-  minusInteger: function( value ) {
+  minusInteger( value ) {
     assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
     return new Fraction( this.numerator - ( value * this.denominator ), this.denominator );
-  },
+  }
 
   /**
    * Convenience method.
@@ -337,10 +334,10 @@ inherit( Object, Fraction, {
    * @returns {Fraction}
    * @public
    */
-  timesInteger: function( value ) {
+  timesInteger( value ) {
     assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
     return new Fraction( this.numerator * value, this.denominator );
-  },
+  }
 
   /**
    * Convenience method.
@@ -351,11 +348,10 @@ inherit( Object, Fraction, {
    * @returns {Fraction}
    * @public
    */
-  dividedInteger: function( value ) {
+  dividedInteger( value ) {
     assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
     return new Fraction( this.numerator, this.denominator * value );
   }
-}, {
 
   /**
    * Convenience method for constructing a fraction from an integer.
@@ -364,10 +360,10 @@ inherit( Object, Fraction, {
    * @public
    * @static
    */
-  fromInteger: function( value ) {
+  static fromInteger( value ) {
     return new Fraction( value, 1 );
   }
-} );
+}
 
 // Used to avoid GC - NOTE: Do NOT move in front of the constructor/inherit, as it is creating a copy of the type
 // defined.
