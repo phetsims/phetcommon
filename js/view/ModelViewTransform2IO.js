@@ -1,7 +1,7 @@
 // Copyright 2019-2020, University of Colorado Boulder
 
 /**
- * IO type for ModelViewTransform2
+ * IO Type for ModelViewTransform2
  *
  * @author Michael Kauzmann (PhET Interactive Simulations)
  */
