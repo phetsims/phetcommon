@@ -44,7 +44,7 @@ class SphereBucketIO extends ObjectIO {
 SphereBucketIO.validator = { isValidValue: v => v instanceof phet.phetcommon.SphereBucket };
 SphereBucketIO.typeName = 'SphereBucketIO';
 SphereBucketIO.documentation = 'A model of a bucket into which spherical objects can be placed.';
-ObjectIO.validateSubtype( SphereBucketIO );
+ObjectIO.validateIOType( SphereBucketIO );
 
 // helper function for retrieving the tandem for a particle
 function getParticleTandemID( particle ) {

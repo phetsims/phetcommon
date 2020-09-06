@@ -44,7 +44,7 @@ class ModelViewTransform2IO extends ObjectIO {
 ModelViewTransform2IO.documentation = 'Object type that supports 2 dimensional coordinate tranforms.';
 ModelViewTransform2IO.validator = { valueType: ModelViewTransform2 };
 ModelViewTransform2IO.typeName = 'ModelViewTransform2IO';
-ObjectIO.validateSubtype( ModelViewTransform2IO );
+ObjectIO.validateIOType( ModelViewTransform2IO );
 
 phetcommon.register( 'ModelViewTransform2IO', ModelViewTransform2IO );
 export default ModelViewTransform2IO;
