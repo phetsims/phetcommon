@@ -17,7 +17,6 @@
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import PhetioObject from '../../../tandem/js/PhetioObject.js';
 import phetcommon from '../phetcommon.js';
@@ -26,67 +25,68 @@ import phetcommon from '../phetcommon.js';
 // of the hole is the same as the width specified at construction.
 const HOLE_ELLIPSE_HEIGHT_PROPORTION = 0.25;
 
-/**
- * @param {Object} [options]
- * @constructor
- */
-function Bucket( options ) {
-  options = merge( {
-    position: Vector2.ZERO,
-    size: new Dimension2( 200, 50 ),
-    baseColor: '#ff0000',
-    captionText: '',
-    captionColor: 'white',
+class Bucket extends PhetioObject {
 
-    // The following flag controls whether the bucket shape should be essentially upside down.  This allows it to be
-    // used in cases where the model uses the inverted-y scheme commonly associated with screen layouts.
-    invertY: false
-  }, options );
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  PhetioObject.call( this, options );
+    options = merge( {
+      position: Vector2.ZERO,
+      size: new Dimension2( 200, 50 ),
+      baseColor: '#ff0000',
+      captionText: '',
+      captionColor: 'white',
 
-  // @public (read-only) - The position is defined to be where the center of the hole is.
-  this.position = options.position;
+      // The following flag controls whether the bucket shape should be essentially upside down.  This allows it to be
+      // used in cases where the model uses the inverted-y scheme commonly associated with screen layouts.
+      invertY: false
+    }, options );
 
-  // @public (read-only) - Base color of the bucket.
-  this.baseColor = options.baseColor;
+    super( options );
 
-  // @public (read-only) - Caption to be shown on the bucket.
-  this.captionText = options.captionText;
+    // @public (read-only) - The position is defined to be where the center of the hole is.
+    this.position = options.position;
 
-  // @public (read-only) - Color for the caption.
-  this.captionColor = options.captionColor;
+    // @public (read-only) - Base color of the bucket.
+    this.baseColor = options.baseColor;
 
-  // @public (read-only) - The {Dimension2} size of the bucket
-  this.size = options.size;
-  const size = this.size;
+    // @public (read-only) - Caption to be shown on the bucket.
+    this.captionText = options.captionText;
 
-  const holeRadiusX = size.width / 2;
-  const holeRadiusY = size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2;
+    // @public (read-only) - Color for the caption.
+    this.captionColor = options.captionColor;
 
-  // @public (read-only) - Create the shape of the bucket's hole.
-  this.holeShape = Shape.ellipse( 0, 0, holeRadiusX, holeRadiusY );
+    // @public (read-only) - The {Dimension2} size of the bucket
+    this.size = options.size;
+    const size = this.size;
 
-  // Create the shape of the container.  This code is a bit 'tweaky', meaning that there are a lot of fractional
-  // multipliers in here to try to achieve the desired pseudo-3D look.  The intent is that the 'tilt' of the bucket
-  // can be changed without needing to rework this code.
-  const containerHeight = size.height * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
-  const multiplier = options.invertY ? 1 : -1;
+    const holeRadiusX = size.width / 2;
+    const holeRadiusY = size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2;
 
-  // @public (read-only) - The shape of the front portion of the bucket.
-  this.containerShape = new Shape().moveTo( -size.width * 0.5, 0 )
-    .lineTo( -size.width * 0.4, multiplier * containerHeight * 0.8 )
-    .cubicCurveTo( -size.width * 0.3, multiplier * ( containerHeight * 0.8 + size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6 ),
-      size.width * 0.3, multiplier * ( containerHeight * 0.8 + size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6 ),
-      size.width * 0.4, multiplier * containerHeight * 0.8 )
-    .lineTo( size.width * 0.5, 0 )
-    // Does not go to the exact endpoints, so there will be small lines at the endpoints.
-    // See https://github.com/phetsims/build-an-atom/issues/173
-    .ellipticalArc( 0, 0, holeRadiusX, holeRadiusY, 0, -0.01 * Math.PI, -0.99 * Math.PI, !options.invertY )
-    .close();
+    // @public (read-only) - Create the shape of the bucket's hole.
+    this.holeShape = Shape.ellipse( 0, 0, holeRadiusX, holeRadiusY );
+
+    // Create the shape of the container.  This code is a bit 'tweaky', meaning that there are a lot of fractional
+    // multipliers in here to try to achieve the desired pseudo-3D look.  The intent is that the 'tilt' of the bucket
+    // can be changed without needing to rework this code.
+    const containerHeight = size.height * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
+    const multiplier = options.invertY ? 1 : -1;
+
+    // @public (read-only) - The shape of the front portion of the bucket.
+    this.containerShape = new Shape().moveTo( -size.width * 0.5, 0 )
+      .lineTo( -size.width * 0.4, multiplier * containerHeight * 0.8 )
+      .cubicCurveTo( -size.width * 0.3, multiplier * ( containerHeight * 0.8 + size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6 ),
+        size.width * 0.3, multiplier * ( containerHeight * 0.8 + size.height * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6 ),
+        size.width * 0.4, multiplier * containerHeight * 0.8 )
+      .lineTo( size.width * 0.5, 0 )
+      // Does not go to the exact endpoints, so there will be small lines at the endpoints.
+      // See https://github.com/phetsims/build-an-atom/issues/173
+      .ellipticalArc( 0, 0, holeRadiusX, holeRadiusY, 0, -0.01 * Math.PI, -0.99 * Math.PI, !options.invertY )
+      .close();
+  }
 }
 
 phetcommon.register( 'Bucket', Bucket );
-
-inherit( PhetioObject, Bucket );
 export default Bucket;

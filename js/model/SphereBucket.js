@@ -13,59 +13,55 @@
 import Utils from '../../../dot/js/Utils.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import cleanArray from '../../../phet-core/js/cleanArray.js';
-import inherit from '../../../phet-core/js/inherit.js';
 import merge from '../../../phet-core/js/merge.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import phetcommon from '../phetcommon.js';
 import Bucket from './Bucket.js';
 import SphereBucketIO from './SphereBucketIO.js';
 
-/**
- * @param {Object} [options]
- * @constructor
- */
-function SphereBucket( options ) {
-  options = merge( {
-    sphereRadius: 10,  // expected radius of the spheres that will be placed in this bucket
-    usableWidthProportion: 1.0,  // proportion of the bucket width that the spheres can occupy
-    tandem: Tandem.OPTIONAL,
-    phetioType: SphereBucketIO
-  }, options );
+class SphereBucket extends Bucket {
 
-  Bucket.call( this, options );
+  /**
+   * @param {Object} [options]
+   */
+  constructor( options ) {
 
-  // @private
-  this.sphereBucketTandem = options.tandem;
+    options = merge( {
+      sphereRadius: 10,  // expected radius of the spheres that will be placed in this bucket
+      usableWidthProportion: 1.0,  // proportion of the bucket width that the spheres can occupy
+      tandem: Tandem.OPTIONAL,
+      phetioType: SphereBucketIO
+    }, options );
 
-  this._sphereRadius = options.sphereRadius;
-  this._usableWidthProportion = options.usableWidthProportion;
+    super( options );
 
-  // Empirically determined, for positioning particles inside the bucket.
-  this._verticalParticleOffset = options.verticalParticleOffset || -this._sphereRadius * 0.4;
+    // @private
+    this.sphereBucketTandem = options.tandem;
 
-  // particles managed by this bucket
-  this._particles = [];
-}
+    this._sphereRadius = options.sphereRadius;
+    this._usableWidthProportion = options.usableWidthProportion;
 
-phetcommon.register( 'SphereBucket', SphereBucket );
+    // Empirically determined, for positioning particles inside the bucket.
+    this._verticalParticleOffset = options.verticalParticleOffset || -this._sphereRadius * 0.4;
 
-// Inherit from base type.
-inherit( Bucket, SphereBucket, {
+    // particles managed by this bucket
+    this._particles = [];
+  }
 
   // @public
-  addParticleFirstOpen: function( particle, animate ) {
+  addParticleFirstOpen( particle, animate ) {
     particle.destinationProperty.set( this.getFirstOpenPosition() );
     this.addParticle( particle, animate );
-  },
+  }
 
   // @public
-  addParticleNearestOpen: function( particle, animate ) {
+  addParticleNearestOpen( particle, animate ) {
     particle.destinationProperty.set( this.getNearestOpenPosition( particle.destinationProperty.get() ) );
     this.addParticle( particle, animate );
-  },
+  }
 
   // @private
-  addParticle: function( particle, animate ) {
+  addParticle( particle, animate ) {
     if ( !animate ) {
       particle.positionProperty.set( particle.destinationProperty.get() );
     }
@@ -81,10 +77,10 @@ inherit( Bucket, SphereBucket, {
     };
     particle.userControlledProperty.lazyLink( particleRemovedListener );
     particle.bucketRemovalListener = particleRemovedListener; // Attach to the particle to aid unlinking in some cases.
-  },
+  }
 
   // @public
-  removeParticle: function( particle, skipLayout ) {
+  removeParticle( particle, skipLayout ) {
     assert && assert( this.containsParticle( particle ), 'attempt made to remove particle that is not in bucket' );
 
     // remove the particle from the array
@@ -100,15 +96,15 @@ inherit( Bucket, SphereBucket, {
     if ( !skipLayout ) {
       this.relayoutBucketParticles();
     }
-  },
+  }
 
   // @public
-  containsParticle: function( particle ) {
+  containsParticle( particle ) {
     return this._particles.indexOf( particle ) !== -1;
-  },
+  }
 
   // @public
-  extractClosestParticle: function( position ) {
+  extractClosestParticle( position ) {
     let closestParticle = null;
     this._particles.forEach( function( particle ) {
       if ( closestParticle === null ||
@@ -123,13 +119,13 @@ inherit( Bucket, SphereBucket, {
       closestParticle.userControlledProperty.set( true );
     }
     return closestParticle;
-  },
+  }
 
   // @public
-  getParticleList: function() { return this._particles; },
+  getParticleList() { return this._particles; }
 
   // @public
-  reset: function() {
+  reset() {
     this._particles.forEach( function( particle ) {
       // Remove listeners that are watching for removal from bucket.
       if ( typeof ( particle.bucketRemovalListener ) === 'function' ) {
@@ -138,10 +134,10 @@ inherit( Bucket, SphereBucket, {
       }
     } );
     cleanArray( this._particles );
-  },
+  }
 
   // @private
-  isPositionOpen: function( position ) {
+  isPositionOpen( position ) {
     let positionOpen = true;
     for ( let i = 0; i < this._particles.length; i++ ) {
       const particle = this._particles[ i ];
@@ -151,10 +147,10 @@ inherit( Bucket, SphereBucket, {
       }
     }
     return positionOpen;
-  },
+  }
 
   // @private
-  getFirstOpenPosition: function() {
+  getFirstOpenPosition() {
     let openPosition = Vector2.ZERO;
     const usableWidth = this.size.width * this._usableWidthProportion - 2 * this._sphereRadius;
     let offsetFromBucketEdge = ( this.size.width - usableWidth ) / 2 + this._sphereRadius;
@@ -191,12 +187,12 @@ inherit( Bucket, SphereBucket, {
       }
     }
     return openPosition;
-  },
+  }
 
   // @private
-  getLayerForYPosition: function( yPosition ) {
+  getLayerForYPosition( yPosition ) {
     return Math.abs( Utils.roundSymmetric( ( yPosition - ( this.position.y + this._verticalParticleOffset ) ) / ( this._sphereRadius * 2 * 0.866 ) ) );
-  },
+  }
 
   /*
    * Get the nearest open position to the highest occupied layer.  This is used for particle stacking.
@@ -205,7 +201,7 @@ inherit( Bucket, SphereBucket, {
    * @returns {Vector2}
    * @private
    */
-  getNearestOpenPosition: function( position ) {
+  getNearestOpenPosition( position ) {
     // Determine the highest occupied layer.  The bottom layer is 0.
     let highestOccupiedLayer = 0;
     const self = this;
@@ -268,25 +264,25 @@ inherit( Bucket, SphereBucket, {
       }
     } );
     return closestOpenPosition;
-  },
+  }
 
   // @private
-  getYPositionForLayer: function( layer ) {
+  getYPositionForLayer( layer ) {
     return this.position.y + this._verticalParticleOffset + layer * this._sphereRadius * 2 * 0.866;
-  },
+  }
 
   /*
    * Determine whether a particle is 'dangling', i.e. hanging above an open
    * space in the stack of particles.  Dangling particles should fall.
    * @private
    */
-  isDangling: function( particle ) {
+  isDangling( particle ) {
     const onBottomRow = particle.destinationProperty.get().y === this.position.y + this._verticalParticleOffset;
     return !onBottomRow && this.countSupportingParticles( particle.destinationProperty.get() ) < 2;
-  },
+  }
 
   // @private
-  countSupportingParticles: function( position ) {
+  countSupportingParticles( position ) {
     let count = 0;
     for ( let i = 0; i < this._particles.length; i++ ) {
       const p = this._particles[ i ];
@@ -297,10 +293,10 @@ inherit( Bucket, SphereBucket, {
       }
     }
     return count;
-  },
+  }
 
   // @private
-  relayoutBucketParticles: function() {
+  relayoutBucketParticles() {
     let particleMoved;
     do {
       for ( let i = 0; i < this._particles.length; i++ ) {
@@ -314,6 +310,7 @@ inherit( Bucket, SphereBucket, {
       }
     } while ( particleMoved );
   }
-} );
+}
 
+phetcommon.register( 'SphereBucket', SphereBucket );
 export default SphereBucket;
