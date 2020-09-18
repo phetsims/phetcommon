@@ -13,26 +13,11 @@ import phetcommon from '../phetcommon.js';
 const SphereBucketIO = new IOType( 'SphereBucketIO', {
   isValidValue: v => v instanceof phet.phetcommon.SphereBucket,
   documentation: 'A model of a bucket into which spherical objects can be placed.',
-
-  /**
-   * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
-   * @param {SphereBucket} sphereBucket
-   * @public
-   */
-  toStateObject( sphereBucket ) {
-    return sphereBucket._particles.map( particle => particle.tandem.phetioID );
-  },
-
-  /**
-   * @param {SphereBucket} sphereBucket
-   * @param {Object} stateObject
-   * @public
-   */
-  applyState( sphereBucket, stateObject ) {
+  toStateObject: sphereBucket => sphereBucket._particles.map( particle => particle.tandem.phetioID ),
+  applyState: ( sphereBucket, stateObject ) => {
 
     // remove all the particles from the observable arrays
     sphereBucket.reset();
-
     const particles = stateObject.map( tandemID => phet.phetio.phetioEngine.getPhetioObject( tandemID ) );
 
     // add back the particles
