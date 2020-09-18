@@ -7,29 +7,28 @@
  * @author John Blanco (PhET Interactive Simulations)
  */
 
-import validate from '../../../axon/js/validate.js';
-import ObjectIO from '../../../tandem/js/types/ObjectIO.js';
+import IOType from '../../../tandem/js/types/IOType.js';
 import phetcommon from '../phetcommon.js';
 
-class SphereBucketIO extends ObjectIO {
+const SphereBucketIO = new IOType( 'SphereBucketIO', {
+  isValidValue: v => v instanceof phet.phetcommon.SphereBucket,
+  documentation: 'A model of a bucket into which spherical objects can be placed.',
 
   /**
    * create a description of the state that isn't automatically handled by the framework (e.g. Property instances)
    * @param {SphereBucket} sphereBucket
    * @public
    */
-  static toStateObject( sphereBucket ) {
-    validate( sphereBucket, this.validator );
-    return sphereBucket._particles.map( getParticleTandemID );
-  }
+  toStateObject( sphereBucket ) {
+    return sphereBucket._particles.map( particle => particle.tandem.phetioID );
+  },
 
   /**
    * @param {SphereBucket} sphereBucket
    * @param {Object} stateObject
    * @public
    */
-  static applyState( sphereBucket, stateObject ) {
-    validate( sphereBucket, this.validator );
+  applyState( sphereBucket, stateObject ) {
 
     // remove all the particles from the observable arrays
     sphereBucket.reset();
@@ -39,17 +38,7 @@ class SphereBucketIO extends ObjectIO {
     // add back the particles
     particles.forEach( particle => { sphereBucket.addParticle( particle ); } );
   }
-}
-
-SphereBucketIO.validator = { isValidValue: v => v instanceof phet.phetcommon.SphereBucket };
-SphereBucketIO.typeName = 'SphereBucketIO';
-SphereBucketIO.documentation = 'A model of a bucket into which spherical objects can be placed.';
-ObjectIO.validateIOType( SphereBucketIO );
-
-// helper function for retrieving the tandem for a particle
-function getParticleTandemID( particle ) {
-  return particle.tandem.phetioID;
-}
+} );
 
 phetcommon.register( 'SphereBucketIO', SphereBucketIO );
 export default SphereBucketIO;
