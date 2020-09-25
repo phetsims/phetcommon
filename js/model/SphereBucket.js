@@ -1,8 +1,8 @@
 // Copyright 2013-2020, University of Colorado Boulder
 
-/*
- * A bucket that can be used to store spherical objects.  Manages the addition and removal of the spheres, stacks them
- * as they are added, and manages the stack as spheres are removed.
+/**
+ * SphereBucket is a model of a bucket that can be used to store spherical objects.  It manages the addition and removal
+ * of the spheres, stacks them as they are added, and manages the stack as spheres are removed.
  *
  * This expects the spheres to have certain properties, please inspect the code to understand the 'contract' between the
  * bucket and the spheres.
@@ -37,40 +37,53 @@ class SphereBucket extends Bucket {
 
     // @private
     this.sphereBucketTandem = options.tandem;
-
     this._sphereRadius = options.sphereRadius;
     this._usableWidthProportion = options.usableWidthProportion;
 
-    // Empirically determined, for positioning particles inside the bucket.
+    // @private - empirically determined, for positioning particles inside the bucket
     this._verticalParticleOffset = options.verticalParticleOffset || -this._sphereRadius * 0.4;
 
-    // particles managed by this bucket
+    // @private - particles managed by this bucket
     this._particles = [];
   }
 
-  // @public
+  /**
+   * add a particle to the first open position in the stacking order
+   * @param {Particle} particle
+   * @param {boolean} animate
+   * @public
+   */
   addParticleFirstOpen( particle, animate ) {
     particle.destinationProperty.set( this.getFirstOpenPosition() );
     this.addParticle( particle, animate );
   }
 
-  // @public
+  /**
+   * add a particle to the nearest open position in the particle stack
+   * @param {Particle} particle
+   * @param {boolean} animate
+   * @public
+   */
   addParticleNearestOpen( particle, animate ) {
     particle.destinationProperty.set( this.getNearestOpenPosition( particle.destinationProperty.get() ) );
     this.addParticle( particle, animate );
   }
 
-  // @private
+  /**
+   * add a particle to the bucket and set up listeners for when the particle is removed
+   * @param {Particle} particle
+   * @param {boolean} animate
+   * @private
+   */
   addParticle( particle, animate ) {
     if ( !animate ) {
       particle.positionProperty.set( particle.destinationProperty.get() );
     }
     this._particles.push( particle );
-    const self = this;
 
     // add a listener that will remove this particle from the bucket if the user grabs it
-    const particleRemovedListener = function() {
-      self.removeParticle( particle );
+    const particleRemovedListener = () => {
+      this.removeParticle( particle );
 
       // the process of removing the particle from the bucket should also disconnect removal listener
       assert && assert( !particle.bucketRemovalListener, 'listener still present after being removed from bucket' );
@@ -79,7 +92,12 @@ class SphereBucket extends Bucket {
     particle.bucketRemovalListener = particleRemovedListener; // Attach to the particle to aid unlinking in some cases.
   }
 
-  // @public
+  /**
+   * remove a particle from the bucket, updating listeners as necessary
+   * @param {Particle} particle
+   * @param {boolean} skipLayout
+   * @public
+   */
   removeParticle( particle, skipLayout ) {
     assert && assert( this.containsParticle( particle ), 'attempt made to remove particle that is not in bucket' );
 
@@ -98,35 +116,51 @@ class SphereBucket extends Bucket {
     }
   }
 
-  // @public
+  /**
+   * @param {Particle} particle
+   * @returns {boolean}
+   * @public
+   */
   containsParticle( particle ) {
     return this._particles.indexOf( particle ) !== -1;
   }
 
-  // @public
+  /**
+   * extract the particle that is closest to the provided position from the bucket
+   * @param {Vector2} position
+   * @returns {Particle}
+   * @public
+   */
   extractClosestParticle( position ) {
     let closestParticle = null;
-    this._particles.forEach( function( particle ) {
+    this._particles.forEach( particle => {
       if ( closestParticle === null ||
            closestParticle.positionProperty.get().distance( position ) > particle.positionProperty.get().distance( position ) ) {
         closestParticle = particle;
       }
     } );
     if ( closestParticle !== null ) {
-      // The particle is removed by setting 'userControlled' to true.  This
-      // relies on the listener that was added when the particle was placed
-      // into the bucket.
+
+      // The particle is removed by setting 'userControlled' to true.  This relies on the listener that was added when
+      // the particle was placed into the bucket.
       closestParticle.userControlledProperty.set( true );
     }
     return closestParticle;
   }
 
-  // @public
+  /**
+   * get the list of particles currently contained within this bucket
+   * @returns {Particle[]}
+   * @public
+   */
   getParticleList() { return this._particles; }
 
-  // @public
+  /**
+   * @public
+   */
   reset() {
-    this._particles.forEach( function( particle ) {
+    this._particles.forEach( particle => {
+
       // Remove listeners that are watching for removal from bucket.
       if ( typeof ( particle.bucketRemovalListener ) === 'function' ) {
         particle.userControlledProperty.unlink( particle.bucketRemovalListener );
@@ -136,7 +170,12 @@ class SphereBucket extends Bucket {
     cleanArray( this._particles );
   }
 
-  // @private
+  /**
+   * check if the provided position is open, i.e. unoccupied by a particle
+   * @param {Vector2} position
+   * @returns {boolean}
+   * @private
+   */
   isPositionOpen( position ) {
     let positionOpen = true;
     for ( let i = 0; i < this._particles.length; i++ ) {
@@ -149,7 +188,11 @@ class SphereBucket extends Bucket {
     return positionOpen;
   }
 
-  // @private
+  /**
+   * Find the first open position in the stacking order, which is a triangular stack starting from the lower left.
+   * @returns {Vector2}
+   * @private
+   */
   getFirstOpenPosition() {
     let openPosition = Vector2.ZERO;
     const usableWidth = this.size.width * this._usableWidthProportion - 2 * this._sphereRadius;
@@ -159,9 +202,12 @@ class SphereBucket extends Bucket {
     let positionInLayer = 0;
     let found = false;
     while ( !found ) {
-      const testPosition = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this._sphereRadius,
-        this.getYPositionForLayer( row ) );
+      const testPosition = new Vector2(
+        this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this._sphereRadius,
+        this.getYPositionForLayer( row )
+      );
       if ( this.isPositionOpen( testPosition ) ) {
+
         // We found a position that is open.
         openPosition = testPosition;
         found = true;
@@ -189,14 +235,19 @@ class SphereBucket extends Bucket {
     return openPosition;
   }
 
-  // @private
+  /**
+   * get the layer in the stacking order for the provided y (vertical) position
+   * @param {number} yPosition
+   * @returns {number}
+   * @private
+   */
   getLayerForYPosition( yPosition ) {
     return Math.abs( Utils.roundSymmetric( ( yPosition - ( this.position.y + this._verticalParticleOffset ) ) / ( this._sphereRadius * 2 * 0.866 ) ) );
   }
 
-  /*
-   * Get the nearest open position to the highest occupied layer.  This is used for particle stacking.
-   *
+  /**
+   * Get the nearest open position in the stacking order that would be supported if the particle were to be placed
+   * there.  This is used for particle stacking.
    * @param {Vector2} position
    * @returns {Vector2}
    * @private
@@ -204,9 +255,8 @@ class SphereBucket extends Bucket {
   getNearestOpenPosition( position ) {
     // Determine the highest occupied layer.  The bottom layer is 0.
     let highestOccupiedLayer = 0;
-    const self = this;
-    _.each( this._particles, function( particle ) {
-      const layer = self.getLayerForYPosition( particle.destinationProperty.get().y );
+    _.each( this._particles, particle => {
+      const layer = this.getLayerForYPosition( particle.destinationProperty.get().y );
       if ( layer > highestOccupiedLayer ) {
         highestOccupiedLayer = layer;
       }
@@ -229,6 +279,7 @@ class SphereBucket extends Bucket {
 
           // We found a position that is unoccupied.
           if ( layer === 0 || this.countSupportingParticles( testPosition ) === 2 ) {
+
             // This is a valid open position.
             openPositions.push( testPosition );
           }
@@ -239,12 +290,10 @@ class SphereBucket extends Bucket {
       numParticlesInLayer--;
       offsetFromBucketEdge += this._sphereRadius;
       if ( numParticlesInLayer === 0 ) {
-        // If the stacking pyramid is full, meaning that there are
-        // no positions that are open within it, this algorithm
-        // classifies the positions directly above the top of the
-        // pyramid as being open.  This would result in a stack
-        // of particles with a pyramid base.  So far, this hasn't
-        // been a problem, but this limitation may limit
+
+        // If the stacking pyramid is full, meaning that there are no positions that are open within it, this algorithm
+        // classifies the positions directly above the top of the pyramid as being open.  This would result in a stack
+        // of particles with a pyramid base.  So far, this hasn't been a problem, but this limitation may limit
         // reusability of this algorithm.
         numParticlesInLayer = 1;
         offsetFromBucketEdge -= this._sphereRadius;
@@ -266,14 +315,21 @@ class SphereBucket extends Bucket {
     return closestOpenPosition;
   }
 
-  // @private
+  /**
+   * given a layer in the stack, calculate the corresponding Y position for a particle in that layer
+   * @param {number} layer
+   * @returns {number}
+   * @private
+   */
   getYPositionForLayer( layer ) {
     return this.position.y + this._verticalParticleOffset + layer * this._sphereRadius * 2 * 0.866;
   }
 
-  /*
-   * Determine whether a particle is 'dangling', i.e. hanging above an open
-   * space in the stack of particles.  Dangling particles should fall.
+  /**
+   * Determine whether a particle is 'dangling', i.e. hanging above an open space in the stack of particles.  Dangling
+   * particles should be made to fall to a stable position.
+   * @param {Particle} particle
+   * @returns {boolean}
    * @private
    */
   isDangling( particle ) {
@@ -281,13 +337,19 @@ class SphereBucket extends Bucket {
     return !onBottomRow && this.countSupportingParticles( particle.destinationProperty.get() ) < 2;
   }
 
-  // @private
+  /**
+   * count the number of particles that are positioned to support a particle in the provided position
+   * @param {Vector2} position
+   * @returns {number} - a number from 0 to 2, inclusive
+   * @private
+   */
   countSupportingParticles( position ) {
     let count = 0;
     for ( let i = 0; i < this._particles.length; i++ ) {
       const p = this._particles[ i ];
       if ( p.destinationProperty.get().y < position.y && // Must be in a lower layer
            p.destinationProperty.get().distance( position ) < this._sphereRadius * 3 ) {
+
         // Must be a supporting particle.
         count++;
       }
@@ -295,7 +357,10 @@ class SphereBucket extends Bucket {
     return count;
   }
 
-  // @private
+  /**
+   * Relayout the particles, generally done after a particle is removed and some other need to fall.
+   * @private
+   */
   relayoutBucketParticles() {
     let particleMoved;
     do {
