@@ -15,9 +15,9 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import cleanArray from '../../../phet-core/js/cleanArray.js';
 import merge from '../../../phet-core/js/merge.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import IOType from '../../../tandem/js/types/IOType.js';
 import phetcommon from '../phetcommon.js';
 import Bucket from './Bucket.js';
-import SphereBucketIO from './SphereBucketIO.js';
 
 class SphereBucket extends Bucket {
 
@@ -30,7 +30,7 @@ class SphereBucket extends Bucket {
       sphereRadius: 10,  // expected radius of the spheres that will be placed in this bucket
       usableWidthProportion: 1.0,  // proportion of the bucket width that the spheres can occupy
       tandem: Tandem.OPTIONAL,
-      phetioType: SphereBucketIO
+      phetioType: SphereBucket.SphereBucketIO
     }, options );
 
     super( options );
@@ -376,6 +376,21 @@ class SphereBucket extends Bucket {
     } while ( particleMoved );
   }
 }
+
+SphereBucket.SphereBucketIO = new IOType( 'SphereBucketIO', {
+  valueType: SphereBucket,
+  documentation: 'A model of a bucket into which spherical objects can be placed.',
+  toStateObject: sphereBucket => sphereBucket._particles.map( particle => particle.tandem.phetioID ),
+  applyState: ( sphereBucket, stateObject ) => {
+
+    // remove all the particles from the observable arrays
+    sphereBucket.reset();
+    const particles = stateObject.map( tandemID => phet.phetio.phetioEngine.getPhetioObject( tandemID ) );
+
+    // add back the particles
+    particles.forEach( particle => { sphereBucket.addParticle( particle ); } );
+  }
+} );
 
 phetcommon.register( 'SphereBucket', SphereBucket );
 export default SphereBucket;
