@@ -14,7 +14,6 @@
 import Matrix3 from '../../../dot/js/Matrix3.js';
 import Transform3 from '../../../dot/js/Transform3.js';
 import Vector2 from '../../../dot/js/Vector2.js';
-import IOType from '../../../tandem/js/types/IOType.js';
 import phetcommon from '../phetcommon.js';
 
 class ModelViewTransform2 extends Transform3 {
@@ -254,13 +253,6 @@ class ModelViewTransform2 extends Transform3 {
     return new ModelViewTransform2().setToRectangleInvertedYMapping( modelBounds, viewBounds );
   }
 }
-
-ModelViewTransform2.ModelViewTransform2IO = new IOType( 'ModelViewTransform2IO', {
-  valueType: ModelViewTransform2,
-  documentation: 'Object type that supports 2 dimensional coordinate transforms.',
-  toStateObject: modelViewTransform2 => ( { matrix: Matrix3.Matrix3IO.toStateObject( modelViewTransform2.matrix ) } ),
-  fromStateObject: stateObject => new ModelViewTransform2( Matrix3.Matrix3IO.fromStateObject( stateObject.matrix ) )
-} );
 
 phetcommon.register( 'ModelViewTransform2', ModelViewTransform2 );
 export default ModelViewTransform2;
