@@ -11,7 +11,6 @@
  */
 
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
-import ObservableArray from '../../axon/js/ObservableArray.js';
 import Property from '../../axon/js/Property.js';
 import Range from '../../dot/js/Range.js';
 import Utils from '../../dot/js/Utils.js';
@@ -109,17 +108,6 @@ const AssertUtils = {
     else {
       assert && AssertUtils.assertArray( array, array => _.every( array, element => element instanceof type ) );
     }
-  },
-
-  /**
-   * Asserts that a value is an ObservableArray, with elements of a specific type.
-   * @param {ObservableArray} observableArray
-   * @param {string|constructor} type - primitive type (string) or object type (constructor)
-   * @public
-   */
-  assertObservableArrayOf( observableArray, type ) {
-    assert && assert( observableArray instanceof ObservableArray, 'array is not an ObservableArray' );
-    assert && AssertUtils.assertArrayOf( observableArray.getArray(), type );
   },
 
   /**
