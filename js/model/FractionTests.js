@@ -203,3 +203,22 @@ QUnit.test( 'mutable variants', function( assert ) {
   assert.ok( b.equals( new Fraction( 15, 18 ) ), 'Mutated b' );
   assert.ok( a.equals( new Fraction( 1, 3 ) ), 'Did not mutate a' );
 } );
+
+QUnit.test( 'Fraction.fromDecimal', function( assert ) {
+
+  const testFraction = ( decimal, numerator, denominator ) => {
+    const fraction = Fraction.fromDecimal( decimal );
+    assert.ok( fraction.numerator === numerator, `numerator should be ${numerator} for fromDecimal: ${decimal}` );
+    assert.ok( fraction.denominator === denominator, `denominator should be ${denominator} for fromDecimal: ${decimal}` );
+  };
+
+  testFraction( .5, 1, 2 );
+  testFraction( .75, 3, 4 );
+  testFraction( .33, 33, 100 );
+  testFraction( 1.33, 133, 100 );
+  testFraction( 1, 1, 1 );
+  testFraction( 0, 0, 1 );
+  testFraction( .1234567, 1234567, 10000000 );
+  testFraction( 1.1234567, 11234567, 10000000 );
+  testFraction( 3.5, 7, 2 );
+} );

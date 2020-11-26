@@ -363,6 +363,45 @@ class Fraction {
   static fromInteger( value ) {
     return new Fraction( value, 1 );
   }
+
+  /**
+   * Convert a number into a Fraction
+   * @public
+   * @param {number} number - integer or float, doesn't matter
+   * @returns {Fraction}
+   */
+  static fromDecimal( number ) {
+    const numberAsString = number + '';
+    const whole = parseInt( numberAsString.split( '.' )[ 0 ], 10 );
+    let decimal = numberAsString.includes( '.' ) ?
+                  parseFloat( '.' + numberAsString.split( '.' )[ 1 ] ) : 0;
+    if ( decimal === 0 ) {
+      return Fraction.fromInteger( whole );
+    }
+
+    let expandingNumber = '1';
+
+    // Tack on zeros to fill out the decimal into an integer. -2 to account for "0." at the beginning.
+    for ( let z = 0; z < ( decimal + '' ).length - 2; z++ ) {
+      expandingNumber += '0';
+    }
+    decimal = decimal * expandingNumber;
+    expandingNumber = parseInt( expandingNumber, 10 );
+    for ( let z = 2; z < decimal + 1; z++ ) {
+      if ( decimal % z === 0 && expandingNumber % z === 0 ) {
+        decimal = decimal / z;
+        expandingNumber = expandingNumber / z;
+        z = 2;
+      }
+    }
+
+    // get highest common factor to simplify
+    const t = Utils.gcd( decimal, expandingNumber );
+
+    // return the fraction after simplifying it
+    const denominator = expandingNumber / t;
+    return new Fraction( whole * denominator + decimal / t, denominator );
+  }
 }
 
 // Used to avoid GC - NOTE: Do NOT move in front of the constructor/inherit, as it is creating a copy of the type
