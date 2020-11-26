@@ -387,20 +387,7 @@ class Fraction {
     }
     decimal = decimal * expandingNumber;
     expandingNumber = parseInt( expandingNumber, 10 );
-    for ( let z = 2; z < decimal + 1; z++ ) {
-      if ( decimal % z === 0 && expandingNumber % z === 0 ) {
-        decimal = decimal / z;
-        expandingNumber = expandingNumber / z;
-        z = 2;
-      }
-    }
-
-    // get highest common factor to simplify
-    const t = Utils.gcd( decimal, expandingNumber );
-
-    // return the fraction after simplifying it
-    const denominator = expandingNumber / t;
-    return new Fraction( whole * denominator + decimal / t, denominator );
+    return new Fraction( whole * expandingNumber + decimal, expandingNumber ).reduce();
   }
 }
 

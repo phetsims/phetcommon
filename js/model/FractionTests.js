@@ -221,4 +221,9 @@ QUnit.test( 'Fraction.fromDecimal', function( assert ) {
   testFraction( .1234567, 1234567, 10000000 );
   testFraction( 1.1234567, 11234567, 10000000 );
   testFraction( 3.5, 7, 2 );
+
+  // These won't work, this doesn't apply to irrational numbers
+  // testFraction( 1/3, 1, 3 );
+  // testFraction( 123/12345, 123, 12345 );
+  testFraction( 123 / 12345, 2490886998784933, 250000000000000000 ); // but this will because of rounding
 } );
