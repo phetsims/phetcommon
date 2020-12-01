@@ -13,6 +13,7 @@
  */
 
 import Utils from '../../../dot/js/Utils.js';
+import phetcommon from '../phetcommon.js';
 
 class Fraction {
 
@@ -400,4 +401,5 @@ var SCRATCH_FRACTION = new Fraction( 1, 1 );
 Fraction.ZERO = new Fraction( 0, 1 );
 Fraction.ONE = new Fraction( 1, 1 );
 
+phetcommon.register( 'Fraction', Fraction );
 export default Fraction;
