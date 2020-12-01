@@ -361,6 +361,7 @@ class Fraction {
    * @static
    */
   static fromInteger( value ) {
+    assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
     return new Fraction( value, 1 );
   }
 
