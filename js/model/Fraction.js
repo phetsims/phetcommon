@@ -373,23 +373,24 @@ class Fraction {
    * @returns {Fraction}
    */
   static fromDecimal( number ) {
-    const numberAsString = number + '';
-    const whole = parseInt( numberAsString.split( '.' )[ 0 ], 10 );
-    let decimal = numberAsString.includes( '.' ) ?
-                  parseFloat( '.' + numberAsString.split( '.' )[ 1 ] ) : 0;
-    if ( decimal === 0 ) {
-      return Fraction.fromInteger( whole );
-    }
 
-    let expandingNumber = '1';
-
-    // Tack on zeros to fill out the decimal into an integer. -2 to account for "0." at the beginning.
-    for ( let z = 0; z < ( decimal + '' ).length - 2; z++ ) {
-      expandingNumber += '0';
+    if ( Utils.isInteger( number ) ) {
+      return Fraction.fromInteger( number );
     }
-    decimal = decimal * expandingNumber;
-    expandingNumber = parseInt( expandingNumber, 10 );
-    return new Fraction( whole * expandingNumber + decimal, expandingNumber ).reduce();
+    else {
+
+      // Get the decimal part of the number.
+      const decimal = number - Utils.toFixedNumber( number, 0 );
+      assert && assert( decimal !== 0, 'expected decimal to be non-zero' );
+
+      // Convert the decimal part into an integer. This becomes the denominator.
+      const denominator = Math.pow( 10, Utils.numberOfDecimalPlaces( decimal ) );
+
+      // Compute numerator
+      const numerator = Utils.toFixedNumber( number * denominator, 0 );
+
+      return new Fraction( numerator, denominator ).reduce();
+    }
   }
 }
 

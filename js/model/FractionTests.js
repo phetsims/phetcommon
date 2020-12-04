@@ -204,7 +204,7 @@ QUnit.test( 'mutable variants', function( assert ) {
   assert.ok( a.equals( new Fraction( 1, 3 ) ), 'Did not mutate a' );
 } );
 
-QUnit.test( 'Fraction.fromDecimal', function( assert ) {
+QUnit.test( 'fromDecimal', function( assert ) {
 
   const testFraction = ( decimal, numerator, denominator ) => {
     const fraction = Fraction.fromDecimal( decimal );
