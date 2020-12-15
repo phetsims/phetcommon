@@ -71,6 +71,16 @@ const AssertUtils = {
   },
 
   /**
+   * Asserts that a value is a positive number.
+   * @param {number} value
+   * @returns {boolean}
+   * @public
+   */
+  assertPositiveNumber( value ) {
+    assert && assert( typeof value === 'number' && value > 0 );
+  },
+
+  /**
    * Asserts that a value is a Range, whose value is between min and max inclusive.
    * @param {Range} range
    * @param {number} min
