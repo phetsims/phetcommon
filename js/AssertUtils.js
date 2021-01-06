@@ -13,7 +13,6 @@
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import Property from '../../axon/js/Property.js';
 import Range from '../../dot/js/Range.js';
-import Utils from '../../dot/js/Utils.js';
 import phetcommon from '../../phetcommon/js/phetcommon.js';
 
 const AssertUtils = {
@@ -54,7 +53,7 @@ const AssertUtils = {
    * @public
    */
   assertInteger( value, predicate ) {
-    assert && assert( typeof value === 'number' && Utils.isInteger( value ), `invalid value: ${value}` );
+    assert && assert( typeof value === 'number' && Number.isInteger( value ), `invalid value: ${value}` );
     if ( predicate ) {
       assert && assert( predicate( value ), `value does not satisfy predicate: ${value}` );
     }

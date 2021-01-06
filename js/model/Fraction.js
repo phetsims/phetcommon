@@ -23,8 +23,8 @@ class Fraction {
    */
   constructor( numerator, denominator ) {
 
-    assert && assert( Utils.isInteger( numerator ), 'numerator must be an integer: ' + numerator );
-    assert && assert( Utils.isInteger( denominator ), 'denominator must be an integer: ' + denominator );
+    assert && assert( Number.isInteger( numerator ), 'numerator must be an integer: ' + numerator );
+    assert && assert( Number.isInteger( denominator ), 'denominator must be an integer: ' + denominator );
 
     // @private use set/get so that values are verified to be integers
     this._numerator = numerator;
@@ -37,7 +37,7 @@ class Fraction {
    * @public
    */
   set numerator( value ) {
-    assert && assert( Utils.isInteger( value ), 'numerator must be an integer: ' + value );
+    assert && assert( Number.isInteger( value ), 'numerator must be an integer: ' + value );
     this._numerator = value;
   }
 
@@ -54,7 +54,7 @@ class Fraction {
    * @public
    */
   set denominator( value ) {
-    assert && assert( Utils.isInteger( value ), 'denominator must be an integer: ' + value );
+    assert && assert( Number.isInteger( value ), 'denominator must be an integer: ' + value );
     this._denominator = value;
   }
 
@@ -189,10 +189,10 @@ class Fraction {
    * @public
    */
   setToSum( numerator1, denominator1, numerator2, denominator2 ) {
-    assert && assert( Utils.isInteger( numerator1 ), 'numerator1 must be an integer' );
-    assert && assert( Utils.isInteger( denominator1 ), 'denominator1 must be an integer' );
-    assert && assert( Utils.isInteger( numerator2 ), 'numerator2 must be an integer' );
-    assert && assert( Utils.isInteger( denominator2 ), 'denominator2 must be an integer' );
+    assert && assert( Number.isInteger( numerator1 ), 'numerator1 must be an integer' );
+    assert && assert( Number.isInteger( denominator1 ), 'denominator1 must be an integer' );
+    assert && assert( Number.isInteger( numerator2 ), 'numerator2 must be an integer' );
+    assert && assert( Number.isInteger( denominator2 ), 'denominator2 must be an integer' );
 
     const lcm = Utils.lcm( denominator1, denominator2 );
     this.numerator = Utils.roundSymmetric( numerator1 * lcm / denominator1 ) +
@@ -310,7 +310,7 @@ class Fraction {
    * @public
    */
   plusInteger( value ) {
-    assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
+    assert && assert( Number.isInteger( value ), 'value is not an integer: ' + value );
     return new Fraction( this.numerator + ( value * this.denominator ), this.denominator );
   }
 
@@ -323,7 +323,7 @@ class Fraction {
    * @public
    */
   minusInteger( value ) {
-    assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
+    assert && assert( Number.isInteger( value ), 'value is not an integer: ' + value );
     return new Fraction( this.numerator - ( value * this.denominator ), this.denominator );
   }
 
@@ -336,7 +336,7 @@ class Fraction {
    * @public
    */
   timesInteger( value ) {
-    assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
+    assert && assert( Number.isInteger( value ), 'value is not an integer: ' + value );
     return new Fraction( this.numerator * value, this.denominator );
   }
 
@@ -350,7 +350,7 @@ class Fraction {
    * @public
    */
   dividedInteger( value ) {
-    assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
+    assert && assert( Number.isInteger( value ), 'value is not an integer: ' + value );
     return new Fraction( this.numerator, this.denominator * value );
   }
 
@@ -362,7 +362,7 @@ class Fraction {
    * @static
    */
   static fromInteger( value ) {
-    assert && assert( Utils.isInteger( value ), 'value is not an integer: ' + value );
+    assert && assert( Number.isInteger( value ), 'value is not an integer: ' + value );
     return new Fraction( value, 1 );
   }
 
@@ -374,7 +374,7 @@ class Fraction {
    */
   static fromDecimal( number ) {
 
-    if ( Utils.isInteger( number ) ) {
+    if ( Number.isInteger( number ) ) {
       return Fraction.fromInteger( number );
     }
     else {
