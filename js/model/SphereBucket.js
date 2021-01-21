@@ -380,12 +380,14 @@ class SphereBucket extends Bucket {
 SphereBucket.SphereBucketIO = new IOType( 'SphereBucketIO', {
   valueType: SphereBucket,
   documentation: 'A model of a bucket into which spherical objects can be placed.',
-  toStateObject: sphereBucket => sphereBucket._particles.map( particle => particle.tandem.phetioID ),
+  toStateObject: sphereBucket => {
+    return { particles: sphereBucket._particles.map( particle => particle.tandem.phetioID ) };
+  },
   applyState: ( sphereBucket, stateObject ) => {
 
     // remove all the particles from the observable arrays
     sphereBucket.reset();
-    const particles = stateObject.map( tandemID => phet.phetio.phetioEngine.getPhetioObject( tandemID ) );
+    const particles = stateObject.particles.map( tandemID => phet.phetio.phetioEngine.getPhetioObject( tandemID ) );
 
     // add back the particles
     particles.forEach( particle => { sphereBucket.addParticle( particle ); } );
