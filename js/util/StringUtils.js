@@ -50,6 +50,7 @@ var StringUtils = {
    * @public
    */
   fillIn: function( template, values ) {
+    assert && assert( typeof template === 'string', `invalid template: ${template}` );
 
     // To catch attempts to use StringUtils.fillIn like StringUtils.format
     assert && assert( values && typeof values === 'object', 'invalid values: ' + values );
