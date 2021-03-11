@@ -109,7 +109,7 @@
       a.async = 1;
       a.src = g;
       m.parentNode.insertBefore( a, m );
-    } )( window, document, 'script', ( 'https:' === document.location.protocol ? 'https:' : 'http:' ) + '//www.google-analytics.com/analytics.js', 'googleAnalytics' );
+    } )( window, document, 'script', ( document.location.protocol === 'https:' ? 'https:' : 'http:' ) + '//www.google-analytics.com/analytics.js', 'googleAnalytics' );
 
     // Applies custom dimensions that are common for our main, third-party, and phet-io tracker
     const phetPageviewOptions = {};
