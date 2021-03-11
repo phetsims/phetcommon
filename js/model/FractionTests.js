@@ -212,13 +212,13 @@ QUnit.test( 'fromDecimal', function( assert ) {
     assert.ok( fraction.denominator === denominator, `denominator should be ${denominator} for fromDecimal: ${decimal}` );
   };
 
-  testFraction( .5, 1, 2 );
-  testFraction( .75, 3, 4 );
-  testFraction( .33, 33, 100 );
+  testFraction( 0.5, 1, 2 );
+  testFraction( 0.75, 3, 4 );
+  testFraction( 0.33, 33, 100 );
   testFraction( 1.33, 133, 100 );
   testFraction( 1, 1, 1 );
   testFraction( 0, 0, 1 );
-  testFraction( .1234567, 1234567, 10000000 );
+  testFraction( 0.1234567, 1234567, 10000000 );
   testFraction( 1.1234567, 11234567, 10000000 );
   testFraction( 3.5, 7, 2 );
 
