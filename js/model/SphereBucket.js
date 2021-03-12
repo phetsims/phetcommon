@@ -306,7 +306,7 @@ class SphereBucket extends Bucket {
     // when released above the bucket, which just looks weird.
     let closestOpenPosition = openPositions[ 0 ] || Vector2.ZERO;
 
-    _.each( openPositions, function( openPosition ) {
+    _.each( openPositions, openPosition => {
       if ( openPosition.distance( position ) < closestOpenPosition.distance( position ) ) {
         // This openPosition is closer.
         closestOpenPosition = openPosition;

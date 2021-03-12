@@ -11,12 +11,12 @@ import StringUtils from './StringUtils.js';
 
 QUnit.module( 'StringUtils' );
 
-QUnit.test( 'capitalize', function( assert ) {
+QUnit.test( 'capitalize', assert => {
   assert.equal( StringUtils.capitalize( 'hello' ), 'Hello', 'word should be capitalized' );
 } );
 
 // See https://github.com/phetsims/phetcommon/issues/36
-QUnit.test( 'fillIn', function( assert ) {
+QUnit.test( 'fillIn', assert => {
 
   assert.equal( StringUtils.fillIn( 'no placeholders here', { name: 'Fred' } ),
     'no placeholders here', '0 placeholders' );

@@ -31,7 +31,7 @@ const StringUtils = {
    */
   format: function( pattern ) {
     const args = arguments;
-    return pattern.replace( /{(\d)}/g, function( r, n ) { return args[ +n + 1 ];} );
+    return pattern.replace( /{(\d)}/g, ( r, n ) => args[ +n + 1 ] );
   },
 
   /**

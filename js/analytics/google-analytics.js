@@ -56,7 +56,7 @@
     // {boolean} - Whether an error was detected with anything relating to google analytics.
     // See https://github.com/phetsims/yotta/issues/30
     let googleAnalyticsErrored = false;
-    window.addEventListener( 'error', function( event ) {
+    window.addEventListener( 'error', event => {
       if ( event &&
            event.target &&
            event.target.src &&
@@ -93,7 +93,7 @@
 
     pingURL( 'https://phet.colorado.edu/yotta/immediate.gif?' + pingParams );
 
-    window.addEventListener( 'load', function( event ) {
+    window.addEventListener( 'load', event => {
       pingURL( 'https://phet.colorado.edu/yotta/sanity.gif?' + pingParams + '&' +
                'gaError=' + encodeURIComponent( googleAnalyticsErrored ) + '&' +
                'gaLoaded=' + encodeURIComponent( googleAnalyticsLoaded ) );
@@ -203,7 +203,7 @@
   }
 
   if ( loadType === 'phet-app' ) {
-    window.addEventListener( 'load', function() {
+    window.addEventListener( 'load', () => {
       setTimeout( sendMessages, 0 ); // eslint-disable-line bad-sim-text
     }, false );
   }
