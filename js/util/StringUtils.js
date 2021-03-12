@@ -53,7 +53,7 @@ const StringUtils = {
     assert && assert( typeof template === 'string', `invalid template: ${template}` );
 
     // To catch attempts to use StringUtils.fillIn like StringUtils.format
-    assert && assert( values && typeof values === 'object', 'invalid values: ' + values );
+    assert && assert( values && typeof values === 'object', `invalid values: ${values}` );
 
     let newString = template;
 

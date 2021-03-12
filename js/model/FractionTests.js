@@ -159,8 +159,8 @@ QUnit.test( 'set', assert => {
 
 QUnit.test( 'lessThan', assert => {
   function differentCheck( smallerFraction, largerFraction ) {
-    assert.ok( smallerFraction.isLessThan( largerFraction ), smallerFraction.toString() + ' < ' + largerFraction.toString() );
-    assert.ok( !largerFraction.isLessThan( smallerFraction ), largerFraction.toString() + ' >= ' + smallerFraction.toString() );
+    assert.ok( smallerFraction.isLessThan( largerFraction ), `${smallerFraction.toString()} < ${largerFraction.toString()}` );
+    assert.ok( !largerFraction.isLessThan( smallerFraction ), `${largerFraction.toString()} >= ${smallerFraction.toString()}` );
   }
 
   differentCheck( new Fraction( 1, 3 ), new Fraction( 1, 2 ) );

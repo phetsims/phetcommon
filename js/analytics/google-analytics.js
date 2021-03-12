@@ -73,30 +73,30 @@
       googleAnalyticsLoaded = true;
     }
 
-    const pingParams = 'pingver=3&' +
-                       'project=' + encodeURIComponent( phet.chipper.project ) + '&' +
-                       'brand=' + encodeURIComponent( phet.chipper.brand ) + '&' +
-                       'version=' + encodeURIComponent( phet.chipper.version ) + '&' +
-                       'locale=' + encodeURIComponent( phet.chipper.locale ) + '&' +
-                       'buildTimestamp=' + encodeURIComponent( phet.chipper.buildTimestamp ) + '&' +
-                       'domain=' + encodeURIComponent( document.domain ) + '&' +
-                       'href=' + encodeURIComponent( window.location.href ) + '&' +
+    const pingParams = `${'pingver=3&' +
+                       'project='}${encodeURIComponent( phet.chipper.project )}&` +
+                       `brand=${encodeURIComponent( phet.chipper.brand )}&` +
+                       `version=${encodeURIComponent( phet.chipper.version )}&` +
+                       `locale=${encodeURIComponent( phet.chipper.locale )}&` +
+                       `buildTimestamp=${encodeURIComponent( phet.chipper.buildTimestamp )}&` +
+                       `domain=${encodeURIComponent( document.domain )}&` +
+                       `href=${encodeURIComponent( window.location.href )}&` +
                        'type=html&' +
-                       'timestamp=' + encodeURIComponent( Date.now() ) + '&' +
-                       'loadType=' + encodeURIComponent( loadType ) + '&' +
-                       'ref=' + encodeURIComponent( document.referrer );
+                       `timestamp=${encodeURIComponent( Date.now() )}&` +
+                       `loadType=${encodeURIComponent( loadType )}&` +
+                       `ref=${encodeURIComponent( document.referrer )}`;
 
     function pingURL( url ) {
       const img = document.createElement( 'img' );
       img.src = url;
     }
 
-    pingURL( 'https://phet.colorado.edu/yotta/immediate.gif?' + pingParams );
+    pingURL( `https://phet.colorado.edu/yotta/immediate.gif?${pingParams}` );
 
     window.addEventListener( 'load', event => {
-      pingURL( 'https://phet.colorado.edu/yotta/sanity.gif?' + pingParams + '&' +
-               'gaError=' + encodeURIComponent( googleAnalyticsErrored ) + '&' +
-               'gaLoaded=' + encodeURIComponent( googleAnalyticsLoaded ) );
+      pingURL( `https://phet.colorado.edu/yotta/sanity.gif?${pingParams}&` +
+               `gaError=${encodeURIComponent( googleAnalyticsErrored )}&` +
+               `gaLoaded=${encodeURIComponent( googleAnalyticsLoaded )}` );
     }, false );
 
     // Google Analytics snippet for loading the API
@@ -109,7 +109,7 @@
       a.async = 1;
       a.src = g;
       m.parentNode.insertBefore( a, m );
-    } )( window, document, 'script', ( document.location.protocol === 'https:' ? 'https:' : 'http:' ) + '//www.google-analytics.com/analytics.js', 'googleAnalytics' );
+    } )( window, document, 'script', `${document.location.protocol === 'https:' ? 'https:' : 'http:'}//www.google-analytics.com/analytics.js`, 'googleAnalytics' );
 
     // Applies custom dimensions that are common for our main, third-party, and phet-io tracker
     const phetPageviewOptions = {};
@@ -129,7 +129,7 @@
     phetPageviewOptions.dimension5 = loadType;
     phetPageviewOptions.dimension6 = document.referrer;
 
-    const offlineSimLocation = 'offline/html/' + phet.chipper.project + '_' + phet.chipper.locale;
+    const offlineSimLocation = `offline/html/${phet.chipper.project}_${phet.chipper.locale}`;
 
     // Put our function in the queue, to be invoked when the analytics.js has fully loaded.
     // See https://github.com/phetsims/yotta/issues/30

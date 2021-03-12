@@ -23,8 +23,8 @@ class Fraction {
    */
   constructor( numerator, denominator ) {
 
-    assert && assert( Number.isInteger( numerator ), 'numerator must be an integer: ' + numerator );
-    assert && assert( Number.isInteger( denominator ), 'denominator must be an integer: ' + denominator );
+    assert && assert( Number.isInteger( numerator ), `numerator must be an integer: ${numerator}` );
+    assert && assert( Number.isInteger( denominator ), `denominator must be an integer: ${denominator}` );
 
     // @private use set/get so that values are verified to be integers
     this._numerator = numerator;
@@ -37,7 +37,7 @@ class Fraction {
    * @public
    */
   set numerator( value ) {
-    assert && assert( Number.isInteger( value ), 'numerator must be an integer: ' + value );
+    assert && assert( Number.isInteger( value ), `numerator must be an integer: ${value}` );
     this._numerator = value;
   }
 
@@ -54,7 +54,7 @@ class Fraction {
    * @public
    */
   set denominator( value ) {
-    assert && assert( Number.isInteger( value ), 'denominator must be an integer: ' + value );
+    assert && assert( Number.isInteger( value ), `denominator must be an integer: ${value}` );
     this._denominator = value;
   }
 
@@ -83,7 +83,7 @@ class Fraction {
 
   // @public
   toString() {
-    return this.numerator + '/' + this.denominator;
+    return `${this.numerator}/${this.denominator}`;
   }
 
   // @public
@@ -140,7 +140,7 @@ class Fraction {
    * @returns {boolean}
    */
   isLessThan( fraction ) {
-    assert && assert( fraction instanceof Fraction, 'fraction is not a Fraction: ' + fraction );
+    assert && assert( fraction instanceof Fraction, `fraction is not a Fraction: ${fraction}` );
 
     // The more straightforward approach would be: this.getValue() < fraction.getValue().
     // But that uses floating-point operations and comparisons, which could result in a loss of precision.
@@ -209,7 +209,7 @@ class Fraction {
    * @public
    */
   add( value ) {
-    assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
+    assert && assert( value instanceof Fraction, `value is not a Fraction: ${value}` );
 
     return this.setToSum( this.numerator, this.denominator, value.numerator, value.denominator );
   }
@@ -233,7 +233,7 @@ class Fraction {
    * @public
    */
   subtract( value ) {
-    assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
+    assert && assert( value instanceof Fraction, `value is not a Fraction: ${value}` );
 
     return this.setToSum( this.numerator, this.denominator, -value.numerator, value.denominator );
   }
@@ -257,7 +257,7 @@ class Fraction {
    * @public
    */
   multiply( value ) {
-    assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
+    assert && assert( value instanceof Fraction, `value is not a Fraction: ${value}` );
 
     this.numerator *= value.numerator;
     this.denominator *= value.denominator;
@@ -283,7 +283,7 @@ class Fraction {
    * @public
    */
   divide( value ) {
-    assert && assert( value instanceof Fraction, 'value is not a Fraction: ' + value );
+    assert && assert( value instanceof Fraction, `value is not a Fraction: ${value}` );
 
     this.numerator *= value.denominator;
     this.denominator *= value.numerator;
@@ -310,7 +310,7 @@ class Fraction {
    * @public
    */
   plusInteger( value ) {
-    assert && assert( Number.isInteger( value ), 'value is not an integer: ' + value );
+    assert && assert( Number.isInteger( value ), `value is not an integer: ${value}` );
     return new Fraction( this.numerator + ( value * this.denominator ), this.denominator );
   }
 
@@ -323,7 +323,7 @@ class Fraction {
    * @public
    */
   minusInteger( value ) {
-    assert && assert( Number.isInteger( value ), 'value is not an integer: ' + value );
+    assert && assert( Number.isInteger( value ), `value is not an integer: ${value}` );
     return new Fraction( this.numerator - ( value * this.denominator ), this.denominator );
   }
 
@@ -336,7 +336,7 @@ class Fraction {
    * @public
    */
   timesInteger( value ) {
-    assert && assert( Number.isInteger( value ), 'value is not an integer: ' + value );
+    assert && assert( Number.isInteger( value ), `value is not an integer: ${value}` );
     return new Fraction( this.numerator * value, this.denominator );
   }
 
@@ -350,7 +350,7 @@ class Fraction {
    * @public
    */
   dividedInteger( value ) {
-    assert && assert( Number.isInteger( value ), 'value is not an integer: ' + value );
+    assert && assert( Number.isInteger( value ), `value is not an integer: ${value}` );
     return new Fraction( this.numerator, this.denominator * value );
   }
 
@@ -362,7 +362,7 @@ class Fraction {
    * @static
    */
   static fromInteger( value ) {
-    assert && assert( Number.isInteger( value ), 'value is not an integer: ' + value );
+    assert && assert( Number.isInteger( value ), `value is not an integer: ${value}` );
     return new Fraction( value, 1 );
   }
 
