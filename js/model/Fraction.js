@@ -396,7 +396,7 @@ class Fraction {
 
 // Used to avoid GC - NOTE: Do NOT move in front of the constructor/inherit, as it is creating a copy of the type
 // defined.
-var SCRATCH_FRACTION = new Fraction( 1, 1 );
+const SCRATCH_FRACTION = new Fraction( 1, 1 );
 
 // Useful constants
 Fraction.ZERO = new Fraction( 0, 1 );

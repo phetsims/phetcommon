@@ -11,7 +11,7 @@ const LTR = '\u202a';
 const RTL = '\u202b';
 const POP = '\u202c';
 
-var StringUtils = {
+const StringUtils = {
 
   /**
    * NOTE: Please use StringUtils.fillIn instead of this function.
