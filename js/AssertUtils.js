@@ -13,6 +13,7 @@
 import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
 import Property from '../../axon/js/Property.js';
 import Range from '../../dot/js/Range.js';
+import Enumeration from '../../phet-core/js/Enumeration.js';
 import phetcommon from '../../phetcommon/js/phetcommon.js';
 
 const AssertUtils = {
@@ -39,6 +40,9 @@ const AssertUtils = {
   assertPropertyOf( property, type ) {
     if ( typeof type === 'string' ) {
       assert && AssertUtils.assertProperty( property, value => typeof value === type );
+    }
+    else if ( type instanceof Enumeration ) {
+      assert && AssertUtils.assertProperty( property, value => type.includes( value ) );
     }
     else {
       assert && AssertUtils.assertProperty( property, value => value instanceof type );
