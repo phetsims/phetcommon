@@ -34,7 +34,7 @@ const AssertUtils = {
   /**
    * Asserts that a value is a Property, whose value is a specified type.
    * @param {Property} property
-   * @param {string|constructor} type - primitive type (string) or object type (constructor)
+   * @param {string|Enumeration|constructor} type - primitive type (string), Enumeration type, or object type (constructor)
    * @public
    */
   assertPropertyOf( property, type ) {
