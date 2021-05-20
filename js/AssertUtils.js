@@ -64,7 +64,7 @@ const AssertUtils = {
   },
 
   /**
-   * Asserts that a value is a positive integer.
+   * Asserts that a value is a positive integer, > 0.
    * @param {number} value
    * @returns {boolean}
    * @public
@@ -74,13 +74,33 @@ const AssertUtils = {
   },
 
   /**
-   * Asserts that a value is a positive number.
+   * Asserts that a value is a non-negative integer, >= 0.
+   * @param {number} value
+   * @returns {boolean}
+   * @public
+   */
+  assertNonNegativeInteger( value ) {
+    assert && AssertUtils.assertInteger( value, value => value >= 0 );
+  },
+
+  /**
+   * Asserts that a value is a positive number, > 0.
    * @param {number} value
    * @returns {boolean}
    * @public
    */
   assertPositiveNumber( value ) {
     assert && assert( typeof value === 'number' && value > 0 );
+  },
+
+  /**
+   * Asserts that a value is a non-negative number, >= 0.
+   * @param {number} value
+   * @returns {boolean}
+   * @public
+   */
+  assertNonNegativeNumber( value ) {
+    assert && assert( typeof value === 'number' && value >= 0 );
   },
 
   /**
