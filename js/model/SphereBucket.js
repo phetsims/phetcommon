@@ -1,4 +1,4 @@
-// Copyright 2013-2020, University of Colorado Boulder
+// Copyright 2013-2021, University of Colorado Boulder
 
 /**
  * SphereBucket is a model of a bucket that can be used to store spherical objects.  It manages the addition and removal
