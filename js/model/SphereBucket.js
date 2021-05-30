@@ -15,7 +15,9 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import cleanArray from '../../../phet-core/js/cleanArray.js';
 import merge from '../../../phet-core/js/merge.js';
 import Tandem from '../../../tandem/js/Tandem.js';
+import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../tandem/js/types/IOType.js';
+import StringIO from '../../../tandem/js/types/StringIO.js';
 import phetcommon from '../phetcommon.js';
 import Bucket from './Bucket.js';
 
@@ -380,8 +382,11 @@ class SphereBucket extends Bucket {
 SphereBucket.SphereBucketIO = new IOType( 'SphereBucketIO', {
   valueType: SphereBucket,
   documentation: 'A model of a bucket into which spherical objects can be placed.',
+  stateSchema: {
+    particles: ArrayIO( StringIO )
+  },
   toStateObject: sphereBucket => {
-    return { particles: sphereBucket._particles.map( particle => particle.tandem.phetioID ) };
+    return { particles: sphereBucket._particles.map( particle => particle.tandem.phetioID ) }; // TODO: https://github.com/phetsims/phet-io/issues/1774 use ReferenceIO?
   },
   applyState: ( sphereBucket, stateObject ) => {
 
