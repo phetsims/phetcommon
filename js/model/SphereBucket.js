@@ -386,7 +386,7 @@ SphereBucket.SphereBucketIO = new IOType( 'SphereBucketIO', {
     particles: ArrayIO( StringIO )
   },
   toStateObject: sphereBucket => {
-    return { particles: sphereBucket._particles.map( particle => particle.tandem.phetioID ) }; // TODO: https://github.com/phetsims/phet-io/issues/1774 use ReferenceIO?
+    return { particles: sphereBucket._particles.map( particle => particle.tandem.phetioID ) }; // TODO: https://github.com/phetsims/phetcommon/issues/54 use ReferenceIO?
   },
   applyState: ( sphereBucket, stateObject ) => {
 
