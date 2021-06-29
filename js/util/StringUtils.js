@@ -30,6 +30,7 @@ const StringUtils = {
    * @deprecated - please use StringUtils.fillIn
    */
   format: function( pattern ) {
+    // eslint-disable-next-line prefer-rest-params
     const args = arguments;
     return pattern.replace( /{(\d)}/g, ( r, n ) => args[ +n + 1 ] );
   },
