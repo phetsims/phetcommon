@@ -10,7 +10,7 @@
  */
 
 ( function() {
-  'use strict';
+  
 
   assert && assert( window.phet && phet.chipper, 'We will require multiple things from the chipper preload namespace' );
   assert && assert( !!phet.chipper.brand, 'A brand is required, since some messages depend on the brand' );
