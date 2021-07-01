@@ -17,7 +17,7 @@ import merge from '../../../phet-core/js/merge.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../tandem/js/types/IOType.js';
-import StringIO from '../../../tandem/js/types/StringIO.js';
+import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import phetcommon from '../phetcommon.js';
 import Bucket from './Bucket.js';
 
@@ -383,16 +383,17 @@ SphereBucket.SphereBucketIO = new IOType( 'SphereBucketIO', {
   valueType: SphereBucket,
   documentation: 'A model of a bucket into which spherical objects can be placed.',
   stateSchema: {
-    particles: ArrayIO( StringIO )
+    particles: ArrayIO( ReferenceIO( IOType.ObjectIO ) )
   },
   toStateObject: sphereBucket => {
-    return { particles: sphereBucket._particles.map( particle => particle.tandem.phetioID ) }; // TODO: https://github.com/phetsims/phetcommon/issues/54 use ReferenceIO?
+    return { particles: ArrayIO( ReferenceIO( IOType.ObjectIO ) ).toStateObject( sphereBucket._particles ) };
   },
   applyState: ( sphereBucket, stateObject ) => {
 
     // remove all the particles from the observable arrays
     sphereBucket.reset();
-    const particles = stateObject.particles.map( tandemID => phet.phetio.phetioEngine.getPhetioObject( tandemID ) );
+
+    const particles = ArrayIO( ReferenceIO( IOType.ObjectIO ) ).fromStateObject( stateObject.particles );
 
     // add back the particles
     particles.forEach( particle => { sphereBucket.addParticle( particle ); } );
