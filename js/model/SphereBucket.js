@@ -379,21 +379,23 @@ class SphereBucket extends Bucket {
   }
 }
 
+const ReferenceObjectArrayIO = ArrayIO( ReferenceIO( IOType.ObjectIO ) );
+
 SphereBucket.SphereBucketIO = new IOType( 'SphereBucketIO', {
   valueType: SphereBucket,
   documentation: 'A model of a bucket into which spherical objects can be placed.',
   stateSchema: {
-    particles: ArrayIO( ReferenceIO( IOType.ObjectIO ) )
+    particles: ReferenceObjectArrayIO
   },
   toStateObject: sphereBucket => {
-    return { particles: ArrayIO( ReferenceIO( IOType.ObjectIO ) ).toStateObject( sphereBucket._particles ) };
+    return { particles: ReferenceObjectArrayIO.toStateObject( sphereBucket._particles ) };
   },
   applyState: ( sphereBucket, stateObject ) => {
 
     // remove all the particles from the observable arrays
     sphereBucket.reset();
 
-    const particles = ArrayIO( ReferenceIO( IOType.ObjectIO ) ).fromStateObject( stateObject.particles );
+    const particles = ReferenceObjectArrayIO.fromStateObject( stateObject.particles );
 
     // add back the particles
     particles.forEach( particle => { sphereBucket.addParticle( particle ); } );
