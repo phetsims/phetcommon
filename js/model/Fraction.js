@@ -9,7 +9,7 @@
  *
  * @author John Blanco
  * @author Chris Malley (PixelZoom, Inc.)
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 
 import Utils from '../../../dot/js/Utils.js';

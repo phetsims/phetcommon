@@ -6,7 +6,7 @@
  *
  * NOTE: Please be careful about modifications, as it relies on external scripts.
  *
- * @author Sam Reid
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 
 ( function() {
