@@ -11,6 +11,7 @@
     "js/**/*"
   ],
   "exclude": [
+    "js/**/*Test*",
     "js/**/*test*",
     // Covered elsewhere
     "js/util/StringUtils.js",
