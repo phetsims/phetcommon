@@ -34,7 +34,8 @@
       },
       "phet": {
         "generatedUnitTests": true,
-        "requirejsNamespace": "PHETCOMMON"
+        "requirejsNamespace": "PHETCOMMON",
+        "supportsOutputJS": true
       },
       "eslintConfig": {
         "extends": "../chipper/eslint/sim_eslintrc.js"
@@ -103,6 +104,7 @@
     script.type = type;
     script.src = preloadURL;
     script.async = false;
+    script.setAttribute( 'crossorigin', 'use-credentials' );
     document.head.appendChild( script );
   };
 
@@ -114,7 +116,7 @@
 
   // Module loading in compilation-free (development) mode will be kicked off once strings are loaded.
   // This is done in load-unbuilt-strings.js
-  window.phet.chipper.loadModules = () => loadURL( 'js/phetcommon-tests.js', 'module' );
+  window.phet.chipper.loadModules = () => loadURL( '../chipper/dist/phetcommon/js/phetcommon-tests.js', 'module' );
 </script>
 </body>
 </html>
