@@ -4,10 +4,13 @@
     {
       // Could potentially be relaxed somewhat. Doesn't depend on scenery directly, but uses
       // some files scenery includes.
-      "path": "../joist/tsconfig.json"
+      "path": "../scenery"
     }
   ],
   "include": [
+    "js/**/*"
+  ],
+  "exclude": [
     "js/**/*Test*",
     "js/**/*test*",
     // Covered elsewhere
