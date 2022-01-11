@@ -10,7 +10,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 
-import EnumerationProperty from '../../axon/js/EnumerationProperty.js';
+import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
 import Property from '../../axon/js/Property.js';
 import Range from '../../dot/js/Range.js';
 import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
@@ -144,12 +144,12 @@ const AssertUtils = {
   },
 
   /**
-   * Asserts that a value is an EnumerationProperty, whose values are a specific type of EnumerationDeprecated.
-   * @param {EnumerationProperty} enumerationProperty
+   * Asserts that a value is an EnumerationDeprecatedProperty, whose values are a specific type of EnumerationDeprecated.
+   * @param {EnumerationDeprecatedProperty} enumerationProperty
    * @param {EnumerationDeprecated} enumeration
    */
   assertEnumerationPropertyOf( enumerationProperty, enumeration ) {
-    assert && assert( enumerationProperty instanceof EnumerationProperty, 'invalid enumerationProperty' );
+    assert && assert( enumerationProperty instanceof EnumerationDeprecatedProperty, 'invalid enumerationProperty' );
     assert && assert( enumerationProperty.enumeration === enumeration, 'invalid enumeration' );
   }
 };
