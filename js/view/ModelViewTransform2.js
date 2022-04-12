@@ -1,5 +1,6 @@
 // Copyright 2013-2020, University of Colorado Boulder
 
+// @ts-nocheck
 /**
  * Transform between model and view coordinate frames, and provides convenience methods beyond dot.Transform3
  *
