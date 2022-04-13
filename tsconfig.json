@@ -12,7 +12,8 @@
     "js/**/*test*",
     // Covered elsewhere
     "js/util/StringUtils.js",
-    "js/view/ModelViewTransform2.js",
-    "js/phetcommon.js"
+    "js/view/ModelViewTransform2.ts",
+    "js/phetcommon.js",
+    "../chipper/phet-types.d.ts"
   ]
 }
