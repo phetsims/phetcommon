@@ -119,7 +119,7 @@ class ModelViewTransform2 extends Transform3 {
     return this.inverseShape( shape );
   }
 
-  public viewToModelRay( ray: Ray2 ) {
+  public viewToModelRay( ray: Ray2 ): Ray2 {
     return this.inverseRay2( ray );
   }
 
