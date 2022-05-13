@@ -1,19 +1,9 @@
 {
   "extends": "../chipper/tsconfig-core.json",
-  "references": [
-    {
-      // Could potentially be relaxed somewhat. Doesn't depend on scenery directly, but uses
-      // some files scenery includes.
-      "path": "../joist/tsconfig.json"
-    }
-  ],
   "include": [
-    "js/**/*Test*",
-    "js/**/*test*",
-    // Covered elsewhere
-    "js/util/StringUtils.js",
-    "js/view/ModelViewTransform2.ts",
-    "js/phetcommon.js",
-    "../chipper/phet-types.d.ts"
+    "js/**/*",
+    "images/**/*",
+    "mipmaps/**/*",
+    "sounds/**/*"
   ]
 }
