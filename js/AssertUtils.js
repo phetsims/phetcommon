@@ -11,7 +11,7 @@
  */
 
 import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
-import Property from '../../axon/js/Property.js';
+import Property, { AbstractProperty } from '../../axon/js/Property.js';
 import Range from '../../dot/js/Range.js';
 import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
 import phetcommon from '../../phetcommon/js/phetcommon.js';
@@ -32,6 +32,19 @@ const AssertUtils = {
   },
 
   /**
+   * Asserts that a value is a Property, whose value satisfies an optional predicate.
+   * @param {Property} property
+   * @param {function(value:*):boolean} [predicate]
+   * @public
+   */
+  assertAbstractProperty( property, predicate ) {
+    assert && assert( property instanceof AbstractProperty, 'property is not an AbstractProperty' );
+    if ( predicate ) {
+      assert && assert( predicate( property.value ), 'Property.value failed predicate' );
+    }
+  },
+
+  /**
    * Asserts that a value is a Property, whose value is a specified type.
    * @param {Property} property
    * @param {string|EnumerationDeprecated|constructor} type - primitive type (string), EnumerationDeprecated type, or object type (constructor)
@@ -46,6 +59,24 @@ const AssertUtils = {
     }
     else {
       assert && AssertUtils.assertProperty( property, value => value instanceof type );
+    }
+  },
+
+  /**
+   * Asserts that a value is a Property, whose value is a specified type.
+   * @param {Property} property
+   * @param {string|EnumerationDeprecated|constructor} type - primitive type (string), EnumerationDeprecated type, or object type (constructor)
+   * @public
+   */
+  assertAbstractPropertyOf( property, type ) {
+    if ( typeof type === 'string' ) {
+      assert && AssertUtils.assertAbstractProperty( property, value => typeof value === type );
+    }
+    else if ( type instanceof EnumerationDeprecated ) {
+      assert && AssertUtils.assertAbstractProperty( property, value => type.includes( value ) );
+    }
+    else {
+      assert && AssertUtils.assertAbstractProperty( property, value => value instanceof type );
     }
   },
 
