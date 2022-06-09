@@ -11,7 +11,7 @@
  */
 
 import EnumerationDeprecatedProperty from '../../axon/js/EnumerationDeprecatedProperty.js';
-import Property, { AbstractProperty } from '../../axon/js/Property.js';
+import Property, { ReadOnlyProperty } from '../../axon/js/Property.js';
 import Range from '../../dot/js/Range.js';
 import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
 import phetcommon from '../../phetcommon/js/phetcommon.js';
@@ -38,7 +38,7 @@ const AssertUtils = {
    * @public
    */
   assertAbstractProperty( property, predicate ) {
-    assert && assert( property instanceof AbstractProperty, 'property is not an AbstractProperty' );
+    assert && assert( property instanceof ReadOnlyProperty, 'property is not an ReadOnlyProperty' );
     if ( predicate ) {
       assert && assert( predicate( property.value ), 'Property.value failed predicate' );
     }
