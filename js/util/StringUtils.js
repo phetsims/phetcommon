@@ -51,7 +51,7 @@ const StringUtils = {
    * @public
    */
   fillIn: function( template, values ) {
-    template = template.get ? template.get() : template;
+    template = ( template && template.get ) ? template.get() : template;
     assert && assert( typeof template === 'string', `invalid template: ${template}` );
 
     // To catch attempts to use StringUtils.fillIn like StringUtils.format
@@ -71,7 +71,7 @@ const StringUtils = {
       if ( values[ key ] !== undefined ) {
 
         // Support Properties as values
-        const valueString = values[ key ].get ? values[ key ].get() : values[ key ];
+        const valueString = ( values[ key ] && values[ key ].get ) ? values[ key ].get() : values[ key ];
         newString = newString.replace( placeholder, valueString );
       }
     }
