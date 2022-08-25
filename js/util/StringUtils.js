@@ -44,13 +44,14 @@ const StringUtils = {
    * > StringUtils.fillIn( '{{name}} is {{age}} years old', { name: 'Fred', age: 23 } )
    * "Fred is 23 years old"
    *
-   * @param {string} template - the template, containing zero or more placeholders
+   * @param {string|TReadOnlyProperty<string>} template - the template, containing zero or more placeholders
    * @param {Object} values - a hash whose keys correspond to the placeholder names, e.g. { name: 'Fred', age: 23 }
    *                          Unused keys are silently ignored. All placeholders do not need to be filled.
    * @returns {string}
    * @public
    */
   fillIn: function( template, values ) {
+    template = template.get ? template.get() : template;
     assert && assert( typeof template === 'string', `invalid template: ${template}` );
 
     // To catch attempts to use StringUtils.fillIn like StringUtils.format
@@ -68,7 +69,10 @@ const StringUtils = {
       // key is the portion of the placeholder between the curly braces
       const key = placeholder.replace( '{{', '' ).replace( '}}', '' );
       if ( values[ key ] !== undefined ) {
-        newString = newString.replace( placeholder, values[ key ] );
+
+        // Support Properties as values
+        const valueString = values[ key ].get ? values[ key ].get() : values[ key ];
+        newString = newString.replace( placeholder, valueString );
       }
     }
 
