@@ -8,7 +8,6 @@
 
 import qunitStart from '../../chipper/js/sim-tests/qunitStart.js';
 import './model/FractionTests.js';
-import './util/PatternStringPropertyTests.js';
 import './util/StringUtilsTests.js';
 
 // Since our tests are loaded asynchronously, we must direct QUnit to begin the tests
