@@ -13,12 +13,22 @@
  */
 
 import Utils from '../../../dot/js/Utils.js';
+import IOType from '../../../tandem/js/types/IOType.js';
+import NumberIO, { NumberStateObject } from '../../../tandem/js/types/NumberIO.js';
 import phetcommon from '../phetcommon.js';
+
+export type FractionStateObject = {
+  numerator: NumberStateObject;
+  denominator: NumberStateObject;
+};
 
 export default class Fraction {
 
   private _numerator: number;
   private _denominator: number;
+
+  public static readonly ZERO = new Fraction( 0, 1 );
+  public static readonly ONE = new Fraction( 1, 1 );
 
   public constructor( numerator: number, denominator: number ) {
 
@@ -303,12 +313,38 @@ export default class Fraction {
     }
   }
 
-  public static readonly ZERO = new Fraction( 0, 1 );
-  public static readonly ONE = new Fraction( 1, 1 );
+  /**
+   * Serializes this Fraction instance.
+   */
+  public toStateObject(): FractionStateObject {
+    return {
+      numerator: NumberIO.toStateObject( this._numerator ),
+      denominator: NumberIO.toStateObject( this._denominator )
+    };
+  }
+
+  /**
+   * Deserializes a Fraction from PhET-iO state.
+   */
+  public static fromStateObject( stateObject: FractionStateObject ): Fraction {
+    return new Fraction( NumberIO.fromStateObject( stateObject.numerator ), NumberIO.fromStateObject( stateObject.denominator ) );
+  }
+
+  /**
+   * IOType for Fraction.
+   */
+  public static readonly FractionIO = new IOType<Fraction, FractionStateObject>( 'FractionIO', {
+    valueType: Fraction,
+    stateSchema: {
+      numerator: NumberIO,
+      denominator: NumberIO
+    },
+    toStateObject: ( fraction: Fraction ) => fraction.toStateObject(),
+    fromStateObject: ( stateObject: FractionStateObject ) => Fraction.fromStateObject( stateObject )
+  } );
 }
 
-// Used to avoid GC.
-// NOTE: Do NOT move in front of the constructor/inherit, as it is creating a copy of the type defined.
+// Used to avoid GC. NOTE: Do NOT move in front of the constructor, as it is creating a copy of the type defined.
 const SCRATCH_FRACTION = new Fraction( 1, 1 );
 
 phetcommon.register( 'Fraction', Fraction );
