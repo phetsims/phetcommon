@@ -14,12 +14,12 @@
 
 import Utils from '../../../dot/js/Utils.js';
 import IOType from '../../../tandem/js/types/IOType.js';
-import NumberIO, { NumberStateObject } from '../../../tandem/js/types/NumberIO.js';
+import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import phetcommon from '../phetcommon.js';
 
 export type FractionStateObject = {
-  numerator: NumberStateObject;
-  denominator: NumberStateObject;
+  numerator: number;
+  denominator: number;
 };
 
 export default class Fraction {
@@ -318,8 +318,8 @@ export default class Fraction {
    */
   public toStateObject(): FractionStateObject {
     return {
-      numerator: NumberIO.toStateObject( this._numerator ),
-      denominator: NumberIO.toStateObject( this._denominator )
+      numerator: this._numerator,
+      denominator: this._denominator
     };
   }
 
@@ -327,7 +327,7 @@ export default class Fraction {
    * Deserializes a Fraction from PhET-iO state.
    */
   public static fromStateObject( stateObject: FractionStateObject ): Fraction {
-    return new Fraction( NumberIO.fromStateObject( stateObject.numerator ), NumberIO.fromStateObject( stateObject.denominator ) );
+    return new Fraction( stateObject.numerator, stateObject.denominator );
   }
 
   /**
