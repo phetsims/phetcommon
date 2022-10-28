@@ -1,4 +1,4 @@
-// Copyright 2022, University of Colorado Boulder
+// Copyright 2016-2022, University of Colorado Boulder
 
 import phetcommon from './phetcommon.js';
 import './model/Bucket.js';
