@@ -285,6 +285,28 @@ var StringUtils = {
   },
 
   /**
+   * Wraps a string with embedding marks for LTR display.
+   * @public
+   *
+   * @param {string} string
+   * @returns {string}
+   */
+  wrapLTR: function( string ) {
+    return LTR + string + POP;
+  },
+
+  /**
+   * Wraps a string with embedding marks for RTL display.
+   * @public
+   *
+   * @param {string} string
+   * @returns {string}
+   */
+  wrapRTL: function( string ) {
+    return LTR + string + POP;
+  },
+
+  /**
    * Assert that a template var is in a string. Useful for translated strings with a template var pattern like
    * "Hello {{meanName}}" --> "Hello goofball". See StringUtils.fillIn() for base usages of template var pattern.
    *
