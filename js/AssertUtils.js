@@ -179,8 +179,9 @@ const AssertUtils = {
    * Asserts that a value is an EnumerationDeprecatedProperty, whose values are a specific type of EnumerationDeprecated.
    * @param {EnumerationDeprecatedProperty} enumerationProperty
    * @param {EnumerationDeprecated} enumeration
+   * @deprecated
    */
-  assertEnumerationPropertyOf( enumerationProperty, enumeration ) {
+  assertEnumerationDeprecatedPropertyOf( enumerationProperty, enumeration ) {
     assert && assert( enumerationProperty instanceof EnumerationDeprecatedProperty, 'invalid enumerationProperty' );
     assert && assert( enumerationProperty.enumeration === enumeration, 'invalid enumeration' );
   }
