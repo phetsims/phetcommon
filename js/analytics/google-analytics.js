@@ -27,8 +27,13 @@
   }
 
   var loadType;
+  // This is the iOS app
   if ( phet.chipper.queryParameters[ 'phet-app' ] ) {
     loadType = 'phet-app';
+  }
+  // For the Android app, see https://github.com/phetsims/phet-android-app/issues/16
+  else if ( phet.chipper.queryParameters[ 'phet-android-app' ] ) {
+    loadType = 'phet-android-app';
   }
   else if ( top !== self ) {
     // Checks to see if this sim is embedded - phetsims/chipper#50
@@ -39,149 +44,134 @@
     loadType = 'default';
   }
 
-  // {boolean} - Whether an error was detected with anything relating to google analytics.
-  // See https://github.com/phetsims/yotta/issues/30
-  var googleAnalyticsErrored = false;
-  window.addEventListener( 'error', function( event ) {
-    if ( event &&
-         event.target &&
-         event.target.src &&
-         event.target.src.indexOf &&
-         event.target.src.indexOf( 'google-analytics' ) >= 0 ) {
-      googleAnalyticsErrored = true;
+  function sendMessages() {
+    // {boolean} - Whether an error was detected with anything relating to google analytics.
+    // See https://github.com/phetsims/yotta/issues/30
+    var googleAnalyticsErrored = false;
+    window.addEventListener( 'error', function ( event ) {
+      if ( event &&
+           event.target &&
+           event.target.src &&
+           event.target.src.indexOf &&
+           event.target.src.indexOf( 'google-analytics' ) >= 0 ) {
+        googleAnalyticsErrored = true;
+      }
+    }, true );
+
+    var pingParams = 'pingver=3&' +
+                     'project=' + encodeURIComponent( phet.chipper.project ) +
+                     'brand=' + encodeURIComponent( phet.chipper.brand ) +
+                     'version=' + encodeURIComponent( phet.chipper.version ) +
+                     'locale=' + encodeURIComponent( phet.chipper.locale ) +
+                     'buildTimestamp=' + encodeURIComponent( phet.chipper.buildTimestamp ) +
+                     'domain=' + encodeURIComponent( document.domain ) +
+                     'href=' + encodeURIComponent( window.location.href ) +
+                     'type=html&' +
+                     'timestamp=' + encodeURIComponent( Date.now() ) +
+                     'loadType=' + encodeURIComponent( loadType ) +
+                     'ref=' + encodeURIComponent( document.referrer );
+
+    function pingURL( url ) {
+      var img = document.createElement( 'img' );
+      img.src = url;
     }
-  }, true );
 
-  // {boolean} - Whether analytics.js successfully loaded, see https://github.com/phetsims/yotta/issues/30
-  var googleAnalyticsLoaded = false;
-  function onGoogleAnalyticsLoad() {
-    googleAnalyticsLoaded = true;
-  }
+    pingURL( 'https://phet.colorado.edu/yotta/immediate.gif?' + pingParams );
 
-  var pingParams = 'pingver=2&' +
-                   'project=' + encodeURIComponent( phet.chipper.project ) + '&' +
-                   'version=' + encodeURIComponent( phet.chipper.version ) + '&' +
-                   'locale=' + encodeURIComponent( phet.chipper.locale ) + '&' +
-                   'buildTimestamp=' + encodeURIComponent( phet.chipper.buildTimestamp ) + '&' +
-                   'domain=' + encodeURIComponent( document.domain ) + '&' +
-                   'href=' + encodeURIComponent( window.location.href ) + '&' +
-                   'type=html&' +
-                   'timestamp=' + encodeURIComponent( Date.now() ) + '&' +
-                   'loadType=' + encodeURIComponent( loadType ) + '&' +
-                   'ref=' + encodeURIComponent( document.referrer );
+    window.addEventListener( 'load', function( event ) {
+      pingURL( 'https://phet.colorado.edu/yotta/sanity.gif?' + pingParams + '&' +
+               'gaError=' + encodeURIComponent( googleAnalyticsErrored ) + '&' +
+               'gaLoaded=' + encodeURIComponent( false ) );
+    }, false );
 
-  function pingURL( url ) {
-    var img = document.createElement( 'img' );
-    img.src = url;
-  }
+    // External UA (Google Analytics) tracker
+    if ( phet.chipper.queryParameters.ga ) {
+      // Google Analytics snippet for loading the API
+      ( function( i, s, o, g, r, a, m ) {
+        i.GoogleAnalyticsObject = r;
+        i[ r ] = i[ r ] || function() {
+          // eslint-disable-next-line prefer-rest-params
+          ( i[ r ].q = i[ r ].q || [] ).push( arguments );
+        }, i[ r ].l = 1 * new Date(); // eslint-disable-line no-sequences
+        a = s.createElement( o ), m = s.getElementsByTagName( o )[ 0 ]; // eslint-disable-line no-sequences
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore( a, m );
+      } )( window, document, 'script', ( document.location.protocol === 'https:' ? 'https:' : 'http:' ) + '//www.google-analytics.com/analytics.js', 'googleAnalytics' );
 
-  pingURL( 'https://phet.colorado.edu/yotta/immediate.gif?' + pingParams );
+      // Applies custom dimensions that are common for our main, third-party, and phet-io tracker
+      var phetPageviewOptions = {};
 
-  window.addEventListener( 'load', function( event ) {
-    pingURL( 'https://phet.colorado.edu/yotta/sanity.gif?' + pingParams + '&' +
-             'gaError=' + encodeURIComponent( googleAnalyticsErrored ) + '&' +
-             'gaLoaded=' + encodeURIComponent( googleAnalyticsLoaded ) );
-  }, false );
+      if ( phet.chipper.project ) {
+        phetPageviewOptions.dimension1 = phet.chipper.project; // simName custom dimension
+      }
+      if ( phet.chipper.version ) {
+        phetPageviewOptions.dimension2 = phet.chipper.version; // simVersion custom dimension
+      }
+      if ( phet.chipper.locale ) {
+        phetPageviewOptions.dimension3 = phet.chipper.locale; // simLocale custom dimension
+      }
+      if ( phet.chipper.buildTimestamp ) {
+        phetPageviewOptions.dimension4 = phet.chipper.buildTimestamp; // simBuildTimestamp custom dimension
+      }
+      phetPageviewOptions.dimension5 = loadType;
+      phetPageviewOptions.dimension6 = document.referrer;
 
-  // Google Analytics snippet for loading the API
-  (function( i, s, o, g, r, a, m ) {
-    i.GoogleAnalyticsObject = r;
-    i[ r ] = i[ r ] || function() {
-      (i[ r ].q = i[ r ].q || []).push( arguments );
-    }, i[ r ].l = 1 * new Date();
-    a = s.createElement( o ), m = s.getElementsByTagName( o )[ 0 ];
-    a.async = 1;
-    a.src = g;
-    m.parentNode.insertBefore( a, m );
-  })( window, document, 'script', ( 'https:' === document.location.protocol ? 'https:' : 'http:' ) + '//www.google-analytics.com/analytics.js', 'googleAnalytics' );
-
-  // Applies custom dimensions that are common for our main, third-party, and phet-io tracker
-  var phetPageviewOptions = {};
-  if ( phet.chipper ) {
-    assert && assert( !phet.chipper.buildTimestamp ||
-                      ( !!phet.chipper.project && !!phet.chipper.version && !!phet.chipper.locale ),
-      'Missing Google Analytics variable in' );
-
-    if ( phet.chipper.project ) {
-      phetPageviewOptions.dimension1 = phet.chipper.project; // simName custom dimension
+      window.googleAnalytics( 'create', {
+        trackingId: phet.chipper.queryParameters.ga,
+        storage: 'none',
+        cookieDomain: 'none', // don't require the tracking from our site
+        name: 'external'
+      } );
+      window.googleAnalytics( 'external.set', 'anonymizeIp', true );
+      window.googleAnalytics( 'external.send', 'pageview', phet.chipper.queryParameters.gaPage || undefined );
     }
-    if ( phet.chipper.version ) {
-      phetPageviewOptions.dimension2 = phet.chipper.version; // simVersion custom dimension
+
+    // External GA4 tracker
+    if ( phet.chipper.queryParameters.ga4 ) {
+      // Use a custom data layer to both (a) get gtag.js and gtm to work at the same time, and (b) don't provide the
+      // extra data to third parties by default
+      window.ga4DataLayer = window.ga4DataLayer || [];
+
+      // NOTE: Using the GA-provided function here, to be extra cautious.
+      function gtag() { ga4DataLayer.push( arguments ); } // eslint-disable-line no-inner-declarations,no-undef,prefer-rest-params
+
+      gtag( 'js', new Date() );
+      gtag( 'config', phet.chipper.queryParameters.ga4 );
+
+      // Dynamically load the script
+      var firstScript = document.getElementsByTagName( 'script' )[ 0 ];
+      var script = document.createElement( 'script' );
+      script.async = true;
+
+      // `l` query parameter allows a different data layer name
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + phet.chipper.queryParameters.ga4 + '&l=ga4DataLayer';
+      firstScript.parentNode.insertBefore( script, firstScript );
     }
-    if ( phet.chipper.locale ) {
-      phetPageviewOptions.dimension3 = phet.chipper.locale; // simLocale custom dimension
-    }
-    if ( phet.chipper.buildTimestamp ) {
-      phetPageviewOptions.dimension4 = phet.chipper.buildTimestamp; // simBuildTimestamp custom dimension
-    }
-    phetPageviewOptions.dimension5 = loadType;
-    phetPageviewOptions.dimension6 = document.referrer;
-  }
 
-  var offlineSimLocation = 'offline/html/' + phet.chipper.project + '_' + phet.chipper.locale;
-
-  // Put our function in the queue, to be invoked when the analytics.js has fully loaded.
-  // See https://github.com/phetsims/yotta/issues/30
-  window.googleAnalytics( onGoogleAnalyticsLoad );
-
-  // Main PhET tracker
-  window.googleAnalytics( 'create', {
-    trackingId: 'UA-5033201-1',
-    storage: 'none',
-    cookieDomain: 'none'
-  } );
-  if ( window.location.protocol === 'file:' ) {
-    window.googleAnalytics( 'set', 'checkProtocolTask', null );
-    window.googleAnalytics( 'set', 'checkStorageTask', null );
-    window.googleAnalytics( 'set', 'location', offlineSimLocation );
-  }
-  window.googleAnalytics( 'send', 'pageview', phetPageviewOptions );
-
-  // PhET iO tracker (see https://github.com/phetsims/phetcommon/issues/26)
-  if ( phet.chipper.brand === 'phet-io' ) {
-    window.googleAnalytics( 'create', {
-      trackingId: 'UA-37615182-3',
-      storage: 'none',
-      cookieDomain: 'none',
-      name: 'io'
+    // For some reason, having dataLayer declaration here might have fixed the ability to use gtag.js and gtm.js at the
+    // same time. Don't move without testing.
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push( {
+      simBrand: phet.chipper.brand,
+      simName: phet.chipper.project,
+      simVersion: phet.chipper.version,
+      simLocale: phet.chipper.locale,
+      simBuildTimestamp: phet.chipper.buildTimestamp,
+      simLoadType: loadType,
+      documentReferrer: document.referrer
     } );
-    if ( window.location.protocol === 'file:' ) {
-      window.googleAnalytics( 'io.set', 'checkProtocolTask', null );
-      window.googleAnalytics( 'io.set', 'checkStorageTask', null );
-      window.googleAnalytics( 'io.set', 'location', offlineSimLocation );
-    }
-    window.googleAnalytics( 'io.send', 'pageview', phetPageviewOptions );
+
+    // Google Tag Manager (gtm.js) - Identical to recommended snippet with eslint disables to keep it this way.
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WLNGBXD'); // eslint-disable-line space-infix-ops,space-in-parens,comma-spacing,key-spacing,one-var,semi-spacing,eqeqeq,computed-property-spacing,no-var,one-var-declaration-per-line,object-curly-spacing,space-before-blocks
   }
 
-  // Third-party PhET tracker (excludes non-third-party usage, see https://github.com/phetsims/yotta/issues/12)
-  if ( window.location.protocol !== 'file:' &&
-       !document.domain.match( /(.*\.colorado\.edu\.?$)|(^localhost$)|(^127\.0\.0\.1$)/ ) ) {
-    window.googleAnalytics( 'create', {
-      trackingId: 'UA-37615182-2',
-      storage: 'none',
-      cookieDomain: 'none',
-      name: 'thirdParty'
-    } );
-    window.googleAnalytics( 'thirdParty.send', 'pageview', phetPageviewOptions );
+  if ( loadType === 'phet-app' ) {
+    window.addEventListener( 'load', function () {
+      setTimeout( sendMessages, 0 ); // eslint-disable-line bad-sim-text
+    }, false );
   }
-
-  // Hewlett tracker
-  window.googleAnalytics( 'create', {
-    trackingId: 'UA-5033010-35',
-    storage: 'none',
-    cookieDomain: 'phet.colorado.edu',
-    name: 'hewlett'
-  } );
-  window.googleAnalytics( 'hewlett.send', 'pageview' );
-
-  // External tracker
-  if ( phet.chipper.queryParameters.ga ) {
-    window.googleAnalytics( 'create', {
-      trackingId: phet.chipper.queryParameters.ga,
-      storage: 'none',
-      cookieDomain: 'none', // don't require the tracking from our site
-      name: 'external'
-    } );
-    window.googleAnalytics( 'external.send', 'pageview', phet.chipper.queryParameters.gaPage || undefined );
+  else {
+    sendMessages();
   }
 } )();
