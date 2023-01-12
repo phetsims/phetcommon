@@ -1,4 +1,4 @@
-// Copyright 2012-2021, University of Colorado Boulder
+// Copyright 2012-2023, University of Colorado Boulder
 
 /**
  * Google analytics collection for HTML5 sims.
