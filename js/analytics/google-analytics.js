@@ -139,6 +139,10 @@
       function gtag() { ga4DataLayer.push( arguments ); } // eslint-disable-line no-inner-declarations,no-undef,prefer-rest-params
 
       gtag( 'js', new Date() );
+      gtag( 'consent', 'default', {
+        ad_storage: 'denied',
+        analytics_storage: 'denied'
+      } );
       gtag( 'config', phet.chipper.getQueryParameter( 'ga4' ) );
 
       // Dynamically load the script
@@ -154,6 +158,13 @@
     // For some reason, having dataLayer declaration here might have fixed the ability to use gtag.js and gtm.js at the
     // same time. Don't move without testing.
     window.dataLayer = window.dataLayer || [];
+    function gtmTag() {
+      window.dataLayer.push( arguments ); // eslint-disable-line prefer-rest-params
+    }
+    gtmTag( 'consent', 'default', {
+      ad_storage: 'denied',
+      analytics_storage: 'denied'
+    } );
     window.dataLayer.push( {
       simBrand: phet.chipper.brand,
       simName: phet.chipper.project,
