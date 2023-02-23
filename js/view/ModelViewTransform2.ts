@@ -1,7 +1,7 @@
 // Copyright 2013-2022, University of Colorado Boulder
 
 /**
- * Transform between model and view coordinate frames, and provides convenience methods beyond dot.Transform3
+ * Transform between model and view coordinate frames, and provides convenience methods beyond phet.dot.Transform3
  *
  * Requires that the transform is "aligned", i.e., it can be built only from component-wise translation and scaling.
  * Equivalently, the output x coordinate should not depend on the input y, and the output y shouldn't depend on the
