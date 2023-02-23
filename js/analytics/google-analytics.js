@@ -139,7 +139,13 @@
       gtag( 'js', new Date() );
       gtag( 'consent', 'default', {
         ad_storage: 'denied',
-        analytics_storage: 'denied'
+        analytics_storage: 'granted'
+      } );
+      // EEA analytics storage denied for cookies, see https://github.com/phetsims/website/issues/1190
+      gtag( 'consent', 'default', {
+        ad_storage: 'denied',
+        analytics_storage: 'denied',
+        region: [ 'BE', 'BG', 'CZ', 'DK', 'CY', 'LV', 'LT', 'LU', 'ES', 'FR', 'HR', 'IT', 'PL', 'PT', 'RO', 'SI', 'HU', 'MT', 'NL', 'AT', 'IS', 'LI', 'NO', 'SK', 'FI', 'SE', 'DE', 'EE', 'IE', 'EL' ]
       } );
       gtag( 'config', phet.chipper.queryParameters.ga4 );
 
@@ -161,7 +167,13 @@
     }
     gtmTag( 'consent', 'default', {
       ad_storage: 'denied',
-      analytics_storage: 'denied'
+      analytics_storage: 'granted'
+    } );
+    // EEA analytics storage denied for cookies, see https://github.com/phetsims/website/issues/1190
+    gtmTag( 'consent', 'default', {
+      ad_storage: 'denied',
+      analytics_storage: 'denied',
+      region: [ 'BE', 'BG', 'CZ', 'DK', 'CY', 'LV', 'LT', 'LU', 'ES', 'FR', 'HR', 'IT', 'PL', 'PT', 'RO', 'SI', 'HU', 'MT', 'NL', 'AT', 'IS', 'LI', 'NO', 'SK', 'FI', 'SE', 'DE', 'EE', 'IE', 'EL' ]
     } );
     window.dataLayer.push( {
       simBrand: phet.chipper.brand,
