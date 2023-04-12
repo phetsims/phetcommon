@@ -13,71 +13,81 @@
 import Utils from '../../../dot/js/Utils.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import cleanArray from '../../../phet-core/js/cleanArray.js';
-import merge from '../../../phet-core/js/merge.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import phetcommon from '../phetcommon.js';
-import Bucket from './Bucket.js';
+import Bucket, { BucketOptions } from './Bucket.js';
+import optionize from '../../../phet-core/js/optionize.js';
+import Particle from '../../../shred/js/model/Particle.js';
+
+type ParticleWithBucketRemovalListener = Particle & { bucketRemovalListener?: () => void };
+
+const ReferenceObjectArrayIO = ArrayIO( ReferenceIO( IOType.ObjectIO ) );
+
+type SelfOptions = {
+  sphereRadius?: number;
+  usableWidthProportion?: number;
+  verticalParticleOffset?: number | null;
+};
+type SphereBucketOptions = SelfOptions & BucketOptions;
 
 class SphereBucket extends Bucket {
 
-  /**
-   * @param {Object} [options]
-   */
-  constructor( options ) {
+  private readonly sphereBucketTandem: Tandem;
+  private readonly _sphereRadius: number;
+  private readonly _usableWidthProportion: number;
 
-    options = merge( {
+  // empirically determined, for positioning particles inside the bucket
+  private readonly _verticalParticleOffset: number;
+
+  // particles managed by this bucket
+  private _particles: ParticleWithBucketRemovalListener[] = [];
+
+  public constructor( providedOptions?: SphereBucketOptions ) {
+
+    const options = optionize<SphereBucketOptions, SelfOptions, BucketOptions>()( {
       sphereRadius: 10,  // expected radius of the spheres that will be placed in this bucket
       usableWidthProportion: 1.0,  // proportion of the bucket width that the spheres can occupy
       tandem: Tandem.OPTIONAL,
-      phetioType: SphereBucket.SphereBucketIO
-    }, options );
+      phetioType: SphereBucket.SphereBucketIO,
+      verticalParticleOffset: null
+    }, providedOptions );
 
     super( options );
 
-    // @private
     this.sphereBucketTandem = options.tandem;
     this._sphereRadius = options.sphereRadius;
     this._usableWidthProportion = options.usableWidthProportion;
 
-    // @private - empirically determined, for positioning particles inside the bucket
-    this._verticalParticleOffset = options.verticalParticleOffset || -this._sphereRadius * 0.4;
+    this._verticalParticleOffset = options.verticalParticleOffset === null ?
+                                   -this._sphereRadius * 0.4 :
+                                   options.verticalParticleOffset;
 
-    // @private - particles managed by this bucket
     this._particles = [];
   }
 
   /**
    * add a particle to the first open position in the stacking order
-   * @param {Particle} particle
-   * @param {boolean} animate
-   * @public
    */
-  addParticleFirstOpen( particle, animate ) {
+  public addParticleFirstOpen( particle: Particle, animate: boolean ): void {
     particle.destinationProperty.set( this.getFirstOpenPosition() );
     this.addParticle( particle, animate );
   }
 
   /**
    * add a particle to the nearest open position in the particle stack
-   * @param {Particle} particle
-   * @param {boolean} animate
-   * @public
    */
-  addParticleNearestOpen( particle, animate ) {
+  public addParticleNearestOpen( particle: Particle, animate: boolean ): void {
     particle.destinationProperty.set( this.getNearestOpenPosition( particle.destinationProperty.get() ) );
     this.addParticle( particle, animate );
   }
 
   /**
    * add a particle to the bucket and set up listeners for when the particle is removed
-   * @param {Particle} particle
-   * @param {boolean} animate
-   * @private
    */
-  addParticle( particle, animate ) {
+  private addParticle( particle: ParticleWithBucketRemovalListener, animate: boolean ): void {
     if ( !animate ) {
       particle.positionProperty.set( particle.destinationProperty.get() );
     }
@@ -96,11 +106,8 @@ class SphereBucket extends Bucket {
 
   /**
    * remove a particle from the bucket, updating listeners as necessary
-   * @param {Particle} particle
-   * @param {boolean} skipLayout
-   * @public
    */
-  removeParticle( particle, skipLayout ) {
+  public removeParticle( particle: ParticleWithBucketRemovalListener, skipLayout = false ): void {
     assert && assert( this.containsParticle( particle ), 'attempt made to remove particle that is not in bucket' );
 
     // remove the particle from the array
@@ -118,49 +125,38 @@ class SphereBucket extends Bucket {
     }
   }
 
-  /**
-   * @param {Particle} particle
-   * @returns {boolean}
-   * @public
-   */
-  containsParticle( particle ) {
-    return this._particles.indexOf( particle ) !== -1;
+  public containsParticle( particle: Particle ): boolean {
+    return this._particles.includes( particle );
   }
 
   /**
    * extract the particle that is closest to the provided position from the bucket
-   * @param {Vector2} position
-   * @returns {Particle}
-   * @public
    */
-  extractClosestParticle( position ) {
-    let closestParticle = null;
+  public extractClosestParticle( position: Vector2 ): Particle | null {
+    let closestParticle: Particle | null = null;
     this._particles.forEach( particle => {
       if ( closestParticle === null ||
            closestParticle.positionProperty.get().distance( position ) > particle.positionProperty.get().distance( position ) ) {
         closestParticle = particle;
       }
     } );
-    if ( closestParticle !== null ) {
+
+    const closestParticleValue = closestParticle as Particle | null;
+    if ( closestParticleValue !== null ) {
 
       // The particle is removed by setting 'userControlled' to true.  This relies on the listener that was added when
       // the particle was placed into the bucket.
-      closestParticle.userControlledProperty.set( true );
+      closestParticleValue.userControlledProperty.set( true );
     }
     return closestParticle;
   }
 
   /**
    * get the list of particles currently contained within this bucket
-   * @returns {Particle[]}
-   * @public
    */
-  getParticleList() { return this._particles; }
+  public getParticleList(): Particle[] { return this._particles; }
 
-  /**
-   * @public
-   */
-  reset() {
+  public reset(): void {
     this._particles.forEach( particle => {
 
       // Remove listeners that are watching for removal from bucket.
@@ -174,11 +170,8 @@ class SphereBucket extends Bucket {
 
   /**
    * check if the provided position is open, i.e. unoccupied by a particle
-   * @param {Vector2} position
-   * @returns {boolean}
-   * @private
    */
-  isPositionOpen( position ) {
+  private isPositionOpen( position: Vector2 ): boolean {
     let positionOpen = true;
     for ( let i = 0; i < this._particles.length; i++ ) {
       const particle = this._particles[ i ];
@@ -192,10 +185,8 @@ class SphereBucket extends Bucket {
 
   /**
    * Find the first open position in the stacking order, which is a triangular stack starting from the lower left.
-   * @returns {Vector2}
-   * @private
    */
-  getFirstOpenPosition() {
+  private getFirstOpenPosition(): Vector2 {
     let openPosition = Vector2.ZERO;
     const usableWidth = this.size.width * this._usableWidthProportion - 2 * this._sphereRadius;
     let offsetFromBucketEdge = ( this.size.width - usableWidth ) / 2 + this._sphereRadius;
@@ -239,22 +230,17 @@ class SphereBucket extends Bucket {
 
   /**
    * get the layer in the stacking order for the provided y (vertical) position
-   * @param {number} yPosition
-   * @returns {number}
-   * @private
    */
-  getLayerForYPosition( yPosition ) {
+  private getLayerForYPosition( yPosition: number ): number {
     return Math.abs( Utils.roundSymmetric( ( yPosition - ( this.position.y + this._verticalParticleOffset ) ) / ( this._sphereRadius * 2 * 0.866 ) ) );
   }
 
   /**
    * Get the nearest open position in the stacking order that would be supported if the particle were to be placed
    * there.  This is used for particle stacking.
-   * @param {Vector2} position
-   * @returns {Vector2}
-   * @private
    */
-  getNearestOpenPosition( position ) {
+  private getNearestOpenPosition( position: Vector2 ): Vector2 {
+
     // Determine the highest occupied layer.  The bottom layer is 0.
     let highestOccupiedLayer = 0;
     _.each( this._particles, particle => {
@@ -319,33 +305,25 @@ class SphereBucket extends Bucket {
 
   /**
    * given a layer in the stack, calculate the corresponding Y position for a particle in that layer
-   * @param {number} layer
-   * @returns {number}
-   * @private
    */
-  getYPositionForLayer( layer ) {
+  private getYPositionForLayer( layer: number ): number {
     return this.position.y + this._verticalParticleOffset + layer * this._sphereRadius * 2 * 0.866;
   }
 
   /**
    * Determine whether a particle is 'dangling', i.e. hanging above an open space in the stack of particles.  Dangling
    * particles should be made to fall to a stable position.
-   * @param {Particle} particle
-   * @returns {boolean}
-   * @private
    */
-  isDangling( particle ) {
+  private isDangling( particle: Particle ): boolean {
     const onBottomRow = particle.destinationProperty.get().y === this.position.y + this._verticalParticleOffset;
     return !onBottomRow && this.countSupportingParticles( particle.destinationProperty.get() ) < 2;
   }
 
   /**
    * count the number of particles that are positioned to support a particle in the provided position
-   * @param {Vector2} position
-   * @returns {number} - a number from 0 to 2, inclusive
-   * @private
+   * @returns - a number from 0 to 2, inclusive
    */
-  countSupportingParticles( position ) {
+  private countSupportingParticles( position: Vector2 ): number {
     let count = 0;
     for ( let i = 0; i < this._particles.length; i++ ) {
       const p = this._particles[ i ];
@@ -361,9 +339,8 @@ class SphereBucket extends Bucket {
 
   /**
    * Relayout the particles, generally done after a particle is removed and some other need to fall.
-   * @private
    */
-  relayoutBucketParticles() {
+  private relayoutBucketParticles(): void {
     let particleMoved;
     do {
       for ( let i = 0; i < this._particles.length; i++ ) {
@@ -377,30 +354,28 @@ class SphereBucket extends Bucket {
       }
     } while ( particleMoved );
   }
+
+  public static SphereBucketIO = new IOType( 'SphereBucketIO', {
+    valueType: SphereBucket,
+    documentation: 'A model of a bucket into which spherical objects can be placed.',
+    stateSchema: {
+      particles: ReferenceObjectArrayIO
+    },
+    toStateObject: sphereBucket => {
+      return { particles: ReferenceObjectArrayIO.toStateObject( sphereBucket._particles ) };
+    },
+    applyState: ( sphereBucket, stateObject ) => {
+
+      // remove all the particles from the observable arrays
+      sphereBucket.reset();
+
+      const particles = ReferenceObjectArrayIO.fromStateObject( stateObject.particles );
+
+      // add back the particles
+      particles.forEach( particle => { sphereBucket.addParticle( particle ); } );
+    }
+  } );
 }
-
-const ReferenceObjectArrayIO = ArrayIO( ReferenceIO( IOType.ObjectIO ) );
-
-SphereBucket.SphereBucketIO = new IOType( 'SphereBucketIO', {
-  valueType: SphereBucket,
-  documentation: 'A model of a bucket into which spherical objects can be placed.',
-  stateSchema: {
-    particles: ReferenceObjectArrayIO
-  },
-  toStateObject: sphereBucket => {
-    return { particles: ReferenceObjectArrayIO.toStateObject( sphereBucket._particles ) };
-  },
-  applyState: ( sphereBucket, stateObject ) => {
-
-    // remove all the particles from the observable arrays
-    sphereBucket.reset();
-
-    const particles = ReferenceObjectArrayIO.fromStateObject( stateObject.particles );
-
-    // add back the particles
-    particles.forEach( particle => { sphereBucket.addParticle( particle ); } );
-  }
-} );
 
 phetcommon.register( 'SphereBucket', SphereBucket );
 export default SphereBucket;

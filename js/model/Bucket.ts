@@ -34,7 +34,7 @@ type SelfOptions = {
   captionColor?: TColor;
   invertY?: boolean;
 };
-type BucketOptions = PhetioObjectOptions & SelfOptions;
+export type BucketOptions = PhetioObjectOptions & SelfOptions;
 
 class Bucket extends PhetioObject {
 
