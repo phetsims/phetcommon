@@ -39,7 +39,7 @@ export type BucketOptions = PhetioObjectOptions & SelfOptions;
 class Bucket extends PhetioObject {
 
   // The position is defined to be where the center of the hole is.
-  public readonly position: Vector2;
+  public position: Vector2;
 
   // Base color of the bucket.
   public readonly baseColor: TColor | null;
