@@ -10,6 +10,7 @@
  * @author John Blanco
  */
 
+import TProperty from '../../../axon/js/TProperty.js';
 import Utils from '../../../dot/js/Utils.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import cleanArray from '../../../phet-core/js/cleanArray.js';
@@ -20,7 +21,12 @@ import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import phetcommon from '../phetcommon.js';
 import Bucket, { BucketOptions } from './Bucket.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import Particle from '../../../shred/js/model/Particle.js';
+
+type Particle = {
+  positionProperty: TProperty<Vector2>;
+  destinationProperty: TProperty<Vector2>;
+  userControlledProperty: TProperty<boolean>;
+};
 
 type ParticleWithBucketRemovalListener = Particle & { bucketRemovalListener?: () => void };
 
