@@ -41,7 +41,7 @@ type SphereBucketOptions = SelfOptions & BucketOptions;
 
 class SphereBucket extends Bucket {
 
-  private readonly sphereBucketTandem: Tandem;
+  public readonly sphereBucketTandem: Tandem;
   private readonly _sphereRadius: number;
   private readonly _usableWidthProportion: number;
 
