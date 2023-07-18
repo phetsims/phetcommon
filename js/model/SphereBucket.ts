@@ -28,7 +28,7 @@ type Particle = {
   userControlledProperty: TProperty<boolean>;
 };
 
-type ParticleWithBucketRemovalListener = Particle & { bucketRemovalListener?: () => void };
+type ParticleWithBucketRemovalListener = Particle & { bucketRemovalListener?: ( userControlled: boolean ) => void };
 
 const ReferenceObjectArrayIO = ArrayIO( ReferenceIO( IOType.ObjectIO ) );
 
@@ -91,7 +91,7 @@ class SphereBucket extends Bucket {
   }
 
   /**
-   * add a particle to the bucket and set up listeners for when the particle is removed
+   * Add a particle to the bucket and set up listeners for when the particle is removed.
    */
   private addParticle( particle: ParticleWithBucketRemovalListener, animate: boolean ): void {
     if ( !animate ) {
@@ -99,12 +99,18 @@ class SphereBucket extends Bucket {
     }
     this._particles.push( particle );
 
-    // add a listener that will remove this particle from the bucket if the user grabs it
-    const particleRemovedListener = () => {
-      this.removeParticle( particle );
+    // Add a listener that will remove this particle from the bucket if the user grabs it.
+    const particleRemovedListener = ( userControlled: boolean ) => {
 
-      // the process of removing the particle from the bucket should also disconnect removal listener
-      assert && assert( !particle.bucketRemovalListener, 'listener still present after being removed from bucket' );
+      // We have to verify that userControlled is transitioning to true here because in phet-io it is possible to
+      // run into situations where the particle is already in the bucket but userControlled is being set to false, see
+      // https://github.com/phetsims/build-an-atom/issues/239.
+      if ( userControlled ) {
+        this.removeParticle( particle );
+
+        // The process of removing the particle from the bucket should also disconnect removal listener.
+        assert && assert( !particle.bucketRemovalListener, 'listener still present after being removed from bucket' );
+      }
     };
     particle.userControlledProperty.lazyLink( particleRemovedListener );
     particle.bucketRemovalListener = particleRemovedListener; // Attach to the particle to aid unlinking in some cases.
