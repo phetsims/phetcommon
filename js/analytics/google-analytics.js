@@ -84,49 +84,6 @@
                'gaLoaded=' + encodeURIComponent( false ) );
     }, false );
 
-    // External UA (Google Analytics) tracker
-    if ( phet.chipper.getQueryParameter( 'ga' ) ) {
-      // Google Analytics snippet for loading the API
-      ( function( i, s, o, g, r, a, m ) {
-        i.GoogleAnalyticsObject = r;
-        i[ r ] = i[ r ] || function() {
-          // eslint-disable-next-line prefer-rest-params
-          ( i[ r ].q = i[ r ].q || [] ).push( arguments );
-        }, i[ r ].l = 1 * new Date(); // eslint-disable-line no-sequences
-        a = s.createElement( o ), m = s.getElementsByTagName( o )[ 0 ]; // eslint-disable-line no-sequences
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore( a, m );
-      } )( window, document, 'script', ( document.location.protocol === 'https:' ? 'https:' : 'http:' ) + '//www.google-analytics.com/analytics.js', 'googleAnalytics' );
-
-      // Applies custom dimensions that are common for our main, third-party, and phet-io tracker
-      var phetPageviewOptions = {};
-
-      if ( phet.chipper.project ) {
-        phetPageviewOptions.dimension1 = phet.chipper.project; // simName custom dimension
-      }
-      if ( phet.chipper.version ) {
-        phetPageviewOptions.dimension2 = phet.chipper.version; // simVersion custom dimension
-      }
-      if ( phet.chipper.locale ) {
-        phetPageviewOptions.dimension3 = phet.chipper.locale; // simLocale custom dimension
-      }
-      if ( phet.chipper.buildTimestamp ) {
-        phetPageviewOptions.dimension4 = phet.chipper.buildTimestamp; // simBuildTimestamp custom dimension
-      }
-      phetPageviewOptions.dimension5 = loadType;
-      phetPageviewOptions.dimension6 = document.referrer;
-
-      window.googleAnalytics( 'create', {
-        trackingId: phet.chipper.getQueryParameter( 'ga' ),
-        storage: 'none',
-        cookieDomain: 'none', // don't require the tracking from our site
-        name: 'external'
-      } );
-      window.googleAnalytics( 'external.set', 'anonymizeIp', true );
-      window.googleAnalytics( 'external.send', 'pageview', phet.chipper.getQueryParameter( 'gaPage' ) || undefined );
-    }
-
     // External GA4 tracker
     if ( phet.chipper.getQueryParameter( 'ga4' ) ) {
       // Use a custom data layer to both (a) get gtag.js and gtm to work at the same time, and (b) don't provide the
@@ -140,12 +97,6 @@
       gtag( 'consent', 'default', {
         ad_storage: 'denied',
         analytics_storage: 'granted'
-      } );
-      // EEA analytics storage denied for cookies, see https://github.com/phetsims/website/issues/1190
-      gtag( 'consent', 'default', {
-        ad_storage: 'denied',
-        analytics_storage: 'denied',
-        region: [ 'BE', 'BG', 'CZ', 'DK', 'CY', 'LV', 'LT', 'LU', 'ES', 'FR', 'HR', 'IT', 'PL', 'PT', 'RO', 'SI', 'HU', 'MT', 'NL', 'AT', 'IS', 'LI', 'NO', 'SK', 'FI', 'SE', 'DE', 'EE', 'IE', 'EL' ]
       } );
       gtag( 'config', phet.chipper.getQueryParameter( 'ga4' ) );
 
@@ -168,12 +119,6 @@
     gtmTag( 'consent', 'default', {
       ad_storage: 'denied',
       analytics_storage: 'granted'
-    } );
-    // EEA analytics storage denied for cookies, see https://github.com/phetsims/website/issues/1190
-    gtmTag( 'consent', 'default', {
-      ad_storage: 'denied',
-      analytics_storage: 'denied',
-      region: [ 'BE', 'BG', 'CZ', 'DK', 'CY', 'LV', 'LT', 'LU', 'ES', 'FR', 'HR', 'IT', 'PL', 'PT', 'RO', 'SI', 'HU', 'MT', 'NL', 'AT', 'IS', 'LI', 'NO', 'SK', 'FI', 'SE', 'DE', 'EE', 'IE', 'EL' ]
     } );
     window.dataLayer.push( {
       simBrand: phet.chipper.brand,
