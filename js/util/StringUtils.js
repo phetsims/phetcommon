@@ -348,14 +348,33 @@ const StringUtils = {
   },
 
   /**
-   * Capitalize the first letter of the given string.
-   * @param {string} string
+   * Capitalize the first letter of the given string.  This will skip control characters and whitespace at the beginning
+   * of a string.  If the letter is already capitalized the returned string will match the provided one.  Strings that
+   * start with numbers, such as "1 of these things" will be essentially unchanged too.
+   *
+   * This will only work reliably for English strings.
+   *
+   * @param {string} str
    * @returns {string}
    * @public
    */
-  capitalize( string ) {
-    assert && assert( string.length > 0, 'expected a non-zero string' );
-    return string[ 0 ].toUpperCase() + string.slice( 1 );
+  capitalize( str ) {
+
+    // Find the index of the first character that can be capitalized.  Control characters and whitespace are skipped.
+    const firstCharIndex = str.search( /[A-Za-z0-9]/ );
+
+    if ( firstCharIndex === -1 ) {
+
+      // No characters were found in the string that can be capitalized, so return an unchanged copy.
+      return str.slice( 0 );
+    }
+
+    // Break the string apart and capitalize the identified character.
+    const preChangeString = firstCharIndex > 0 ? str.slice( 0, firstCharIndex ) : '';
+    const capitalizedCharacter = str.charAt( firstCharIndex ).toUpperCase();
+    const postChangeString = firstCharIndex + 1 < str.length ? str.slice( firstCharIndex + 1 ) : '';
+
+    return preChangeString + capitalizedCharacter + postChangeString;
   }
 };
 
