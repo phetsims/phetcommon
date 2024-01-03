@@ -12,7 +12,6 @@
 
 import Utils from '../../../dot/js/Utils.js';
 import Vector2 from '../../../dot/js/Vector2.js';
-import type Particle from '../../../shred/js/model/Particle.js';
 import cleanArray from '../../../phet-core/js/cleanArray.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
@@ -21,9 +20,16 @@ import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import phetcommon from '../phetcommon.js';
 import Bucket, { BucketOptions } from './Bucket.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import TProperty from '../../../axon/js/TProperty.js';
 
+type Spherical = {
+  userControlledProperty: TProperty<boolean>;
+  positionProperty: TProperty<Vector2>;
+  destinationProperty: TProperty<Vector2>;
+};
 
-type ParticleWithBucketRemovalListener = Particle & { bucketRemovalListener?: ( userControlled: boolean ) => void };
+type ParticleWithBucketRemovalListener<Particle extends Spherical> = Particle &
+  { bucketRemovalListener?: ( userControlled: boolean ) => void };
 
 const ReferenceObjectArrayIO = ArrayIO( ReferenceIO( IOType.ObjectIO ) );
 
@@ -34,7 +40,7 @@ type SelfOptions = {
 };
 type SphereBucketOptions = SelfOptions & BucketOptions;
 
-class SphereBucket extends Bucket {
+class SphereBucket<Particle extends Spherical> extends Bucket {
 
   public readonly sphereBucketTandem: Tandem;
   private readonly _sphereRadius: number;
@@ -44,7 +50,7 @@ class SphereBucket extends Bucket {
   private readonly _verticalParticleOffset: number;
 
   // particles managed by this bucket
-  private _particles: ParticleWithBucketRemovalListener[] = [];
+  private _particles: ParticleWithBucketRemovalListener<Particle>[] = [];
 
   public constructor( providedOptions?: SphereBucketOptions ) {
 
@@ -88,7 +94,7 @@ class SphereBucket extends Bucket {
   /**
    * Add a particle to the bucket and set up listeners for when the particle is removed.
    */
-  private addParticle( particle: ParticleWithBucketRemovalListener, animate: boolean ): void {
+  private addParticle( particle: ParticleWithBucketRemovalListener<Particle>, animate: boolean ): void {
     if ( !animate ) {
       particle.positionProperty.set( particle.destinationProperty.get() );
     }
@@ -114,7 +120,7 @@ class SphereBucket extends Bucket {
   /**
    * remove a particle from the bucket, updating listeners as necessary
    */
-  public removeParticle( particle: ParticleWithBucketRemovalListener, skipLayout = false ): void {
+  public removeParticle( particle: ParticleWithBucketRemovalListener<Particle>, skipLayout = false ): void {
     assert && assert( this.containsParticle( particle ), 'attempt made to remove particle that is not in bucket' );
 
     // remove the particle from the array
