@@ -1,5 +1,9 @@
 // Copyright 2016-2022, University of Colorado Boulder
 
+/**
+ * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ */
+
 import phetcommon from './phetcommon.js';
 import './model/Bucket.js';
 import './model/Fraction.js';
