@@ -2,6 +2,7 @@
 
 /**
  * Collection of utility functions related to Strings.
+ * @author Sam Reid (PhET Interactive Simulations)
  */
 
 import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
