@@ -66,17 +66,24 @@
     }, true );
 
     var pingParams = 'pingver=3&' +
-                     'project=' + encodeURIComponent( phet.chipper.project ) + '&' +
-                     'brand=' + encodeURIComponent( phet.chipper.brand ) + '&' +
-                     'version=' + encodeURIComponent( phet.chipper.version ) + '&' +
-                     'locale=' + encodeURIComponent( phet.chipper.locale ) + '&' +
-                     'buildTimestamp=' + encodeURIComponent( phet.chipper.buildTimestamp ) + '&' +
-                     'domain=' + encodeURIComponent( document.domain ) + '&' +
-                     'href=' + encodeURIComponent( window.location.href ) + '&' +
-                     'type=html&' +
-                     'timestamp=' + encodeURIComponent( Date.now() ) + '&' +
-                     'loadType=' + encodeURIComponent( loadType ) + '&' +
-                     'ref=' + encodeURIComponent( document.referrer );
+      'project=' + encodeURIComponent( phet.chipper.project ) + '&' +
+      'brand=' + encodeURIComponent( phet.chipper.brand ) + '&' +
+      'version=' + encodeURIComponent( phet.chipper.version ) + '&' +
+      'locale=' + encodeURIComponent( phet.chipper.locale ) + '&' +
+      'buildTimestamp=' + encodeURIComponent( phet.chipper.buildTimestamp ) + '&' +
+      'domain=' + encodeURIComponent( document.domain ) + '&' +
+      'href=' + encodeURIComponent( window.location.href ) + '&' +
+      'type=html&' +
+      'timestamp=' + encodeURIComponent( Date.now() ) + '&' +
+      'loadType=' + encodeURIComponent( loadType ) + '&' +
+      'ref=' + encodeURIComponent( document.referrer );
+
+    // Forward yotta-specific query parameters, see https://github.com/phetsims/phetcommon/issues/66
+    ( new URLSearchParams( window.location.search ) ).forEach( function( value, key ) {
+      if ( key.startsWith( 'yotta' ) ) {
+        pingParams += `&${encodeURIComponent( key )}=${encodeURIComponent( value )}`;
+      }
+    } );
 
     function pingURL( url ) {
       var img = document.createElement( 'img' );
