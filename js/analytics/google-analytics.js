@@ -79,7 +79,7 @@
     // Forward yotta-specific query parameters, see https://github.com/phetsims/phetcommon/issues/66
     ( new URLSearchParams( window.location.search ) ).forEach( function( value, key ) {
       if ( key.startsWith( 'yotta' ) ) {
-        pingParams += `&${encodeURIComponent( key )}=${encodeURIComponent( value )}`;
+        pingParams += '&' + encodeURIComponent( key ) + '=' + encodeURIComponent( value );
       }
     } );
 
