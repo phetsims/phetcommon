@@ -12,6 +12,11 @@
 ( function() {
   'use strict';
 
+  // If yotta has been turned off by query parameter, don't send any messages.
+  if ( !phet.chipper.queryParameters.yotta ) {
+    return;
+  }
+
   assert && assert( window.phet && phet.chipper, 'We will require multiple things from the chipper preload namespace' );
   assert && assert( !!phet.chipper.brand, 'A brand is required, since some messages depend on the brand' );
   assert && assert( !!phet.chipper.queryParameters, 'We will need query parameters to be parsed for multiple purposes' );
