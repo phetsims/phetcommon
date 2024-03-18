@@ -12,6 +12,11 @@
 ( function() {
   'use strict';
 
+  // If yotta has been turned off by query parameter, don't send any messages.
+  if ( !phet.chipper.queryParameters.yotta ) {
+    return;
+  }
+
   var ua = navigator.userAgent;
   var hasIESecurityRestrictions = !!( ua.match( /MSIE/ ) || ua.match( /Trident\// ) || ua.match( /Edge\// ) );
 
