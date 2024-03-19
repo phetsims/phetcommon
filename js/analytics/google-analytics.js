@@ -85,11 +85,11 @@
       `ref=${encodeURIComponent( document.referrer )}`;
 
     // Forward yotta-specific query parameters, see https://github.com/phetsims/phetcommon/issues/66
-    for ( const [ key, value ] of new URLSearchParams( window.location.search ) ) {
+    ( new URLSearchParams( window.location.search ) ).forEach( ( value, key ) => {
       if ( key.startsWith( 'yotta' ) ) {
         pingParams += `&${encodeURIComponent( key )}=${encodeURIComponent( value )}`;
       }
-    }
+    } );
 
     function pingURL( url ) {
       const img = document.createElement( 'img' );
