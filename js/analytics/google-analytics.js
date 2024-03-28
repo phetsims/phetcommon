@@ -116,7 +116,7 @@
       gtag( 'consent', 'default', {
         ad_storage: 'denied',
         analytics_storage: 'denied',
-        region: [ 'BE', 'BG', 'CZ', 'DK', 'CY', 'LV', 'LT', 'LU', 'ES', 'FR', 'HR', 'IT', 'PL', 'PT', 'RO', 'SI', 'HU', 'MT', 'NL', 'AT', 'IS', 'LI', 'NO', 'SK', 'FI', 'SE', 'DE', 'EE', 'IE', 'EL' ]
+        region: [ 'BE', 'BG', 'CZ', 'DK', 'CY', 'LV', 'LT', 'LU', 'ES', 'FR', 'HR', 'IT', 'PL', 'PT', 'RO', 'SI', 'HU', 'MT', 'NL', 'AT', 'IS', 'LI', 'NO', 'SK', 'FI', 'SE', 'DE', 'EE', 'IE', 'EL', 'GB', 'CH' ]
       } );
       gtag( 'config', phet.chipper.getQueryParameter( 'ga4' ) );
 
@@ -144,7 +144,7 @@
     gtmTag( 'consent', 'default', {
       ad_storage: 'denied',
       analytics_storage: 'denied',
-      region: [ 'BE', 'BG', 'CZ', 'DK', 'CY', 'LV', 'LT', 'LU', 'ES', 'FR', 'HR', 'IT', 'PL', 'PT', 'RO', 'SI', 'HU', 'MT', 'NL', 'AT', 'IS', 'LI', 'NO', 'SK', 'FI', 'SE', 'DE', 'EE', 'IE', 'EL' ]
+      region: [ 'BE', 'BG', 'CZ', 'DK', 'CY', 'LV', 'LT', 'LU', 'ES', 'FR', 'HR', 'IT', 'PL', 'PT', 'RO', 'SI', 'HU', 'MT', 'NL', 'AT', 'IS', 'LI', 'NO', 'SK', 'FI', 'SE', 'DE', 'EE', 'IE', 'EL', 'GB', 'CH' ]
     } );
     window.dataLayer.push( {
       simBrand: phet.chipper.brand,
