@@ -4,7 +4,6 @@
  * Collection of utility functions related to Strings.
  */
 
-import localeInfoModule from '../../../chipper/js/data/localeInfoModule.js';
 import phetcommon from '../phetcommon.js';
 
 // Unicode embedding marks that we use.
@@ -339,11 +338,11 @@ const StringUtils = {
    * @returns {string}
    */
   localeToLocalizedName: function( locale ) {
-    assert && assert( localeInfoModule[ locale ], 'locale needs to be a valid locale code defined in localeInfoModule' );
+    assert && assert( phet.chipper.localeData[ locale ], 'locale needs to be a valid locale code defined in localeData' );
 
     return StringUtils.wrapDirection(
-      localeInfoModule[ locale ].localizedName,
-      localeInfoModule[ locale ].direction
+      phet.chipper.localeData[ locale ].localizedName,
+      phet.chipper.localeData[ locale ].direction
     );
   },
 
