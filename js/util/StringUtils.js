@@ -243,6 +243,28 @@ define( function( require ) {
     },
 
     /**
+     * Wraps a string with embedding marks for LTR display.
+     * @public
+     *
+     * @param {string} string
+     * @returns {string}
+     */
+    wrapLTR: function( string ) {
+      return LTR + string + POP;
+    },
+
+    /**
+     * Wraps a string with embedding marks for RTL display.
+     * @public
+     *
+     * @param {string} string
+     * @returns {string}
+     */
+    wrapRTL: function( string ) {
+      return LTR + string + POP;
+    },
+
+    /**
      * Converts a string to camel case, eg: 'simula-rasa' -> 'simulaRasa'
      * See http://stackoverflow.com/questions/10425287/convert-string-to-camelcase-with-regular-expression
      *
