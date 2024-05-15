@@ -316,7 +316,41 @@ define( require => {
      * @returns {string}
      */
     wrapRTL: function( string ) {
-      return LTR + string + POP;
+      return RTL + string + POP;
+    },
+  
+    /**
+     * Wraps a string with embedding marks for LTR/RTL display, depending on the direction
+     * @public
+     *
+     * @param {string} string
+     * @param {string} direction - either 'ltr' or 'rtl'
+     * @returns {string}
+     */
+    wrapDirection: function( string, direction ) {
+      assert && assert( direction === 'ltr' || direction === 'rtl' );
+
+      if ( direction === 'ltr' ) {
+        return StringUtils.wrapLTR( string );
+      }
+      else {
+        return StringUtils.wrapRTL( string );
+      }
+    },
+
+    /**
+     * Given a locale, e.g. 'es', provides the localized name, e.g. 'Español'
+     *
+     * @param {string} locale
+     * @returns {string}
+     */
+    localeToLocalizedName: function( locale ) {
+      assert && assert( phet.chipper.localeData[ locale ], 'locale needs to be a valid locale code defined in phet.chipper.localeData' );
+
+      return StringUtils.wrapDirection(
+        phet.chipper.localeData[ locale ].localizedName,
+        phet.chipper.localeData[ locale ].direction
+      );
     },
 
     /**
