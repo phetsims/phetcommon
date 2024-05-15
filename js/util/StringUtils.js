@@ -255,6 +255,28 @@ define( function( require ) {
     },
 
     /**
+     * Wraps a string with embedding marks for LTR display.
+     * @public
+     *
+     * @param {string} string
+     * @returns {string}
+     */
+    wrapLTR: function( string ) {
+      return LTR + string + POP;
+    },
+
+    /**
+     * Wraps a string with embedding marks for RTL display.
+     * @public
+     *
+     * @param {string} string
+     * @returns {string}
+     */
+    wrapRTL: function( string ) {
+      return LTR + string + POP;
+    },
+
+    /**
      * Determine whether one string ends with another.  Implementation is from the MDN polyfill at
      *   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith
      * @param {string} string - the string to test
