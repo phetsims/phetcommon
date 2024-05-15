@@ -6,6 +6,11 @@
 define( function() {
   'use strict';
 
+  // Unicode embedding marks that we use.
+  var LTR = '\u202a';
+  var RTL = '\u202b';
+  var POP = '\u202c';
+
   function StringUtils() {
   }
 
@@ -22,6 +27,28 @@ define( function() {
   StringUtils.format = function( pattern ) {
     var args = arguments;
     return pattern.replace( /{(\d)}/g, function( r, n ) { return args[ +n + 1 ];} );
+  };
+
+  /**
+   * Wraps a string with embedding marks for LTR display.
+   * @public
+   *
+   * @param {string} string
+   * @returns {string}
+   */
+  StringUtils.wrapLTR = function( string ) {
+    return LTR + string + POP;
+  };
+
+  /**
+   * Wraps a string with embedding marks for RTL display.
+   * @public
+   *
+   * @param {string} string
+   * @returns {string}
+   */
+  StringUtils.wrapRTL = function( string ) {
+    return LTR + string + POP;
   };
 
   return StringUtils;
