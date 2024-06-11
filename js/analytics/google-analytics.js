@@ -15,13 +15,15 @@
     return;
   }
 
+  const locale = phet.chipper.remappedLocale;
+
   assert && assert( window.phet && phet.chipper, 'We will require multiple things from the chipper preload namespace' );
   assert && assert( !!phet.chipper.brand, 'A brand is required, since some messages depend on the brand' );
   assert && assert( !!phet.chipper.queryParameters, 'We will need query parameters to be parsed for multiple purposes' );
   assert && assert( !!phet.chipper.buildTimestamp, 'buildTimestamp is required for GA messages' );
   assert && assert( !!phet.chipper.project, 'project is required for GA messages' );
   assert && assert( !!phet.chipper.version, 'version is required for GA messages' );
-  assert && assert( !!phet.chipper.locale, 'locale is required for GA messages' );
+  assert && assert( !!locale, 'locale is required for GA messages' );
 
   const ua = navigator.userAgent;
   const hasIESecurityRestrictions = !!( ua.match( /MSIE/ ) || ua.match( /Trident\// ) || ua.match( /Edge\// ) );
@@ -73,7 +75,7 @@
       'project='}${encodeURIComponent( phet.chipper.project )}&` +
       `brand=${encodeURIComponent( phet.chipper.brand )}&` +
       `version=${encodeURIComponent( phet.chipper.version )}&` +
-      `locale=${encodeURIComponent( phet.chipper.locale )}&` +
+      `locale=${encodeURIComponent( locale )}&` +
       `buildTimestamp=${encodeURIComponent( phet.chipper.buildTimestamp )}&` +
       `domain=${encodeURIComponent( document.domain )}&` +
       `href=${encodeURIComponent( window.location.href )}&` +
@@ -154,7 +156,7 @@
       simBrand: phet.chipper.brand,
       simName: phet.chipper.project,
       simVersion: phet.chipper.version,
-      simLocale: phet.chipper.locale,
+      simLocale: locale,
       simBuildTimestamp: phet.chipper.buildTimestamp,
       simLoadType: loadType,
       documentReferrer: document.referrer
