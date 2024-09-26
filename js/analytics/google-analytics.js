@@ -111,7 +111,7 @@
       window.ga4DataLayer = window.ga4DataLayer || [];
 
       // NOTE: Using the GA-provided function here, to be extra cautious.
-      function gtag() { ga4DataLayer.push( arguments ); } // eslint-disable-line no-inner-declarations,no-undef,prefer-rest-params
+      function gtag() { ga4DataLayer.push( arguments ); } // eslint-disable-line no-undef,prefer-rest-params
 
       gtag( 'js', new Date() );
       gtag( 'consent', 'default', {
@@ -168,7 +168,7 @@
 
   if ( loadType === 'phet-app' ) {
     window.addEventListener( 'load', () => {
-      setTimeout( sendMessages, 0 ); // eslint-disable-line bad-sim-text
+      setTimeout( sendMessages, 0 ); // eslint-disable-line phet/bad-sim-text
     }, false );
   }
   else {
