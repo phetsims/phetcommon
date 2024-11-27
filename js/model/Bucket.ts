@@ -17,10 +17,10 @@
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import { Shape } from '../../../kite/js/imports.js';
-import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
-import phetcommon from '../phetcommon.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import { TColor } from '../../../scenery/js/imports.js';
+import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
+import phetcommon from '../phetcommon.js';
 
 // Proportion of the total height which the ellipse that represents the hole occupies.  It is assumed that the width
 // of the hole is the same as the width specified at construction.

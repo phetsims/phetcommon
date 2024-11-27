@@ -10,17 +10,17 @@
  * @author John Blanco
  */
 
+import TProperty from '../../../axon/js/TProperty.js';
 import Utils from '../../../dot/js/Utils.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import cleanArray from '../../../phet-core/js/cleanArray.js';
+import optionize from '../../../phet-core/js/optionize.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import phetcommon from '../phetcommon.js';
 import Bucket, { BucketOptions } from './Bucket.js';
-import optionize from '../../../phet-core/js/optionize.js';
-import TProperty from '../../../axon/js/TProperty.js';
 
 type Spherical = {
   userControlledProperty: TProperty<boolean>;
