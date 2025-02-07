@@ -16,9 +16,9 @@
 
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
-import { Shape } from '../../../kite/js/imports.js';
+import Shape from '../../../kite/js/Shape.js';
 import optionize from '../../../phet-core/js/optionize.js';
-import { TColor } from '../../../scenery/js/imports.js';
+import TColor from '../../../scenery/js/util/TColor.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
 import phetcommon from '../phetcommon.js';
 
