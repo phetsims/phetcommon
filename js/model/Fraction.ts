@@ -12,10 +12,14 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
-import Utils from '../../../dot/js/Utils.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
 import phetcommon from '../phetcommon.js';
+import { gcd } from '../../../dot/js/util/gcd.js';
+import { roundSymmetric } from '../../../dot/js/util/roundSymmetric.js';
+import { lcm } from '../../../dot/js/util/lcm.js';
+import { toFixedNumber } from '../../../dot/js/util/toFixedNumber.js';
+import { numberOfDecimalPlaces } from '../../../dot/js/util/numberOfDecimalPlaces.js';
 
 export type FractionStateObject = {
   numerator: number;
@@ -94,9 +98,9 @@ export default class Fraction {
    * Reduces this fraction, modifies the numerator and denominator.
    */
   public reduce(): Fraction {
-    const gcd = Utils.gcd( this.numerator, this.denominator );
-    this.numerator = ( gcd === 0 ) ? 0 : Utils.roundSymmetric( this.numerator / gcd );
-    this.denominator = ( gcd === 0 ) ? 0 : Utils.roundSymmetric( this.denominator / gcd );
+    const gcdValue = gcd( this.numerator, this.denominator );
+    this.numerator = ( gcdValue === 0 ) ? 0 : roundSymmetric( this.numerator / gcdValue );
+    this.denominator = ( gcdValue === 0 ) ? 0 : roundSymmetric( this.denominator / gcdValue );
     return this;
   }
 
@@ -111,7 +115,7 @@ export default class Fraction {
    * Is this fraction reduced?
    */
   public isReduced(): boolean {
-    return Utils.gcd( this.numerator, this.denominator ) === 1;
+    return gcd( this.numerator, this.denominator ) === 1;
   }
 
   /**
@@ -165,10 +169,10 @@ export default class Fraction {
     assert && assert( Number.isInteger( numerator2 ), 'numerator2 must be an integer' );
     assert && assert( Number.isInteger( denominator2 ), 'denominator2 must be an integer' );
 
-    const lcm = Utils.lcm( denominator1, denominator2 );
-    this.numerator = Utils.roundSymmetric( numerator1 * lcm / denominator1 ) +
-                     Utils.roundSymmetric( numerator2 * lcm / denominator2 );
-    this.denominator = lcm;
+    const lcmValue = lcm( denominator1, denominator2 );
+    this.numerator = roundSymmetric( numerator1 * lcmValue / denominator1 ) +
+                     roundSymmetric( numerator2 * lcmValue / denominator2 );
+    this.denominator = lcmValue;
     return this;
   }
 
@@ -300,14 +304,14 @@ export default class Fraction {
     else {
 
       // Get the decimal part of the number.
-      const decimal = value - Utils.toFixedNumber( value, 0 );
+      const decimal = value - toFixedNumber( value, 0 );
       assert && assert( decimal !== 0, 'expected decimal to be non-zero' );
 
       // Convert the decimal part into an integer. This becomes the denominator.
-      const denominator = Math.pow( 10, Utils.numberOfDecimalPlaces( decimal ) );
+      const denominator = Math.pow( 10, numberOfDecimalPlaces( decimal ) );
 
       // Compute numerator
-      const numerator = Utils.toFixedNumber( value * denominator, 0 );
+      const numerator = toFixedNumber( value * denominator, 0 );
 
       return new Fraction( numerator, denominator ).reduce();
     }

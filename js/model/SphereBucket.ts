@@ -11,7 +11,6 @@
  */
 
 import TProperty from '../../../axon/js/TProperty.js';
-import Utils from '../../../dot/js/Utils.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import cleanArray from '../../../phet-core/js/cleanArray.js';
 import optionize from '../../../phet-core/js/optionize.js';
@@ -21,6 +20,7 @@ import IOType from '../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import phetcommon from '../phetcommon.js';
 import Bucket, { BucketOptions } from './Bucket.js';
+import { roundSymmetric } from '../../../dot/js/util/roundSymmetric.js';
 
 type Spherical = {
   userControlledProperty: TProperty<boolean>;
@@ -245,7 +245,7 @@ class SphereBucket<Particle extends Spherical> extends Bucket {
    * get the layer in the stacking order for the provided y (vertical) position
    */
   private getLayerForYPosition( yPosition: number ): number {
-    return Math.abs( Utils.roundSymmetric( ( yPosition - ( this.position.y + this._verticalParticleOffset ) ) / ( this._sphereRadius * 2 * 0.866 ) ) );
+    return Math.abs( roundSymmetric( ( yPosition - ( this.position.y + this._verticalParticleOffset ) ) / ( this._sphereRadius * 2 * 0.866 ) ) );
   }
 
   /**
