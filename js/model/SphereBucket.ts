@@ -14,6 +14,7 @@ import TProperty from '../../../axon/js/TProperty.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import cleanArray from '../../../phet-core/js/cleanArray.js';
 import optionize from '../../../phet-core/js/optionize.js';
+import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../tandem/js/types/IOType.js';
@@ -368,7 +369,7 @@ class SphereBucket<Particle extends Spherical> extends Bucket {
     } while ( particleMoved );
   }
 
-  public static SphereBucketIO = new IOType( 'SphereBucketIO', {
+  public static SphereBucketIO = new IOType<IntentionalAny, IntentionalAny>( 'SphereBucketIO', {
     valueType: SphereBucket,
     documentation: 'A model of a bucket into which spherical objects can be placed.',
     stateSchema: {
