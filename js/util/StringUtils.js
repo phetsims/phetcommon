@@ -5,6 +5,7 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import { toFixed } from '../../../dot/js/util/toFixed.js';
 import phetcommon from '../phetcommon.js';
 
 // Unicode embedding marks that we use.
@@ -375,6 +376,18 @@ const StringUtils = {
     const postChangeString = firstCharIndex + 1 < str.length ? str.slice( firstCharIndex + 1 ) : '';
 
     return preChangeString + capitalizedCharacter + postChangeString;
+  },
+
+  /**
+   * Converts a number to a string with a specified number of digits after the decimal point and wraps it with LTR
+   * embedding marks so that it will be displayed correctly in all cased (the minus sign will be on the left).  See
+   * https://github.com/phetsims/phetcommon/issues/68 for some history on the need for this.
+   * @param {number} number
+   * @param {number} digits
+   * @returns {string}
+   */
+  toSafeFixed( number, digits ) {
+    return StringUtils.wrapLTR( toFixed( number, digits ) );
   }
 };
 
