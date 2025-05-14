@@ -379,14 +379,15 @@ const StringUtils = {
   },
 
   /**
-   * Converts a number to a string with a specified number of digits after the decimal point and wraps it with LTR
-   * embedding marks so that it will be displayed correctly in all cased (the minus sign will be on the left).  See
-   * https://github.com/phetsims/phetcommon/issues/68 for some history on the need for this.
+   * Convert a number to a string with a specified number of digits after the decimal point and wrap it with LTR
+   * embedding marks so that it will be displayed correctly in all cases, meaning that the minus sign will be on the
+   * left even if it is within a right-to-left string.  See https://github.com/phetsims/phetcommon/issues/68 for some
+   * history on the need for this.
    * @param {number} number
    * @param {number} digits
    * @returns {string}
    */
-  toSafeFixed( number, digits ) {
+  toFixedLTR( number, digits ) {
     return StringUtils.wrapLTR( toFixed( number, digits ) );
   }
 };
