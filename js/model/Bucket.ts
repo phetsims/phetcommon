@@ -14,6 +14,7 @@
  * @author Jonathan Olson <jonathan.olson@colorado.edu>
  */
 
+import TReadOnlyProperty from '../../../axon/js/TReadOnlyProperty.js';
 import Dimension2 from '../../../dot/js/Dimension2.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
@@ -30,7 +31,7 @@ type SelfOptions = {
   position?: Vector2;
   size?: Dimension2;
   baseColor?: TColor;
-  captionText?: string;
+  captionText?: string | TReadOnlyProperty<string>;
   captionColor?: TColor;
   invertY?: boolean;
 };
@@ -45,7 +46,7 @@ class Bucket extends PhetioObject {
   public readonly baseColor: TColor | null;
 
   // Caption to be shown on the bucket.
-  public readonly captionText: string;
+  public readonly captionText: string | TReadOnlyProperty<string>;
 
   // Color for the caption.
   public readonly captionColor: TColor;
