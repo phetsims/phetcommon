@@ -24,13 +24,13 @@ import Bucket, { BucketOptions } from './Bucket.js';
 import { roundSymmetric } from '../../../dot/js/util/roundSymmetric.js';
 
 type Spherical = {
-  userControlledProperty: TProperty<boolean>;
+  isDraggingProperty: TProperty<boolean>;
   positionProperty: TProperty<Vector2>;
   destinationProperty: TProperty<Vector2>;
 };
 
 type ParticleWithBucketRemovalListener<Particle extends Spherical> = Particle &
-  { bucketRemovalListener?: ( userControlled: boolean ) => void };
+  { bucketRemovalListener?: ( isDragging: boolean ) => void };
 
 const ReferenceObjectArrayIO = ArrayIO( ReferenceIO( IOType.ObjectIO ) );
 
@@ -102,19 +102,19 @@ class SphereBucket<Particle extends Spherical> extends Bucket {
     this._particles.push( particle );
 
     // Add a listener that will remove this particle from the bucket if the user grabs it.
-    const particleRemovedListener = ( userControlled: boolean ) => {
+    const particleRemovedListener = ( isDragging: boolean ) => {
 
-      // We have to verify that userControlled is transitioning to true here because in phet-io it is possible to
-      // run into situations where the particle is already in the bucket but userControlled is being set to false, see
+      // We have to verify that isDragging is transitioning to true here because in phet-io it is possible to
+      // run into situations where the particle is already in the bucket but isDragging is being set to false, see
       // https://github.com/phetsims/build-an-atom/issues/239.
-      if ( userControlled ) {
+      if ( isDragging ) {
         this.removeParticle( particle );
 
         // The process of removing the particle from the bucket should also disconnect removal listener.
         assert && assert( !particle.bucketRemovalListener, 'listener still present after being removed from bucket' );
       }
     };
-    particle.userControlledProperty.lazyLink( particleRemovedListener );
+    particle.isDraggingProperty.lazyLink( particleRemovedListener );
     particle.bucketRemovalListener = particleRemovedListener; // Attach to the particle to aid unlinking in some cases.
   }
 
@@ -129,7 +129,7 @@ class SphereBucket<Particle extends Spherical> extends Bucket {
 
     // remove the removal listener if it is still present
     if ( particle.bucketRemovalListener ) {
-      particle.userControlledProperty.unlink( particle.bucketRemovalListener );
+      particle.isDraggingProperty.unlink( particle.bucketRemovalListener );
       delete particle.bucketRemovalListener;
     }
 
@@ -158,9 +158,9 @@ class SphereBucket<Particle extends Spherical> extends Bucket {
     const closestParticleValue = closestParticle as Particle | null;
     if ( closestParticleValue !== null ) {
 
-      // The particle is removed by setting 'userControlled' to true.  This relies on the listener that was added when
+      // The particle is removed by setting 'isDragging' to true.  This relies on the listener that was added when
       // the particle was placed into the bucket.
-      closestParticleValue.userControlledProperty.set( true );
+      closestParticleValue.isDraggingProperty.set( true );
     }
     return closestParticle;
   }
@@ -175,7 +175,7 @@ class SphereBucket<Particle extends Spherical> extends Bucket {
 
       // Remove listeners that are watching for removal from bucket.
       if ( typeof ( particle.bucketRemovalListener ) === 'function' ) {
-        particle.userControlledProperty.unlink( particle.bucketRemovalListener );
+        particle.isDraggingProperty.unlink( particle.bucketRemovalListener );
         delete particle.bucketRemovalListener;
       }
     } );
