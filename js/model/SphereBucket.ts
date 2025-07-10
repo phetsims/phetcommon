@@ -11,6 +11,7 @@
  */
 
 import TProperty from '../../../axon/js/TProperty.js';
+import { roundSymmetric } from '../../../dot/js/util/roundSymmetric.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import cleanArray from '../../../phet-core/js/cleanArray.js';
 import optionize from '../../../phet-core/js/optionize.js';
@@ -21,16 +22,14 @@ import IOType from '../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
 import phetcommon from '../phetcommon.js';
 import Bucket, { BucketOptions } from './Bucket.js';
-import { roundSymmetric } from '../../../dot/js/util/roundSymmetric.js';
+import { ParticleContainer } from './ParticleContainer.js';
 
-type Spherical = {
+export type Spherical = {
   isDraggingProperty: TProperty<boolean>;
   positionProperty: TProperty<Vector2>;
   destinationProperty: TProperty<Vector2>;
+  containerProperty: TProperty<ParticleContainer<Spherical> | null>;
 };
-
-type ParticleWithBucketRemovalListener<Particle extends Spherical> = Particle &
-  { bucketRemovalListener?: ( isDragging: boolean ) => void };
 
 const ReferenceObjectArrayIO = ArrayIO( ReferenceIO( IOType.ObjectIO ) );
 
@@ -41,7 +40,7 @@ type SelfOptions = {
 };
 type SphereBucketOptions = SelfOptions & BucketOptions;
 
-class SphereBucket<Particle extends Spherical> extends Bucket {
+class SphereBucket<Particle extends Spherical> extends Bucket implements ParticleContainer<Particle> {
 
   public readonly sphereBucketTandem: Tandem;
   private readonly _sphereRadius: number;
@@ -51,7 +50,7 @@ class SphereBucket<Particle extends Spherical> extends Bucket {
   private readonly _verticalParticleOffset: number;
 
   // particles managed by this bucket
-  private _particles: ParticleWithBucketRemovalListener<Particle>[] = [];
+  private _particles: Particle[] = [];
 
   public constructor( providedOptions?: SphereBucketOptions ) {
 
@@ -94,49 +93,42 @@ class SphereBucket<Particle extends Spherical> extends Bucket {
 
   /**
    * Add a particle to the bucket and set up listeners for when the particle is removed.
+   *
+   * IMPORTANT: In this class, addParticle is generally not used directly, but rather one of the other methods for
+   * adding particles are used.
    */
-  private addParticle( particle: ParticleWithBucketRemovalListener<Particle>, animate: boolean ): void {
+  public addParticle( particle: Particle, animate: boolean ): void {
     if ( !animate ) {
       particle.positionProperty.set( particle.destinationProperty.get() );
     }
     this._particles.push( particle );
 
-    // Add a listener that will remove this particle from the bucket if the user grabs it.
-    const particleRemovedListener = ( isDragging: boolean ) => {
-
-      // We have to verify that isDragging is transitioning to true here because in phet-io it is possible to
-      // run into situations where the particle is already in the bucket but isDragging is being set to false, see
-      // https://github.com/phetsims/build-an-atom/issues/239.
-      if ( isDragging ) {
-        this.removeParticle( particle );
-
-        // The process of removing the particle from the bucket should also disconnect removal listener.
-        assert && assert( !particle.bucketRemovalListener, 'listener still present after being removed from bucket' );
-      }
-    };
-    particle.isDraggingProperty.lazyLink( particleRemovedListener );
-    particle.bucketRemovalListener = particleRemovedListener; // Attach to the particle to aid unlinking in some cases.
+    assert && assert( particle.containerProperty.value === null, 'this particle is already in a container' );
+    particle.containerProperty.value = this;
   }
 
   /**
-   * remove a particle from the bucket, updating listeners as necessary
+   * Remove a particle from the bucket.  If specified, skip the layout of the particles in the bucket.
    */
-  public removeParticle( particle: ParticleWithBucketRemovalListener<Particle>, skipLayout = false ): void {
+  public removeParticle( particle: Particle, skipLayout = false ): void {
     assert && assert( this.containsParticle( particle ), 'attempt made to remove particle that is not in bucket' );
 
     // remove the particle from the array
     this._particles = _.without( this._particles, particle );
 
-    // remove the removal listener if it is still present
-    if ( particle.bucketRemovalListener ) {
-      particle.isDraggingProperty.unlink( particle.bucketRemovalListener );
-      delete particle.bucketRemovalListener;
-    }
+    // Clear the container property so that the particle is no longer associated with this bucket.
+    particle.containerProperty.set( null );
 
     // redo the layout of the particles if enabled
     if ( !skipLayout ) {
       this.relayoutBucketParticles();
     }
+  }
+
+  public includes( particle: Particle ): boolean {
+
+    // Check if the particle is in the bucket.
+    return this._particles.includes( particle );
   }
 
   public containsParticle( particle: Particle ): boolean {
@@ -173,11 +165,8 @@ class SphereBucket<Particle extends Spherical> extends Bucket {
   public reset(): void {
     this._particles.forEach( particle => {
 
-      // Remove listeners that are watching for removal from bucket.
-      if ( typeof ( particle.bucketRemovalListener ) === 'function' ) {
-        particle.isDraggingProperty.unlink( particle.bucketRemovalListener );
-        delete particle.bucketRemovalListener;
-      }
+      // Remove the particle from the bucket.
+      this.removeParticle( particle, true );
     } );
     cleanArray( this._particles );
   }
