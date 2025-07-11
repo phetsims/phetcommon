@@ -211,17 +211,17 @@ class SphereBucket<Particle extends Spherical> extends Bucket implements Particl
       else {
         positionInLayer++;
         if ( positionInLayer >= numParticlesInLayer ) {
+
           // Move to the next layer.
           row++;
           positionInLayer = 0;
           numParticlesInLayer--;
           offsetFromBucketEdge += this._sphereRadius;
           if ( numParticlesInLayer === 0 ) {
-            // This algorithm doesn't handle the situation where
-            // more particles are added than can be stacked into
-            // a pyramid of the needed size, but so far it hasn't
-            // needed to.  If this requirement changes, the
-            // algorithm will need to change too.
+
+            // This algorithm doesn't handle the situation where more particles are added than can be stacked into a
+            // pyramid of the needed size, but so far it hasn't needed to.  If this requirement changes, the algorithm
+            // will need to change too.
             numParticlesInLayer = 1;
             offsetFromBucketEdge -= this._sphereRadius;
           }
@@ -264,8 +264,10 @@ class SphereBucket<Particle extends Spherical> extends Bucket implements Particl
 
       // Add all open positions in the current layer.
       for ( let positionInLayer = 0; positionInLayer < numParticlesInLayer; positionInLayer++ ) {
-        const testPosition = new Vector2( this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this._sphereRadius,
-          this.getYPositionForLayer( layer ) );
+        const testPosition = new Vector2(
+          this.position.x - this.size.width / 2 + offsetFromBucketEdge + positionInLayer * 2 * this._sphereRadius,
+          this.getYPositionForLayer( layer )
+        );
         if ( this.isPositionOpen( testPosition ) ) {
 
           // We found a position that is unoccupied.
@@ -291,14 +293,14 @@ class SphereBucket<Particle extends Spherical> extends Bucket implements Particl
       }
     }
 
-    // Find the closest open position to the provided current position.
-    // Only the X-component is used for this determination, because if
-    // the Y-component is used the particles often appear to fall sideways
-    // when released above the bucket, which just looks weird.
+    // Find the closest open position to the provided current position. Only the X-component is used for this
+    // determination, because if the Y-component is used the particles often appear to fall sideways when released above
+    // the bucket, which just looks weird.
     let closestOpenPosition = openPositions[ 0 ] || Vector2.ZERO;
 
     _.each( openPositions, openPosition => {
       if ( openPosition.distance( position ) < closestOpenPosition.distance( position ) ) {
+
         // This openPosition is closer.
         closestOpenPosition = openPosition;
       }
