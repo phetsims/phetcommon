@@ -16,6 +16,7 @@ import Vector2 from '../../../dot/js/Vector2.js';
 import cleanArray from '../../../phet-core/js/cleanArray.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
+import isSettingPhetioStateProperty from '../../../tandem/js/isSettingPhetioStateProperty.js';
 import Tandem from '../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../tandem/js/types/IOType.js';
@@ -103,7 +104,10 @@ class SphereBucket<Particle extends Spherical> extends Bucket implements Particl
     }
     this._particles.push( particle );
 
-    assert && assert( particle.containerProperty.value === null, 'this particle is already in a container' );
+    // TODO: See https://github.com/phetsims/build-an-atom/issues/257.  Using isSettingPhetioStateProperty here seems
+    //       indicative of problems elsewhere.  I (jbphet) should follow up and see if this can be improved.
+    assert && assert( particle.containerProperty.value === null || isSettingPhetioStateProperty.value,
+      'this particle is already in a container' );
     particle.containerProperty.value = this;
   }
 
@@ -158,10 +162,13 @@ class SphereBucket<Particle extends Spherical> extends Bucket implements Particl
   }
 
   /**
-   * get the list of particles currently contained within this bucket
+   * Get the list of particles currently contained within this bucket.
    */
   public getParticleList(): Particle[] { return this._particles; }
 
+  /**
+   * Reset the bucket, removing all particles and clearing the bucket.
+   */
   public reset(): void {
     this._particles.forEach( particle => {
 
@@ -374,10 +381,13 @@ class SphereBucket<Particle extends Spherical> extends Bucket implements Particl
       // remove all the particles from the observable arrays
       sphereBucket.reset();
 
+      // Get the list of all particles that were in the state object.
       const particles = ReferenceObjectArrayIO.fromStateObject( stateObject.particles );
 
-      // add back the particles
-      particles.forEach( particle => { sphereBucket.addParticle( particle ); } );
+      // Add back the particles.
+      for ( const particle of particles ) {
+        sphereBucket.addParticle( particle );
+      }
     }
   } );
 }
