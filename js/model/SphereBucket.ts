@@ -39,7 +39,7 @@ type SelfOptions = {
   usableWidthProportion?: number;
   verticalParticleOffset?: number | null;
 };
-type SphereBucketOptions = SelfOptions & BucketOptions;
+export type SphereBucketOptions = SelfOptions & BucketOptions;
 
 class SphereBucket<Particle extends Spherical> extends Bucket implements ParticleContainer<Particle> {
 
