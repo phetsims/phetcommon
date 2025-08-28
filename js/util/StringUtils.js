@@ -380,7 +380,7 @@ const StringUtils = {
 
   /**
    * Convert a number to a string with a specified number of digits after the decimal point and wrap it with LTR
-   * embedding marks so that it will be displayed correctly in all cases, meaning that the minus sign will be on the
+   * embedding marks so that it will be displayed correctly in all cases, meaning that the negative sign will be on the
    * left even if it is within a right-to-left string.  See https://github.com/phetsims/phetcommon/issues/68 for some
    * history on the need for this.
    * @param {number} number
