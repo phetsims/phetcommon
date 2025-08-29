@@ -6,6 +6,7 @@
  */
 
 import { toFixed } from '../../../dot/js/util/toFixed.js';
+import { toFixedNumber } from '../../../dot/js/util/toFixedNumber.js';
 import phetcommon from '../phetcommon.js';
 
 // Unicode embedding marks that we use.
@@ -381,14 +382,27 @@ const StringUtils = {
   /**
    * Convert a number to a string with a specified number of digits after the decimal point and wrap it with LTR
    * embedding marks so that it will be displayed correctly in all cases, meaning that the negative sign will be on the
-   * left even if it is within a right-to-left string.  See https://github.com/phetsims/phetcommon/issues/68 for some
-   * history on the need for this.
+   * left even if it is within a right-to-left string.  Uses toFixed, so that trailing zeros are preserved to the right
+   * of the decimal place. See https://github.com/phetsims/phetcommon/issues/68 for some history on the need for this.
+   *
    * @param {number} number
    * @param {number} digits
    * @returns {string}
    */
   toFixedLTR( number, digits ) {
     return StringUtils.wrapLTR( toFixed( number, digits ) );
+  },
+
+  /**
+   * Similar to toFixedLTR, but uses toFixedNumber and therefore removes trailing zeros to the right of the
+   * decimal place.
+   *
+   * @param {number} number
+   * @param {number} digits
+   * @returns {string}
+   */
+  toFixedNumberLTR( number, digits ) {
+    return StringUtils.wrapLTR( '' + toFixedNumber( number, digits ) );
   }
 };
 
