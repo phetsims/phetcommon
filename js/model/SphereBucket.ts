@@ -13,6 +13,7 @@
 import TProperty from '../../../axon/js/TProperty.js';
 import { roundSymmetric } from '../../../dot/js/util/roundSymmetric.js';
 import Vector2 from '../../../dot/js/Vector2.js';
+import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
 import cleanArray from '../../../phet-core/js/cleanArray.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import IntentionalAny from '../../../phet-core/js/types/IntentionalAny.js';
@@ -104,10 +105,14 @@ class SphereBucket<Particle extends Spherical> extends Bucket implements Particl
     }
     this._particles.push( particle );
 
-    // TODO: See https://github.com/phetsims/build-an-atom/issues/329.  Using isSettingPhetioStateProperty here seems
-    //       indicative of problems elsewhere.  I (jbphet) should follow up and see if this can be improved.
-    assert && assert( particle.containerProperty.value === null || isSettingPhetioStateProperty.value,
-      'this particle is already in a container' );
+    // The particle should not be in another container when it is added to this one.  The exception is when setting
+    // phet-io state, in which case it may already be in this container.
+    affirm(
+      particle.containerProperty.value === null || isSettingPhetioStateProperty.value && particle.containerProperty.value === this,
+      'this particle is already in a container'
+    );
+
+    // Update the particle's container property so that it is associated with this bucket.
     particle.containerProperty.value = this;
   }
 
@@ -115,7 +120,7 @@ class SphereBucket<Particle extends Spherical> extends Bucket implements Particl
    * Remove a particle from the bucket.  If specified, skip the layout of the particles in the bucket.
    */
   public removeParticle( particle: Particle, skipLayout = false ): void {
-    assert && assert( this.containsParticle( particle ), 'attempt made to remove particle that is not in bucket' );
+    affirm( this.containsParticle( particle ), 'attempt made to remove particle that is not in bucket' );
 
     // remove the particle from the array
     this._particles = _.without( this._particles, particle );
