@@ -108,7 +108,7 @@ class SphereBucket<Particle extends Spherical> extends Bucket implements Particl
     // The particle should not be in another container when it is added to this one.  The exception is when setting
     // phet-io state, in which case it may already be in this container.
     affirm(
-      particle.containerProperty.value === null || isSettingPhetioStateProperty.value && particle.containerProperty.value === this,
+      particle.containerProperty.value === null || isSettingPhetioStateProperty.value,
       'this particle is already in a container'
     );
 
