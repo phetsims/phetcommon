@@ -145,7 +145,8 @@ class SphereBucket<Particle extends Spherical> extends Bucket implements Particl
   }
 
   /**
-   * extract the particle that is closest to the provided position from the bucket
+   * Extract the particle that is closest to the provided position from the bucket.  If the bucket is empty, null is
+   * returned.
    */
   public extractClosestParticle( position: Vector2 ): Particle | null {
     let closestParticle: Particle | null = null;
@@ -156,12 +157,8 @@ class SphereBucket<Particle extends Spherical> extends Bucket implements Particl
       }
     } );
 
-    const closestParticleValue = closestParticle as Particle | null;
-    if ( closestParticleValue !== null ) {
-
-      // The particle is removed by setting 'isDragging' to true.  This relies on the listener that was added when
-      // the particle was placed into the bucket.
-      closestParticleValue.isDraggingProperty.set( true );
+    if ( closestParticle ) {
+      this.removeParticle( closestParticle );
     }
     return closestParticle;
   }
