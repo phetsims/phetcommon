@@ -1,7 +1,7 @@
 // Copyright 2025, University of Colorado Boulder
 
 /**
- * An interface for a container that holds particles, which are generally spherical objects that.
+ * An interface for a container that holds particles.
  *
  * @author John Blanco (PhET Interactive Simulations)
  */
