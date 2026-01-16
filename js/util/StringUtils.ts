@@ -5,8 +5,10 @@
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
+import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import { toFixed } from '../../../dot/js/util/toFixed.js';
 import { toFixedNumber } from '../../../dot/js/util/toFixedNumber.js';
+import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
 import phetcommon from '../phetcommon.js';
 
 // Unicode embedding marks that we use.
@@ -27,12 +29,11 @@ const StringUtils = {
    * > StringUtils.format( '{0} + {1}', 2, 3 )
    * "2 + 3"
    *
-   * @param {string} pattern pattern string, with N placeholders, where N is an integer
-   * @returns {string}
-   * @public
+   * @param pattern pattern string, with N placeholders, where N is an integer
+   * @param substitutionValues substitution values for the placeholders
    * @deprecated - please use StringUtils.fillIn
    */
-  format: function( pattern ) {
+  format: function( pattern: string, ...substitutionValues: ( string | number )[] ): string {
     // eslint-disable-next-line prefer-rest-params
     const args = arguments;
     return pattern.replace( /{(\d)}/g, ( r, n ) => args[ +n + 1 ] );
@@ -47,18 +48,19 @@ const StringUtils = {
    * > StringUtils.fillIn( '{{name}} is {{age}} years old', { name: 'Fred', age: 23 } )
    * "Fred is 23 years old"
    *
-   * @param {string|TReadOnlyProperty<string>} template - the template, containing zero or more placeholders
-   * @param {Object} values - a hash whose keys correspond to the placeholder names, e.g. { name: 'Fred', age: 23 }
+   * @param template - the template, containing zero or more placeholders
+   * @param values - a hash whose keys correspond to the placeholder names, e.g. { name: 'Fred', age: 23 }
    *                          Unused keys are silently ignored. All placeholders do not need to be filled.
-   * @returns {string}
-   * @public
    */
-  fillIn: function( template, values ) {
+  fillIn: function( template: string | TReadOnlyProperty<string>, values: Record<string, string | null | TReadOnlyProperty<string> | number | undefined | unknown> ): string {
+
+    // @ts-expect-error
     template = ( template && template.get ) ? template.get() : template;
-    assert && assert( typeof template === 'string', `invalid template: ${template}` );
+    affirm( typeof template === 'string', `invalid template: ${template}` );
 
     // To catch attempts to use StringUtils.fillIn like StringUtils.format
-    assert && assert( values && typeof values === 'object', `invalid values: ${values}` );
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
+    affirm( values && typeof values === 'object', `invalid values: ${values}` );
 
     let newString = template;
 
@@ -74,6 +76,7 @@ const StringUtils = {
       if ( values[ key ] !== undefined ) {
 
         // Support Properties as values
+        // @ts-expect-error
         const valueString = ( values[ key ] && values[ key ].get ) ? values[ key ].get() : values[ key ];
         newString = newString.replace( placeholder, valueString );
       }
@@ -83,17 +86,15 @@ const StringUtils = {
   },
 
   /**
-   * @public
-   * @returns {boolean} - Whether this length-1 string is equal to one of the three directional embedding marks used.
+   * @returns Whether this length-1 string is equal to one of the three directional embedding marks used.
    */
-  isEmbeddingMark: function( chr ) {
+  isEmbeddingMark: function( chr: string ): boolean {
     return chr === LTR || chr === RTL || chr === POP;
   },
 
   /**
    * Given a string with embedding marks, this function returns an equivalent string.slice() but prefixes and suffixes
    * the string with the embedding marks needed to ensure things have the correct LTR/RTL order.
-   * @public
    *
    * For example, with a test string:
    *
@@ -112,12 +113,12 @@ const StringUtils = {
    * embeddedDebugString( embeddedSlice( '\u202afirst\u202bsecond\u202cthird\u202c', 3, -3 ) )
    * === "[LTR]rst[RTL]second[POP]thi[POP]"
    *
-   * @param {string} string - The main source string to slice from
-   * @param {number} startIndex - The starting index where the slice starts (includes char at this index)
-   * @param {number} [endIndex] - The ending index where the slice stops (does NOT include char at this index)
-   * @returns {string} - The sliced string, with embedding marks added at hte start and end.
+   * @param string - The main source string to slice from
+   * @param startIndex - The starting index where the slice starts (includes char at this index)
+   * @param [endIndex] - The ending index where the slice stops (does NOT include char at this index)
+   * @returns The sliced string, with embedding marks added at the start and end
    */
-  embeddedSlice: function( string, startIndex, endIndex ) {
+  embeddedSlice: function( string: string, startIndex: number, endIndex?: number ): string {
     // {Array.<string>} - array of LTR/RTL embedding marks that are currently on the stack for the current location.
     const stack = [];
     let chr;
@@ -195,7 +196,6 @@ const StringUtils = {
 
   /**
    * String's split() API, but uses embeddedSlice() on the extracted strings.
-   * @public
    *
    * For example, given a string:
    *
@@ -212,7 +212,7 @@ const StringUtils = {
    *       "[RTL]you[POP]",
    *       "[LTR]doing?[POP]" ]
    */
-  embeddedSplit: function( string, separator, limit ) {
+  embeddedSplit: function( string: string, separator: string | RegExp, limit: number ): string[] {
     // Matching split API
     if ( separator === undefined ) {
       return [ string ];
@@ -230,7 +230,7 @@ const StringUtils = {
     // Finds the index and length of the first substring of stringToSplit that matches the separator (string or regex)
     // and returns an object with the type  { index: {number}, length: {number} }.
     // If index === -1, there was no match for the separator.
-    function findSeparatorMatch() {
+    function findSeparatorMatch(): { index: number; length: number } {
       let index;
       let length;
       if ( separator instanceof window.RegExp ) {
@@ -244,13 +244,17 @@ const StringUtils = {
         }
       }
       else {
-        assert && assert( typeof separator === 'string' );
+        affirm( typeof separator === 'string' );
 
         index = stringToSplit.indexOf( separator );
         length = separator.length;
       }
       return {
+
+        // @ts-expect-error
         index: index,
+
+        // @ts-expect-error
         length: length
       };
     }
@@ -274,8 +278,9 @@ const StringUtils = {
 
     // Matching split API
     if ( limit !== undefined ) {
-      assert && assert( typeof limit === 'number' );
+      affirm( typeof limit === 'number' );
 
+      // @ts-expect-error
       result = _.first( result, limit );
     }
 
@@ -284,47 +289,35 @@ const StringUtils = {
 
   /**
    * Replaces embedding mark characters with visible strings. Useful for debugging for strings with embedding marks.
-   * @public
    *
-   * @param {string} string
-   * @returns {string} - With embedding marks replaced.
+   * @returns With embedding marks replaced.
    */
-  embeddedDebugString: function( string ) {
+  embeddedDebugString: function( string: string ): string {
     return string.replace( /\u202a/g, '[LTR]' ).replace( /\u202b/g, '[RTL]' ).replace( /\u202c/g, '[POP]' );
   },
 
   /**
    * Wraps a string with embedding marks for LTR display.
-   * @public
-   *
-   * @param {string} string
-   * @returns {string}
    */
-  wrapLTR: function( string ) {
+  wrapLTR: function( string: string ): string {
     return LTR + string + POP;
   },
 
   /**
    * Wraps a string with embedding marks for RTL display.
-   * @public
-   *
-   * @param {string} string
-   * @returns {string}
    */
-  wrapRTL: function( string ) {
+  wrapRTL: function( string: string ): string {
     return RTL + string + POP;
   },
 
   /**
    * Wraps a string with embedding marks for LTR/RTL display, depending on the direction
-   * @public
    *
-   * @param {string} string
-   * @param {string} direction - either 'ltr' or 'rtl'
-   * @returns {string}
+   * @param string
+   * @param direction - either 'ltr' or 'rtl'
    */
-  wrapDirection: function( string, direction ) {
-    assert && assert( direction === 'ltr' || direction === 'rtl' );
+  wrapDirection: function( string: string, direction: 'ltr' | 'rtl' ): string {
+    affirm( direction === 'ltr' || direction === 'rtl' );
 
     if ( direction === 'ltr' ) {
       return StringUtils.wrapLTR( string );
@@ -336,12 +329,9 @@ const StringUtils = {
 
   /**
    * Given a locale, e.g. 'es', provides the localized name, e.g. 'Español'
-   *
-   * @param {string} locale
-   * @returns {string}
    */
-  localeToLocalizedName: function( locale ) {
-    assert && assert( phet.chipper.localeData[ locale ], 'locale needs to be a valid locale code defined in localeData' );
+  localeToLocalizedName: function( locale: string ): string {
+    affirm( phet.chipper.localeData[ locale ], 'locale needs to be a valid locale code defined in localeData' );
 
     return StringUtils.wrapDirection(
       phet.chipper.localeData[ locale ].localizedName,
@@ -355,12 +345,8 @@ const StringUtils = {
    * start with numbers, such as "1 of these things" will be essentially unchanged too.
    *
    * This will only work reliably for English strings.
-   *
-   * @param {string} str
-   * @returns {string}
-   * @public
    */
-  capitalize( str ) {
+  capitalize( str: string ): string {
 
     // Find the index of the first character that can be capitalized.  Control characters and whitespace are skipped.
     const firstCharIndex = str.search( /[A-Za-z0-9]/ );
@@ -384,24 +370,16 @@ const StringUtils = {
    * embedding marks so that it will be displayed correctly in all cases, meaning that the negative sign will be on the
    * left even if it is within a right-to-left string.  Uses toFixed, so that trailing zeros are preserved to the right
    * of the decimal place. See https://github.com/phetsims/phetcommon/issues/68 for some history on the need for this.
-   *
-   * @param {number} number
-   * @param {number} digits
-   * @returns {string}
    */
-  toFixedLTR( number, digits ) {
+  toFixedLTR( number: number, digits: number ): string {
     return StringUtils.wrapLTR( toFixed( number, digits ) );
   },
 
   /**
    * Similar to toFixedLTR, but uses toFixedNumber and therefore removes trailing zeros to the right of the
    * decimal place.
-   *
-   * @param {number} number
-   * @param {number} digits
-   * @returns {string}
    */
-  toFixedNumberLTR( number, digits ) {
+  toFixedNumberLTR( number: number, digits: number ): string {
     return StringUtils.wrapLTR( '' + toFixedNumber( number, digits ) );
   }
 };
