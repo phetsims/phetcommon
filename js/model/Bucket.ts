@@ -11,7 +11,7 @@
  * One other important note: The position of the bucket in model space is based on the center of the bucket's opening.
  *
  * @author John Blanco
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  */
 
 import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';

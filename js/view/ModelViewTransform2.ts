@@ -7,7 +7,7 @@
  * Equivalently, the output x coordinate should not depend on the input y, and the output y shouldn't depend on the
  * input x.
  *
- * @author Jonathan Olson <jonathan.olson@colorado.edu>
+ * @author Jonathan Olson (PhET Interactive Simulations)
  * @author Sam Reid (PhET Interactive Simulations)
  */
 
