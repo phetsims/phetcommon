@@ -71,9 +71,10 @@
       }
     }, true );
 
-    let pingParams = `${'pingver=3&' +
+    let pingParams = `${'pingver=4&' +
       'project='}${encodeURIComponent( phet.chipper.project )}&` +
       `brand=${encodeURIComponent( phet.chipper.brand )}&` +
+      `license=${encodeURIComponent( phet.chipper.brand === 'phet-io' ? 'iO' : 'NC' )}&` +
       `version=${encodeURIComponent( phet.chipper.version )}&` +
       `locale=${encodeURIComponent( phet.chipper.locale )}&` +
       `buildTimestamp=${encodeURIComponent( phet.chipper.buildTimestamp )}&` +
