@@ -153,6 +153,7 @@
     } );
     window.dataLayer.push( {
       simBrand: phet.chipper.brand,
+      simLicense: phet.chipper.brand === 'phet-io' ? 'iO' : 'NC',
       simName: phet.chipper.project,
       simVersion: phet.chipper.version,
       simLocale: phet.chipper.locale,
