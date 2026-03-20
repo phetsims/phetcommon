@@ -14,7 +14,6 @@
 
 import IOType from '../../../tandem/js/types/IOType.js';
 import NumberIO from '../../../tandem/js/types/NumberIO.js';
-import phetcommon from '../phetcommon.js';
 import { gcd } from '../../../dot/js/util/gcd.js';
 import { roundSymmetric } from '../../../dot/js/util/roundSymmetric.js';
 import { lcm } from '../../../dot/js/util/lcm.js';
@@ -350,5 +349,3 @@ export default class Fraction {
 
 // Used to avoid GC. NOTE: Do NOT move in front of the constructor, as it is creating a copy of the type defined.
 const SCRATCH_FRACTION = new Fraction( 1, 1 );
-
-phetcommon.register( 'Fraction', Fraction );

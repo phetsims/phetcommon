@@ -17,7 +17,6 @@ import Ray2 from '../../../dot/js/Ray2.js';
 import Transform3 from '../../../dot/js/Transform3.js';
 import Vector2 from '../../../dot/js/Vector2.js';
 import Shape from '../../../kite/js/Shape.js';
-import phetcommon from '../phetcommon.js';
 
 class ModelViewTransform2 extends Transform3 {
 
@@ -269,5 +268,4 @@ class ModelViewTransform2 extends Transform3 {
   }
 }
 
-phetcommon.register( 'ModelViewTransform2', ModelViewTransform2 );
 export default ModelViewTransform2;

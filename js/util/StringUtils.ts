@@ -9,7 +9,6 @@ import { TReadOnlyProperty } from '../../../axon/js/TReadOnlyProperty.js';
 import { toFixed } from '../../../dot/js/util/toFixed.js';
 import { toFixedNumber } from '../../../dot/js/util/toFixedNumber.js';
 import affirm from '../../../perennial-alias/js/browser-and-node/affirm.js';
-import phetcommon from '../phetcommon.js';
 
 // Unicode embedding marks that we use.
 const LTR = '\u202a';
@@ -383,7 +382,5 @@ const StringUtils = {
     return StringUtils.wrapLTR( '' + toFixedNumber( number, digits ) );
   }
 };
-
-phetcommon.register( 'StringUtils', StringUtils );
 
 export default StringUtils;

@@ -21,7 +21,6 @@ import Shape from '../../../kite/js/Shape.js';
 import optionize from '../../../phet-core/js/optionize.js';
 import TColor from '../../../scenery/js/util/TColor.js';
 import PhetioObject, { PhetioObjectOptions } from '../../../tandem/js/PhetioObject.js';
-import phetcommon from '../phetcommon.js';
 
 // Proportion of the total height which the ellipse that represents the hole occupies.  It is assumed that the width
 // of the hole is the same as the width specified at construction.
@@ -107,5 +106,4 @@ class Bucket extends PhetioObject {
   }
 }
 
-phetcommon.register( 'Bucket', Bucket );
 export default Bucket;

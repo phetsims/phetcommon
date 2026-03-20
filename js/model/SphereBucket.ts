@@ -22,7 +22,6 @@ import Tandem from '../../../tandem/js/Tandem.js';
 import ArrayIO from '../../../tandem/js/types/ArrayIO.js';
 import IOType from '../../../tandem/js/types/IOType.js';
 import ReferenceIO from '../../../tandem/js/types/ReferenceIO.js';
-import phetcommon from '../phetcommon.js';
 import Bucket, { BucketOptions } from './Bucket.js';
 import { ParticleContainer } from './ParticleContainer.js';
 
@@ -394,5 +393,4 @@ class SphereBucket<Particle extends Spherical> extends Bucket implements Particl
   } );
 }
 
-phetcommon.register( 'SphereBucket', SphereBucket );
 export default SphereBucket;

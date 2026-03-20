@@ -15,7 +15,6 @@ import Property from '../../axon/js/Property.js';
 import ReadOnlyProperty from '../../axon/js/ReadOnlyProperty.js';
 import Range from '../../dot/js/Range.js';
 import EnumerationDeprecated from '../../phet-core/js/EnumerationDeprecated.js';
-import phetcommon from '../../phetcommon/js/phetcommon.js';
 
 const AssertUtils = {
 
@@ -187,5 +186,4 @@ const AssertUtils = {
   }
 };
 
-phetcommon.register( 'AssertUtils', AssertUtils );
 export default AssertUtils;
